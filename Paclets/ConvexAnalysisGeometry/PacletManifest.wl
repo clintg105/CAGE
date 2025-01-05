@@ -1,0 +1,123 @@
+<|
+    "Files"
+    ->
+    {
+        <|
+            "File"
+            ->
+            File[
+                "Kernel\\ConvexAnalysisGeometry\\Functions\\Indicator.m"
+                    
+            ]
+            ,
+            "Hash"
+            ->
+            "da11717a1b8522ebe35b87e5a5f26f653875a8d9c310f4f031f0c1f6fc9c4d75"
+                
+        |>
+        ,
+        <|
+            "File"
+            ->
+            File[
+                "Kernel\\ConvexAnalysisGeometry\\Geometry.m"
+            ]
+            ,
+            "Hash"
+            ->
+            "a9ffba4baebd4846c0a67c0204dfb2c598e68f122781f2e887596b24b774dca4"
+                
+        |>
+        ,
+        <|
+            "File"
+            ->
+            File[
+                "Kernel\\ConvexAnalysisGeometry\\Reduce.m"
+            ]
+            ,
+            "Hash"
+            ->
+            "d0f82662d5e021ec89e504a7c4ce40e739550e6ab0126aac19262bd75b4ac78b"
+                
+        |>
+        ,
+        <|
+            "File"
+            ->
+            File[
+                "Kernel\\ConvexAnalysisGeometry\\Unsorted1124.m"
+            ]
+            ,
+            "Hash"
+            ->
+            "bbd425f6f0569397ee27be190a8e144389f874364a0b918eddedd8721c2ac4f8"
+                
+        |>
+        ,
+        <|
+            "File"
+            ->
+            File[
+                "Kernel\\ConvexAnalysisGeometry.wl"
+            ]
+            ,
+            "Hash"
+            ->
+            "8cf94eeef9bbe044af8001cbf66a2d172da72d7832a372dfab00c14db763d6d1"
+                
+        |>
+        ,
+        <|
+            "File"
+            ->
+            File[
+                "Kernel\\Utils\\Combinatorics.m"
+            ]
+            ,
+            "Hash"
+            ->
+            "40d1cac3cc9a3a0ad0d19ce0024e0f1edc3a6623d3a3a8dcdda3b6952d248d98"
+                
+        |>
+        ,
+        <|
+            "File"
+            ->
+            File[
+                "Kernel\\Utils\\General.m"
+            ]
+            ,
+            "Hash"
+            ->
+            "71d9e358055e2c4dc8729321aa2533be896375f2ec797369c67352274f2370fe"
+                
+        |>
+        ,
+        <|
+            "File"
+            ->
+            File[
+                "Kernel\\Utils\\Plot.m"
+            ]
+            ,
+            "Hash"
+            ->
+            "3e95d63245df688c88df8f355b23e7c4451ad338602a3dfe5fb9fe61f65d39bd"
+                
+        |>
+        ,
+        <|
+            "File"
+            ->
+            File[
+                "Kernel\\Utils.wl"
+            ]
+            ,
+            "Hash"
+            ->
+            "08d40834a616762ec67c01b1e2900d19d9e8eeb75d7fd2c84447111593c8f64d"
+                
+        |>
+    }
+|>
