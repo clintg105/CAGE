@@ -7,7 +7,7 @@ echo "Changed files:"
 echo "$changed"
 
 if [ "$changed" != "" ]; then
-    wolframscript -f Scripts/FormatFiles.wls --files="$changed"
+    wolframscript -f Scripts/FormatFiles.wls --files="$changed" --unformat
 
     for sourceFilePath in $changed
     do
