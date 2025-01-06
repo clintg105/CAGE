@@ -2,6 +2,10 @@
 
 # Installation
 
+**Developers**: A specific installation/usage workflow is recomemded for development, additional details can be found [on the wiki page](https://gitlab.com/clintg105/cage/-/wikis/home/development-workflow).
+
+**Users**: Select one of the two installation methods below.
+
 ## One-Shot
 ```
 PacletInstall["ConvexAnalysisGeometry", "Site" -> "http://www.gitlab.com/clintg105/cage/-/raw/main"]
