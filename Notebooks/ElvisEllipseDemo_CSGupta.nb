@@ -1,0 +1,242 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 13.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      9135,        233]
+NotebookOptionsPosition[      8515,        216]
+NotebookOutlinePosition[      8905,        232]
+CellTagsIndexPosition[      8862,        229]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"e", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"x_", ",", "y_"}], "}"}], ",", "a_", ",", "b_"}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{"x", "/", "a"}], ")"}], "^", "2"}], "+", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{"y", "/", "b"}], ")"}], "^", "2"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"yanswer", "[", 
+    RowBox[{
+    "x0_", ",", "x1_", ",", "a0_", ",", "b0_", ",", "a1_", ",", "b1_"}], 
+    "]"}], ":=", 
+   RowBox[{"Flatten", "[", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"FindMinimum", "[", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"Sqrt", "[", 
+             RowBox[{"e", "[", 
+              RowBox[{
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"{", 
+                  RowBox[{"x", ",", "0"}], "}"}], "-", "x0"}], ")"}], ",", 
+               "a0", ",", "b0"}], "]"}], "]"}], "+", 
+            RowBox[{"Sqrt", "[", 
+             RowBox[{"e", "[", 
+              RowBox[{
+               RowBox[{"(", 
+                RowBox[{"x1", "-", 
+                 RowBox[{"{", 
+                  RowBox[{"x", ",", "0"}], "}"}]}], ")"}], ",", "a1", ",", 
+               "b1"}], "]"}], "]"}]}], ")"}], ",", "x", ",", 
+          RowBox[{"AccuracyGoal", "\[Rule]", "5"}]}], "]"}], "[", 
+        RowBox[{"[", "2", "]"}], "]"}], "//", "Values"}], ",", "0"}], "}"}], 
+    "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.846875067262731*^9, 3.846875079819396*^9}, {
+   3.846875150032596*^9, 3.846875150240114*^9}, {3.846875908489757*^9, 
+   3.846876009661696*^9}, {3.8468761922480717`*^9, 3.8468762112054377`*^9}, {
+   3.846876555846519*^9, 3.84687656230618*^9}, {3.8468766059700747`*^9, 
+   3.846876636592291*^9}, {3.846876793235484*^9, 3.8468768257974453`*^9}, {
+   3.846876875006626*^9, 3.846876926606758*^9}, 3.846877001021367*^9, {
+   3.846877036099341*^9, 3.8468770457908382`*^9}, {3.846877326984013*^9, 
+   3.8468773930867662`*^9}, {3.846877632647571*^9, 3.846877649583955*^9}, {
+   3.8468777712095137`*^9, 3.846877771734386*^9}, {3.846878135561288*^9, 
+   3.846878145112805*^9}, {3.846878219635972*^9, 3.846878294232769*^9}, {
+   3.847237598534492*^9, 3.847237626251289*^9}, {3.847238754035174*^9, 
+   3.8472388229546328`*^9}},
+ CellLabel->"In[1]:="],
+
+Cell["\<\
+The first function denoted by \
+\[OpenCurlyDoubleQuote]e\[CloseCurlyDoubleQuote] provides the equation for \
+the ellipse.
+The second function called \[OpenCurlyDoubleQuote]yanswer\
+\[CloseCurlyDoubleQuote] provides the value x on the x axis, where the dog in \
+the classical Elvis problem must cross to minimize his time. The function \
+uses the find minimum function to find the minimum value of t0 + t1. \
+\>", "Text",
+ CellChangeTimes->{{3.8472388333624907`*^9, 3.847238991336453*^9}}],
+
+Cell["\<\
+The manipulate below is a visual example of the elvis problem. The positive y \
+axis is the M1 and the negative y axis is the M0. \[OpenCurlyDoubleQuote]a0\
+\[CloseCurlyDoubleQuote] and \
+\[OpenCurlyDoubleQuote]b0\[CloseCurlyDoubleQuote] adjust the ellipse x and y \
+distances respectively that starts in M0. This is likewise for the ellipse \
+starting in M1. The user can drag the points x0 and x1 around in the \
+manipulate and watch the resulting vectors change accordingly. \
+\>", "Text",
+ CellChangeTimes->{{3.847239003637971*^9, 3.8472391637014933`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"Manipulate", "[", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"Show", "[", 
+    RowBox[{
+     RowBox[{"ListPlot", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"x0", ",", "x1", ",", 
+         RowBox[{"yanswer", "[", 
+          RowBox[{
+          "x0", ",", "x1", ",", "a0", ",", "b0", ",", "a1", ",", "b1"}], 
+          "]"}]}], "}"}], ",", 
+       RowBox[{"PlotRange", "->", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", "20"}], ",", "20"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", "20"}], ",", "20"}], "}"}]}], "}"}]}], ",", 
+       RowBox[{"AspectRatio", "\[Rule]", "1"}], ",", 
+       RowBox[{"ImageSize", "\[Rule]", "800"}]}], "]"}], ",", 
+     RowBox[{"Graphics", "[", 
+      RowBox[{"Circle", "[", 
+       RowBox[{"x0", ",", 
+        RowBox[{"{", 
+         RowBox[{"a0", ",", "b0"}], "}"}]}], "]"}], "]"}], ",", 
+     RowBox[{"Graphics", "[", 
+      RowBox[{"Circle", "[", 
+       RowBox[{"x1", ",", 
+        RowBox[{"{", 
+         RowBox[{"a1", ",", "b1"}], "}"}]}], "]"}], "]"}], ",", 
+     RowBox[{"Graphics", "[", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"Arrowheads", "[", ".02", "]"}], ",", 
+        RowBox[{"Arrow", "[", 
+         RowBox[{"{", 
+          RowBox[{"x0", ",", 
+           RowBox[{"yanswer", "[", 
+            RowBox[{
+            "x0", ",", "x1", ",", "a0", ",", "b0", ",", "a1", ",", "b1"}], 
+            "]"}]}], "}"}], "]"}], ",", 
+        RowBox[{"Arrow", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"yanswer", "[", 
+            RowBox[{
+            "x0", ",", "x1", ",", "a0", ",", "b0", ",", "a1", ",", "b1"}], 
+            "]"}], ",", "x1"}], "}"}], "]"}]}], "}"}], "]"}], ",", 
+     RowBox[{"Graphics", "[", 
+      RowBox[{"Text", "[", 
+       RowBox[{
+        RowBox[{"yanswer", "[", 
+         RowBox[{
+         "x0", ",", "x1", ",", "a0", ",", "b0", ",", "a1", ",", "b1"}], "]"}],
+         ",", 
+        RowBox[{"yanswer", "[", 
+         RowBox[{
+         "x0", ",", "x1", ",", "a0", ",", "b0", ",", "a1", ",", "b1"}], "]"}],
+         ",", 
+        RowBox[{"{", 
+         RowBox[{"0", ",", 
+          RowBox[{"-", "1"}]}], "}"}]}], "]"}], "]"}]}], "]"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"x0", ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"-", "1"}], ",", 
+         RowBox[{"-", "2"}]}], "}"}]}], "}"}], ",", "Locator"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"x1", ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "5"}], "}"}]}], "}"}], ",", "Locator"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"a0", ",", "1", ",", "5", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"b0", ",", "1", ",", "5", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"a1", ",", "1", ",", "5", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"b1", ",", "1", ",", "5", ",", "1"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.84687063141899*^9, 3.846870723076778*^9}, {
+   3.846872482235795*^9, 3.8468725089203*^9}, {3.846873089701726*^9, 
+   3.8468730957322483`*^9}, 3.846874206595894*^9, 3.84687431264898*^9, 
+   3.8468744361344748`*^9, {3.846874539419999*^9, 3.846874541790702*^9}, {
+   3.846875014687693*^9, 3.8468751944013*^9}, {3.8468752432276077`*^9, 
+   3.84687527906292*^9}, {3.846875339998049*^9, 3.846875353359413*^9}, {
+   3.846875542365992*^9, 3.846875581186199*^9}, {3.846875623195531*^9, 
+   3.846875685143012*^9}, {3.8468757442113*^9, 3.846875789021446*^9}, {
+   3.84687583064332*^9, 3.8468758629273252`*^9}, {3.84687601745963*^9, 
+   3.8468760387304993`*^9}, {3.846876117151806*^9, 3.8468761245072536`*^9}, {
+   3.846876188655097*^9, 3.846876189393609*^9}, {3.8468763394362507`*^9, 
+   3.846876346341511*^9}, {3.846876934680586*^9, 3.846876946127779*^9}, {
+   3.8468770712778587`*^9, 3.84687710312383*^9}, {3.8468775583326693`*^9, 
+   3.846877620144928*^9}, {3.846877687267617*^9, 3.8468777595683537`*^9}, {
+   3.8468778049934464`*^9, 3.846877805240344*^9}, {3.846877860951033*^9, 
+   3.846877881592498*^9}, {3.84687794696775*^9, 3.846877947161648*^9}, {
+   3.847235060521056*^9, 3.847235066092597*^9}, {3.847235160716598*^9, 
+   3.8472351610065527`*^9}, {3.84723708410817*^9, 3.8472370846144333`*^9}, {
+   3.8472371173758087`*^9, 3.847237179426937*^9}, {3.847238995597083*^9, 
+   3.8472389982683973`*^9}},
+ CellLabel->"In[3]:="]
+},
+WindowSize->{1524.6, 760.8},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+TaggingRules-><|"TryRealOnly" -> False|>,
+FrontEndVersion->"13.0 for Microsoft Windows (64-bit) (February 4, 2022)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 2394, 61, 70, "Input",ExpressionUUID->"6a7258d3-b3fa-464f-a5f9-af9995a33897"],
+Cell[2955, 83, 498, 9, 70, "Text",ExpressionUUID->"cb5da674-c92d-4688-9dc9-d1f367157167"],
+Cell[3456, 94, 570, 9, 70, "Text",ExpressionUUID->"6ce385f1-e23f-4345-905c-39269b96bf1d"],
+Cell[4029, 105, 4482, 109, 70, "Input",ExpressionUUID->"815bb793-fca2-4d0c-b3dc-acc163c76154"]
+}
+]
+*)
+
+(* End of internal cache information *)
