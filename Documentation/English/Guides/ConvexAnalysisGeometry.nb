@@ -1,0 +1,247 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 13.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      7428,        238]
+NotebookOptionsPosition[      3900,        160]
+NotebookOutlinePosition[      4389,        177]
+CellTagsIndexPosition[      4346,        174]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["ConvexAnalysisGeometry", "GuideTitle",
+ CellID->218246613],
+
+Cell["\<\
+The ConvexAnalysisGeometry(Environment) paclet is an attempt to generalize \
+several previous projects for solving problems in convex analysis and optimal \
+control.\
+\>", "GuideAbstract",
+ CellChangeTimes->{{3.9452895145781374`*^9, 3.945289644074811*^9}},
+ CellID->130582322]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["", "GuideFunctionsSection",
+ CellID->73040074],
+
+Cell[TextData[{
+ Cell[BoxData["XXXX"], "InlineGuideFunction"],
+ " \[LongDash] XXXX"
+}], "GuideText",
+ CellID->114685438],
+
+Cell[TextData[{
+ Cell[BoxData["XXXX"], "InlineGuideFunction"],
+ " \[LongDash] XXXX"
+}], "GuideText",
+ CellID->728853708],
+
+Cell[CellGroupData[{
+
+Cell["\t", "GuideDelimiter",
+ CellID->132417282],
+
+Cell["XXXX . XXXX . ", "InlineGuideFunctionListing",
+ CellID->31030136]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Tech Notes", "GuideTutorialsSection",
+ CellID->411772270],
+
+Cell[TextData[{
+ ButtonBox["Legacy Elvis Tools",
+  BaseStyle->"Link",
+  ButtonData->"paclet:ConvexAnalysisGeometry/tutorial/LegacyElvisTools"],
+ " - 2021 code for solving the generalized Elvis problem in ",
+ Cell[BoxData[
+  SuperscriptBox["\[DoubleStruckCapitalR]", "2"]], "InlineFormula"]
+}], "GuideTutorial",
+ CellChangeTimes->{{3.945289460929126*^9, 3.945289485439213*^9}, 
+   3.945289667932026*^9, {3.9452896987355146`*^9, 3.945289826025327*^9}, {
+   3.94528999335324*^9, 3.94529004322807*^9}},
+ CellID->377568593],
+
+Cell[TextData[{
+ ButtonBox["Legacy FCC Tools",
+  BaseStyle->"Link",
+  ButtonData->"paclet:ConvexAnalysisGeometry/tutorial/LegacyFCCTools"],
+ " - 2023 code for taking symbolic convex conjugates for functions from \
+\[DoubleStruckCapitalR]\[Rule]\[DoubleStruckCapitalR]"
+}], "GuideTutorial",
+ CellChangeTimes->{{3.945289460929126*^9, 3.945289485439213*^9}, 
+   3.945289667932026*^9, {3.9452896987355146`*^9, 3.945289826025327*^9}},
+ CellID->144724226],
+
+Cell["XXXX", "GuideTutorial",
+ CellID->68839602]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Related Guides", "GuideMoreAboutSection",
+ CellChangeTimes->{{3.8430423939366693`*^9, 3.843042395176153*^9}},
+ CellID->58873368],
+
+Cell["XXXX", "GuideMoreAbout",
+ CellID->932599506],
+
+Cell["XXXX", "GuideMoreAbout",
+ CellID->237089937]
+}, Open  ]],
+
+Cell["Related Links", "GuideRelatedLinksSection",
+ CellID->209767798],
+
+Cell[CellGroupData[{
+
+Cell["Metadata", "MetadataSection",
+ CellID->358218628],
+
+Cell[TextData[{
+ "New in: ",
+ Cell["??", "HistoryData",
+  CellTags->"New"],
+ " | Modified in: ",
+ Cell[" ", "HistoryData",
+  CellTags->"Modified"],
+ " | Obsolete in: ",
+ Cell[" ", "HistoryData",
+  CellTags->"Obsolete"]
+}], "History",
+ CellID->232332851],
+
+Cell[CellGroupData[{
+
+Cell["Categorization", "CategorizationSection",
+ CellID->224398228],
+
+Cell["Guide", "Categorization",
+ CellLabel->"Entity Type",
+ CellID->718994749],
+
+Cell["ConvexAnalysisGeometry", "Categorization",
+ CellLabel->"Paclet Name",
+ CellID->535108030],
+
+Cell["ConvexAnalysisGeometry`", "Categorization",
+ CellLabel->"Context",
+ CellID->605063849],
+
+Cell["ConvexAnalysisGeometry/guide/ConvexAnalysisGeometry", "Categorization",
+ CellLabel->"URI",
+ CellID->212506981]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Keywords", "KeywordsSection",
+ CellID->421117407],
+
+Cell["XXXX", "Keywords",
+ CellID->295237193]
+}, Closed]]
+}, Open  ]]
+},
+WindowSize->{699., 769.5},
+WindowMargins->{{Automatic, -1233.75}, {-31.5, Automatic}},
+TaggingRules-><|"Paclet" -> "ConvexAnalysisGeometry"|>,
+FrontEndVersion->"13.0 for Microsoft Windows (64-bit) (February 4, 2022)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "GuidePageStylesExt.nb", 
+  CharacterEncoding -> "UTF-8"]
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 64, 1, 70, "GuideTitle",ExpressionUUID->"f59f14b0-d1ae-4851-98f7-424e239c5a9c",
+ CellID->218246613],
+Cell[647, 25, 286, 6, 70, "GuideAbstract",ExpressionUUID->"472d40ea-696f-4ad4-9e11-84d65ed925e1",
+ CellID->130582322]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[970, 36, 52, 1, 70, "GuideFunctionsSection",ExpressionUUID->"6ceaed3e-c36f-40de-a5ac-89e173ddb669",
+ CellID->73040074],
+Cell[1025, 39, 120, 4, 70, "GuideText",ExpressionUUID->"4a01aa50-1018-468f-b802-282d4ac03a7c",
+ CellID->114685438],
+Cell[1148, 45, 120, 4, 70, "GuideText",ExpressionUUID->"e6b96087-d1e1-4470-945c-284473f99999",
+ CellID->728853708],
+Cell[CellGroupData[{
+Cell[1293, 53, 48, 1, 70, "GuideDelimiter",ExpressionUUID->"fd57f85d-0823-442f-9231-6ea083b089e5",
+ CellID->132417282],
+Cell[1344, 56, 71, 1, 70, "InlineGuideFunctionListing",ExpressionUUID->"a58caa0f-e8ea-48a9-af0f-761272ca74e2",
+ CellID->31030136]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1464, 63, 63, 1, 70, "GuideTutorialsSection",ExpressionUUID->"568f3697-5752-4206-acf5-9c9a1b28a18a",
+ CellID->411772270],
+Cell[1530, 66, 518, 11, 70, "GuideTutorial",ExpressionUUID->"1be95e07-c939-4ae7-8f78-226fa01027cc",
+ CellID->377568593],
+Cell[2051, 79, 449, 9, 70, "GuideTutorial",ExpressionUUID->"129da159-fa64-423f-a934-b402deccb880",
+ CellID->144724226],
+Cell[2503, 90, 48, 1, 70, "GuideTutorial",ExpressionUUID->"c33317e5-9616-407a-8f64-9a9468c4cbbe",
+ CellID->68839602]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2588, 96, 134, 2, 70, "GuideMoreAboutSection",ExpressionUUID->"f6c9fdf3-82d6-4b0b-b2e5-88ebc60026a8",
+ CellID->58873368],
+Cell[2725, 100, 50, 1, 70, "GuideMoreAbout",ExpressionUUID->"b39a2c66-619d-45eb-9a92-af55723641f1",
+ CellID->932599506],
+Cell[2778, 103, 50, 1, 70, "GuideMoreAbout",ExpressionUUID->"ca37ea46-0a06-4ec6-bab4-ee8d46d01941",
+ CellID->237089937]
+}, Open  ]],
+Cell[2843, 107, 69, 1, 70, "GuideRelatedLinksSection",ExpressionUUID->"f72696fc-f468-423f-b022-1f6c8ea42ebb",
+ CellID->209767798],
+Cell[CellGroupData[{
+Cell[2937, 112, 55, 1, 70, "MetadataSection",ExpressionUUID->"920a4f5b-6124-4b3f-be20-55852a6d3e46",
+ CellID->358218628],
+Cell[2995, 115, 253, 11, 70, "History",ExpressionUUID->"6c925d8a-e41f-48df-9627-6c40b908ecc8",
+ CellID->232332851],
+Cell[CellGroupData[{
+Cell[3273, 130, 67, 1, 70, "CategorizationSection",ExpressionUUID->"0c17ac92-8254-433a-9f57-94f4a0644d95",
+ CellID->224398228],
+Cell[3343, 133, 78, 2, 70, "Categorization",ExpressionUUID->"a9a26bb7-26bf-49c2-98cd-eb87dd56a9fd",
+ CellID->718994749],
+Cell[3424, 137, 95, 2, 70, "Categorization",ExpressionUUID->"250fc0eb-f089-4566-af82-5d26e3bee62e",
+ CellID->535108030],
+Cell[3522, 141, 92, 2, 70, "Categorization",ExpressionUUID->"49a8f308-80bb-42e5-8abf-da36e7f752f9",
+ CellID->605063849],
+Cell[3617, 145, 116, 2, 70, "Categorization",ExpressionUUID->"6cc4fdf1-4bce-4bbe-914b-ebe5319c818c",
+ CellID->212506981]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[3770, 152, 55, 1, 70, "KeywordsSection",ExpressionUUID->"7f2e0db9-efee-40f1-913f-de5e57c594e8",
+ CellID->421117407],
+Cell[3828, 155, 44, 1, 70, "Keywords",ExpressionUUID->"257e05c8-7234-427e-accf-c386285b9e4a",
+ CellID->295237193]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
