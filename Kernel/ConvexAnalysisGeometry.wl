@@ -51,9 +51,9 @@ cvxResolveOverReals[a_?NumberQ, ___] := a
 cvxResolveOverReals[Power[expr_, 1/2] <= 1, vars_, cnd_] := If[
   Simplify[expr >= 0, cnd] === True || 
     FullSimplify[
-      Reduce[expr >= 0 && Im[Alternatives @@ vars] == 0, Complexes], 
-      cnd] === True, 
-  cvxResolveOverReals[expr, vars, cnd] <= 1, 
+      Reduce[expr >= 0 && Im[Alternatives @@ vars] == 0, Complexes],
+      cnd] === True,
+  cvxResolveOverReals[expr, vars, cnd] <= 1,
   Power[cvxResolveOverReals[expr, vars, cnd], 1/2] <= 1
 ]
 
@@ -63,25 +63,25 @@ cvxResolveOverReals[a_ + indicator[b_], vars_, cnd_] :=
 cvxResolveOverReals[Max[a_, b_], vars_, cnd_] := Which[
   FullSimplify[
     Reduce[a >= b && Im[Alternatives @@ vars] == 0, Complexes], cnd
-  ] === True, 
-  a, 
+  ] === True,
+  a,
   FullSimplify[
     Reduce[a <= b && Im[Alternatives @@ vars] == 0, Complexes], cnd
-  ] === True, 
-  b, 
-  True, 
+  ] === True,
+  b,
+  True,
   Max @@ (cvxResolveOverReals[#, vars, cnd] & /@ {a, b})
 ]
 cvxResolveOverReals[Min[a_, b_], vars_, cnd_] := Which[
   FullSimplify[
     Reduce[a <= b && Im[Alternatives @@ vars] == 0, Complexes], cnd
-  ] === True, 
-  a, 
+  ] === True,
+  a,
   FullSimplify[
     Reduce[a >= b && Im[Alternatives @@ vars] == 0, Complexes], cnd
-  ] === True, 
-  b, 
-  True, 
+  ] === True,
+  b,
+  True,
   Max @@ (cvxResolveOverReals[#, vars, cnd] & /@ {a, b})
 ]
 (*This old way breaks:
@@ -195,7 +195,7 @@ formalVector[n_Integer] := Array[Subscript[formalScalar, #] &, n]
 formalVector[n_Integer, m_] := 
   Array[Superscript[Subscript[formalScalar, #], m] &, n]
 formalVector[n_List, varargin___] := 
-  With[{x = formalVector[Length[n], varargin]}, 
+  With[{x = formalVector[Length[n], varargin]},
     If[SameQ[n, x], x /. formalScalar -> \[FormalY], x]]
 
 formalVectors[n_, m_] := formalVector[n, #] & /@ Range[m]
@@ -205,47 +205,47 @@ formalParameter[varargin___] :=
 formalCovector[varargin___] := 
   formalVector[varargin] /. formalScalar -> \[FormalZeta]
 
-zeroSymmetric[cons_LessEqual, vars_] := Reduce[ForAll[vars, 
-    Implies[cons, trep[cons, vars, -vars]]], 
+zeroSymmetric[cons_LessEqual, vars_] := Reduce[ForAll[vars,
+    Implies[cons, trep[cons, vars, -vars]]],
   vars, Reals]
 bounded[cons_, vars_] := 
-  Resolve[Exists[\[FormalL], 
+  Resolve[Exists[\[FormalL],
       ForAll[Evaluate[vars], cons, vars . vars <= \[FormalL]]]]
 
-polar[expr_, vars_] := Module[{newVars = formalCovector[vars], pCnd}, 
-  pCnd = ForAll[Evaluate[newVars], trep[expr, vars, newVars], 
+polar[expr_, vars_] := Module[{newVars = formalCovector[vars], pCnd},
+  pCnd = ForAll[Evaluate[newVars], trep[expr, vars, newVars],
     vars . newVars <= 1];
   {Reduce[pCnd, newVars, Reals], vars}]
 
-recc[expr_, vars_] := Module[{newVars = formalCovector[vars], reccCnd}, 
+recc[expr_, vars_] := Module[{newVars = formalCovector[vars], reccCnd},
   reccCnd = 
-  ForAll[Evaluate[newVars], trep[expr, vars, newVars], 
+  ForAll[Evaluate[newVars], trep[expr, vars, newVars],
     trep[expr, vars, newVars + vars]];
   {Reduce[reccCnd, newVars, Reals], vars}]
 polarRecc[expr_, vars_] := polar @@ recc[expr, vars]
 
-support[expr_, vars_] := With[{newVars = formalVector[vars]}, 
-  Maximize[{vars . newVars, trep[expr, vars, newVars]}, newVars, 
+support[expr_, vars_] := With[{newVars = formalVector[vars]},
+  Maximize[{vars . newVars, trep[expr, vars, newVars]}, newVars,
     Reals][[1]]
 ]
 
 convex[expr_, vars_] := 
-  Module[{x = formalVectors[vars, 2], c = {\[FormalL], 1 - \[FormalL]}}, 
+  Module[{x = formalVectors[vars, 2], c = {\[FormalL], 1 - \[FormalL]}},
     (* this is amlos never used in favor of FunctionComplexity *)
-    Reduce[ForAll[Evaluate[Append[vars, \[FormalL]]], 0 < \[FormalL] < 1, 
-        trep[expr, vars, c . x] <= c . mtrep[expr, vars, x]], 
+    Reduce[ForAll[Evaluate[Append[vars, \[FormalL]]], 0 < \[FormalL] < 1,
+        trep[expr, vars, c . x] <= c . mtrep[expr, vars, x]],
       vars, Reals]
   ]
 positiveHomogeneous[expr_, vars_] := 
-  Reduce[ForAll[Evaluate[Append[vars, \[FormalL]]], \[FormalL] > 0, 
-      \[FormalL] expr == trep[expr, vars, \[FormalL] vars]], 
+  Reduce[ForAll[Evaluate[Append[vars, \[FormalL]]], \[FormalL] > 0,
+      \[FormalL] expr == trep[expr, vars, \[FormalL] vars]],
     vars, Reals]
 (* sublinear - Great example: when working with classes, dfn 3.3.1 or \
   prop 3.3.2 can be used *)
 sublinear[expr_, vars_] := 
-  Module[{x = formalVectors[vars, 2], l = formalParameter[2]}, 
-    Reduce[ForAll[Evaluate[Flatten[Join[x, l]]], Fold[And, # > 0 & /@ l], 
-        trep[expr, vars, l . x] == l . mtrep[expr, vars, x]], 
+  Module[{x = formalVectors[vars, 2], l = formalParameter[2]},
+    Reduce[ForAll[Evaluate[Flatten[Join[x, l]]], Fold[And, # > 0 & /@ l],
+        trep[expr, vars, l . x] == l . mtrep[expr, vars, x]],
       vars, Reals]
   ]
 
@@ -261,12 +261,12 @@ dom[{Plus[expr_, indicator[cnd_]], cnd0_}, vars_] :=
   dom[{expr, cnd && cnd0}, vars]
 
 dom[expr_, vars_] := dom[{expr, True}, vars]
-dom[{expr_, cnd_}, 
+dom[{expr_, cnd_},
   vars_] := {Reduce[expr < Infinity && cnd, vars, Reals], vars}
 
 lev[expr_, vars_, alpha_ : 1] := 
   lev[{expr /. indicator[_] -> 0, dom[expr, vars][[1]]}, vars, alpha]
-lev[{expr_, cnd_}, vars_, 
+lev[{expr_, cnd_}, vars_,
   alpha_ : 1] := {expr <= alpha && cnd && dom[expr, vars][[1]], vars}
 
 (*cvxReduce[{expr_, True}] := expr
@@ -281,23 +281,23 @@ lev[{expr_, cnd_}, vars_,
   cvxReduce[LessEqual[a_, b_]] := LessEqual[cvxReduce[a], cvxReduce[b]]*)
 
 subgradient[expr_, vars_] := 
-  Module[{x = vars, y = formalVector[vars], z = formalCovector[vars]}, 
-    Reduce[ForAll[y, 
-        (y - x) . z <= trep[expr, vars, y] - trep[expr, vars, x]], 
+  Module[{x = vars, y = formalVector[vars], z = formalCovector[vars]},
+    Reduce[ForAll[y,
+        (y - x) . z <= trep[expr, vars, y] - trep[expr, vars, x]],
       z, Reals]
   ]
 
 subgradientPiecewiseMultiValued[expr_, vars_] := 
-  With[{pVars = formalCovector[vars], sg = subgradient[expr, vars]}, 
-    mapPiecewiseValues[Switch[#, 
+  With[{pVars = formalCovector[vars], sg = subgradient[expr, vars]},
+    mapPiecewiseValues[Switch[#,
         _Integer, #, (* catches Piecewise default zero case *)
-        _Equal, 
-        With[{f = Flatten[pVars /. {ToRules[#]}]}, 
-          If[Length[f] == 1, f[[1]], ImplicitRegion[#, Evaluate[pVars]]]], 
+        _Equal,
+        With[{f = Flatten[pVars /. {ToRules[#]}]},
+          If[Length[f] == 1, f[[1]], ImplicitRegion[#, Evaluate[pVars]]]],
         _, ImplicitRegion[#, Evaluate[pVars]]
       ] &, nestedPiecewiseFromHierarchicalLogic[sg, pVars]]]
 
-c1SubgradientR1[f_, {var_}] := Module[{deriv, disc, points}, 
+c1SubgradientR1[f_, {var_}] := Module[{deriv, disc, points},
   (* does not check jump discontinuities! *)
   (* Convex 1-var *)
   deriv = D[f, var];
@@ -310,23 +310,23 @@ c1SubgradientR1[f_, {var_}] := Module[{deriv, disc, points},
     (*For each point of discontinuity, form an interval*)
     Append[{
         Interval[{
-            Limit[deriv, var -> #, Direction -> "FromAbove"], 
+            Limit[deriv, var -> #, Direction -> "FromAbove"],
             Limit[deriv, var -> #, Direction -> "FromBelow"]
-        }], 
+        }],
         var == #
-      } & /@ points, 
+      } & /@ points,
       (*For other points, simply use the derivative*)
       {deriv, True}]
   ]
 ]
 
-toRegion[f_] := Module[{f0 = f, ir}, 
+toRegion[f_] := Module[{f0 = f, ir},
   (* Reduces pwmv function with 'Interval' and dervied \
     ImplicitRegions to one with just ImplicitRegions. *)
   (* Do reduction of ImplicitRegion *)
   f0 = f0 /. ImplicitRegion -> ir;
   f0 = f0 //. {
-    Interval[{a_, b_}] :> ir[a <= y <= b, {y}], 
+    Interval[{a_, b_}] :> ir[a <= y <= b, {y}],
     ir[fxy_, {y_}] + fx_ :> ir[fxy /. y -> y - fx, {y}]
   };
   f0 = f0 /. ir -> ImplicitRegion;
@@ -334,13 +334,13 @@ toRegion[f_] := Module[{f0 = f, ir},
   f0
 ];
 solvePiecewise[eq_, var_] := Module[
-  {lhs, rhs, rel, pieces, regionPieces, nonRegionPieces, 
-    regionSolutions, nonRegionSolutions, solutions}, 
+  {lhs, rhs, rel, pieces, regionPieces, nonRegionPieces,
+    regionSolutions, nonRegionSolutions, solutions},
   (*TODO: Fix lhs needing to be equation *)
   (*Get left hand side and right hand side of the equation*)
-  If[Head[eq] === Equal, 
+  If[Head[eq] === Equal,
     {lhs, rhs} = List @@ eq;
-    rel = Equal, 
+    rel = Equal,
     lhs = eq[[1]];
     rhs = eq[[2]];
     rel = Head[eq]];
@@ -354,7 +354,7 @@ solvePiecewise[eq_, var_] := Module[
   regionSolutions = (r |-> Element[rhs, r[[1]]] && r[[2]]) /@ 
   regionPieces;
   (*Echo[regionPieces//MatrixForm];*)
-  (*Echo[{regionPieces, Reduce[Or @@ regionSolutions, var, Reals], 
+  (*Echo[{regionPieces, Reduce[Or @@ regionSolutions, var, Reals],
         ImplicitRegion[Reduce[Or @@ regionSolutions, var, Reals], var]}];*)
   (*Process each non-region piece*)
   nonRegionSolutions = (expr |-> rel[expr[[1]], rhs] && expr[[2]]) /@ 
@@ -366,13 +366,13 @@ solvePiecewise[eq_, var_] := Module[
   ImplicitRegion[Reduce[Or @@ solutions, var, Reals], var]]
 
 toInequality[p_] := p /. {
-  Less[a_, b_, c_] :> Inequality[a, Less, b, Less, c], 
-  LessEqual[a_, b_, c_] :> Inequality[a, LessEqual, b, LessEqual, c], 
+  Less[a_, b_, c_] :> Inequality[a, Less, b, Less, c],
+  LessEqual[a_, b_, c_] :> Inequality[a, LessEqual, b, LessEqual, c],
   (* assuming the variable of interest is always on the left (based \
       on reduce) *)
-  Less[a_, b_] :> Inequality[-Infinity, Less, a, Less, b], 
-  LessEqual[a_, b_] :> Inequality[-Infinity, Less, a, LessEqual, b], 
-  Greater[a_, b_] :> Inequality[b, LessEqual, a, Less, Infinity], 
+  Less[a_, b_] :> Inequality[-Infinity, Less, a, Less, b],
+  LessEqual[a_, b_] :> Inequality[-Infinity, Less, a, LessEqual, b],
+  Greater[a_, b_] :> Inequality[b, LessEqual, a, Less, Infinity],
   GreaterEqual[a_, b_] :> Inequality[b, Less, a, Less, Infinity]};
 toInequalityLeftBiasedToCenter = toInequality;
 
@@ -383,14 +383,14 @@ varUsageOrdering[exprs_, vars_] :=
 sortedSubsetIndices[subset_, superset_] := With[
   (* things not in superset go at end *)
   {orderInBigList = 
-    Flatten[Position[superset, #] & /@ subset /. {} -> Infinity]}, 
+    Flatten[Position[superset, #] & /@ subset /. {} -> Infinity]},
   Ordering[orderInBigList, All, LessEqual]
 ]
 
 reduceParametricPiece[p_, vars_ : {}] := 
-  Module[{(*pSplit, pHeads, eqIxs, mixedInEqIxs, constIxs, pOut*)}, 
-    (* reduce each parametric peice into a list: {{f[x], g[y], h[z]}, {x, 
-          y}, {{x0, x1}, {y0, y1}}}, 
+  Module[{(*pSplit, pHeads, eqIxs, mixedInEqIxs, constIxs, pOut*)},
+    (* reduce each parametric peice into a list: {{f[x], g[y], h[z]}, {x,
+          y}, {{x0, x1}, {y0, y1}}},
       that is, {[Parametric Equations], [Parametric Variables], \
         [Parametric Bounds]}*)
     pSplit = p /. And -> List // toInequality;
@@ -398,12 +398,12 @@ reduceParametricPiece[p_, vars_ : {}] :=
     eqIxs = Flatten @ Position[pHeads, Equal];
     mixedInEqIxs = Flatten @ Position[pHeads, Inequality];
     Assert[Length[Join[eqIxs, mixedInEqIxs]] == Length[p]];
-    If[Length[mixedInEqIxs] == 0, 
-      pOut = {First[vars //. {ToRules[p]}], {}, {}}, 
-      pOut = {If[eqIxs === {}, vars, 
-          First[vars //. {ToRules[Fold[And, pSplit[[eqIxs]]]]}]], 
-        pSplit[[mixedInEqIxs]][[;; , 3]], 
-        Transpose @ {pSplit[[mixedInEqIxs]][[;; , 1]], 
+    If[Length[mixedInEqIxs] == 0,
+      pOut = {First[vars //. {ToRules[p]}], {}, {}},
+      pOut = {If[eqIxs === {}, vars,
+          First[vars //. {ToRules[Fold[And, pSplit[[eqIxs]]]]}]],
+        pSplit[[mixedInEqIxs]][[;; , 3]],
+        Transpose @ {pSplit[[mixedInEqIxs]][[;; , 1]],
           pSplit[[mixedInEqIxs]][[;; , 5]]}};
     ];
     constIxs = 
@@ -415,57 +415,57 @@ reduceParametricPiece[p_, vars_ : {}] :=
     pOut
   ]
 reduceParametricPieces[p_, vars_] := 
-  If[Head[p] === Or, 
+  If[Head[p] === Or,
     reduceParametricPiece[#, vars] & /@ 
     List @@ p, {reduceParametricPiece[p, vars]}]
 
 plotParamPiece[p_, vars_, varagin___] := 
-  Module[{constIxs, ordering}, If[Length[p[[1]]] == 2, 
-      If[p[[2]] === {}, 
-        Graphics[Point[p[[1]]]], 
+  Module[{constIxs, ordering}, If[Length[p[[1]]] == 2,
+      If[p[[2]] === {},
+        Graphics[Point[p[[1]]]],
         constIxs = 
         Flatten @ Position[MemberQ[p[[2]], #] & /@ vars, False, 1];
         ordering = varUsageOrdering[p[[3]], p[[2]]];
         ParametricPlot[
-          p[[1]] /. Thread[vars[[constIxs]] -> p[[1]][[constIxs]]], 
+          p[[1]] /. Thread[vars[[constIxs]] -> p[[1]][[constIxs]]],
           Evaluate[
             Sequence @@ ((Transpose @ 
-                Join[{p[[2]][[ordering]]}, 
-                  Transpose @ p[[3]][[ordering]]]) /. {{x_, -Infinity, 
-                  b_} :> {x, (b - 1), b}, {x_, b_, Infinity} :> {x, 
+                Join[{p[[2]][[ordering]]},
+                  Transpose @ p[[3]][[ordering]]]) /. {{x_, -Infinity,
+                  b_} :> {x, (b - 1), b}, {x_, b_, Infinity} :> {x,
                   b, (b + 1)}})], varagin]
-      ], 
-      If[p[[2]] === {}, 
-        Graphics3D[Point[p[[1]]]], 
+      ],
+      If[p[[2]] === {},
+        Graphics3D[Point[p[[1]]]],
         constIxs = 
         Flatten @ Position[MemberQ[p[[2]], #] & /@ vars, False, 1];
         ordering = varUsageOrdering[p[[3]], p[[2]]];
         ParametricPlot3D[
-          p[[1]] /. Thread[vars[[constIxs]] -> p[[1]][[constIxs]]], 
+          p[[1]] /. Thread[vars[[constIxs]] -> p[[1]][[constIxs]]],
           Evaluate[
             Sequence @@ ((Transpose @ 
-                Join[{p[[2]][[ordering]]}, 
+                Join[{p[[2]][[ordering]]},
                   Transpose @ (p[[3]][[ordering]] // N //
-                    Re)]) /. {{x_, -Infinity, b_} :> {x, (b - 1), b}, {x_, 
+                    Re)]) /. {{x_, -Infinity, b_} :> {x, (b - 1), b}, {x_,
                   b_, Infinity} :> {x, b, (b + 1)}})], varagin]
       ]
   ]]
 
 piecewiseNestedQ[expr_] := Length[Position[expr, Piecewise]] > 1
 piecewiseValueWrapper[expr_Piecewise] := 
-  Piecewise[{piecewiseValueWrapper[#1], #2} & @@@ #1, 
+  Piecewise[{piecewiseValueWrapper[#1], #2} & @@@ #1,
     piecewiseValueWrapper[#2]] & @@ expr
 mapPiecewiseValues[fun_, expr_] := 
   piecewiseValueWrapper[expr] /. piecewiseValueWrapper -> fun
 
 nestedPiecewiseFromHierarchicalLogic[expr_, pVars_] := 
-  Block[{exprPairedCndVal}, 
+  Block[{exprPairedCndVal},
     (* Assumes expr is "Tree-Like" with pVars at the lowest level.
       Example:
       nestedPiecewiseFromHierarchicalLogic[
-        (x >= 0 && ((y >= 0 && (z == x)) || (y<0 && (z == y)))) || (x<0 && (x<z<y)), 
+        (x >= 0 && ((y >= 0 && (z == x)) || (y<0 && (z == y)))) || (x<0 && (x<z<y)),
         z] *)
-    (* pVars are parametric vars, 
+    (* pVars are parametric vars,
       these are the the variables that are NOT part of the Piecewise \
       conditions *)
     exprPairedCndVal = 
@@ -488,16 +488,16 @@ orthCompAff[AffineSpace[points_List]] := Module[
     Issues:
     This definition is "numeric" over the points due to the usage of \
     Select and Orthogonalize.*)
-  {R = AffineSpace[points], p0 = points[[1]], pCen, pCenOrth}, 
+  {R = AffineSpace[points], p0 = points[[1]], pCen, pCenOrth},
   pCen = Table[p - p0, {p, points}];
   pCenOrth = 
   Select[Orthogonalize[
-      pCen~Join~IdentityMatrix[RegionEmbeddingDimension[R]]], 
+      pCen~Join~IdentityMatrix[RegionEmbeddingDimension[R]]],
     Norm[#] > 0 &][[Length[points] ;;]];
   AffineSpace[{p0}~Join~Table[p + p0, {p, pCenOrth}]]
 ]
 orthCompAff[AffineSpace[points_List], center_] := TransformedRegion[
-  orthCompAff[AffineSpace[points]], 
+  orthCompAff[AffineSpace[points]],
   TranslationTransform[-points[[1]] + center]]
 
 ray[origin_, direction_] := ConicHullRegion[{origin}, {direction}]
@@ -515,40 +515,40 @@ toLevelRegion[ImplicitRegion[expr_LessEqual, vars_]] :=
   class mode *)
 
 conicHull2[expr_, vars_] := 
-  Module[{dim = Length[vars], g = Grad[expr[[1]], vars]}, 
+  Module[{dim = Length[vars], g = Grad[expr[[1]], vars]},
     (* slightly fancy version *)
     (* assumes convexity *)
-    If[dim == 2, 
-      ConicHullRegion[{{0, 0}}, 
-        SolveValues[vars . g == 0 && (expr /. LessEqual -> Equal), vars]], 
+    If[dim == 2,
+      ConicHullRegion[{{0, 0}},
+        SolveValues[vars . g == 0 && (expr /. LessEqual -> Equal), vars]],
       ImplicitRegion[Reduce[vars . g == 0 && expr, vars, Reals], vars]
     ]
   ]
 
 conicHull[expr_, vars_] := 
-  Module[{dim = Length[vars], g = Grad[expr[[1]], vars]}, 
+  Module[{dim = Length[vars], g = Grad[expr[[1]], vars]},
     (* assumes convexity *)
     {Reduce[vars . g == 0 && expr, vars, Reals], vars}
   ]
 
 polarParameterization[param_, vars_] := 
-  Module[{n = Length[param], grad = Transpose[Grad[param, vars]], 
-      e, M}, 
+  Module[{n = Length[param], grad = Transpose[Grad[param, vars]],
+      e, M},
     M = Transpose[{
-        Array[Subscript[e, #] &, n + 1], 
-        param~Join~{1}, 
+        Array[Subscript[e, #] &, n + 1],
+        param~Join~{1},
         Sequence @@ Join[
-          Array[grad[[##]] &, {n - 1, n}], 
+          Array[grad[[##]] &, {n - 1, n}],
           ConstantArray[{0}, n - 1]
           , 2]
     }];
-    Coefficient[SolveValues[Det[M] == 0, Subscript[e, n + 1]][[1]], 
+    Coefficient[SolveValues[Det[M] == 0, Subscript[e, n + 1]][[1]],
       Evaluate[Array[Subscript[e, #] &, n]]] // FullSimplify
   ]
 
 boundaryAtlas[cnd_, vars_] := 
-  Module[{cndList, allIxs, intList, bdryList, cndIxParamTuples, 
-      bdrySubsetIxs, lowerCndsSimple, lowerCnds}, 
+  Module[{cndList, allIxs, intList, bdryList, cndIxParamTuples,
+      bdrySubsetIxs, lowerCndsSimple, lowerCnds},
     cndList = cnd /. And -> List;
     (* only one region check: *)
     If[Not[Head[cndList] === List], cndList = {cndList}];
@@ -565,11 +565,11 @@ boundaryAtlas[cnd_, vars_] :=
       lowerCnds = 
       BooleanConvert[Reduce[#, Evaluate[vars], Reals], "SOP"] & /@ 
       lowerCndsSimple;
-      (If[#2 === False, Undefined, 
-          With[{red = reduceParametricPieces[#2, vars]}, 
+      (If[#2 === False, Undefined,
+          With[{red = reduceParametricPieces[#2, vars]},
             
-            If[red === {}, 
-              Undefined, {#3, #1, If[Head @ #2 === Or, List @@ #2, {#2}], 
+            If[red === {},
+              Undefined, {#3, #1, If[Head @ #2 === Or, List @@ #2, {#2}],
                 red}]
           ]
         ]) & @@@ 
@@ -579,15 +579,15 @@ boundaryAtlas[cnd_, vars_] :=
     (* will contain {} when a boundary intersection is not on the \
       boundary of the intersecting set: *)
     cndIxParamTuples = Flatten[cndIxParamTuples, 1]
-    (* cndIxParamTuples = List of tuples {{regionIxs, simpleCnd, 
+    (* cndIxParamTuples = List of tuples {{regionIxs, simpleCnd,
           paramsLogical, paramsReduced}, ...}*)
   ]
 atlasCol = 
-AssociationThread[{"regionIxs", "simpleCnd", "paramsLogical", 
+AssociationThread[{"regionIxs", "simpleCnd", "paramsLogical",
     "paramsReduced"} -> Range[4]];
 
 boundaryAtlasLookup[boundaryAtlas_, vars_, testPoint_] := 
-  Module[{subsetIx, paramIx, paramVals}, 
+  Module[{subsetIx, paramIx, paramVals},
     subsetIx = 
     LengthWhile[
       boundaryAtlas[[;; , atlasCol["simpleCnd"]]], !
@@ -600,14 +600,14 @@ boundaryAtlasLookup[boundaryAtlas_, vars_, testPoint_] :=
     Assert[paramIx <= Length[boundaryAtlas]](*
       Could not find suitable param? Should not happen ... *);
     paramVals = 
-    trep[boundaryAtlas[[subsetIx, 
+    trep[boundaryAtlas[[subsetIx,
           atlasCol["paramsReduced"]]][[paramIx]][[2]], vars, testPoint];
     {subsetIx, paramIx, paramVals}
   ]
 
 boundaryAtlasPlot[atlas_, vars_] := 
-  Module[{params = atlas[[;; , atlasCol["paramsReduced"]]], baseSurf, 
-      typeLens, typeLenRepElem, colors}, 
+  Module[{params = atlas[[;; , atlasCol["paramsReduced"]]], baseSurf,
+      typeLens, typeLenRepElem, colors},
     typeLens = Length /@ params;
     params = Flatten[params, 1];
     colors = 
@@ -615,41 +615,41 @@ boundaryAtlasPlot[atlas_, vars_] :=
     typeLenRepElem = repelem[typeLens];
     Show[Table[
         baseSurf = params[[ii]];
-        Switch[Length[baseSurf[[2]]], 
-          0, 
-          Graphics3D[{(*colors[[typeLenRepElem[[ii]]]]*)Purple, 
-              Point[baseSurf[[1]]]}], 
-          _, 
-          plotParamPiece[baseSurf, vars, 
+        Switch[Length[baseSurf[[2]]],
+          0,
+          Graphics3D[{(*colors[[typeLenRepElem[[ii]]]]*)Purple,
+              Point[baseSurf[[1]]]}],
+          _,
+          plotParamPiece[baseSurf, vars,
             PlotStyle -> colors[[typeLenRepElem[[ii]]]]]
         ]
         , {ii, Length[params]}], PlotRange -> All]
   ]
 
 boundaryAtlasPolarParamsReduced[atlas_, vars_, ncList_] := 
-  Module[{normalCones, generators}, 
+  Module[{normalCones, generators},
     Inner[Function[{setInclusionIx, edge}, Table[
           normalCones = ncList[[setInclusionIx]];
           (* I want The convex hull of this: *)
           generators = 
           normalCones /. Thread[vars -> param[[1]]] // Simplify;
-          Switch[Length[generators], 
-            1, 
-            {generators[[1]], param[[2]], param[[3]], {{0, 1}}}, 
-            2, 
-            {s generators[[1]] + (1 - s) generators[[2]], 
-              Join[param[[2]], {s}], Join[param[[3]], {{0, 1}}]}, 
-            _, 
+          Switch[Length[generators],
+            1,
+            {generators[[1]], param[[2]], param[[3]], {{0, 1}}},
+            2,
+            {s generators[[1]] + (1 - s) generators[[2]],
+              Join[param[[2]], {s}], Join[param[[3]], {{0, 1}}]},
+            _,
             param(*Polygon[generators]*)(* Need to generalize above *)
           ]
-          , {param, edge}]], atlas[[;; , atlasCol["regionIxs"]]], 
+          , {param, edge}]], atlas[[;; , atlasCol["regionIxs"]]],
       atlas[[;; , atlasCol["paramsReduced"]]], List]
   ]
 
 freeOptQ[expr_] := 
   And @@ (FreeQ[expr, #] & /@ {optFun, optMaxFun, optSet, optIntSet})
 getPatterns[expr_, pat_] := 
-  Last @ Reap[expr /. a : pat :> Sow[a], _, 
+  Last @ Reap[expr /. a : pat :> Sow[a], _,
     Sequence @@ #2 &](* cases does not include head, even at level 0 *)
 
 
@@ -659,35 +659,35 @@ optCases[expr_] :=
       expr, #] & /@ {_optFun, _optMaxFun, _optSet, _optIntSet}]
 
 Options[objRelationGraph] = {TrivialEdges -> True};
-objRelationGraph[f_, OptionsPattern[]] := Block[{g}, 
+objRelationGraph[f_, OptionsPattern[]] := Block[{g},
   visitedObjs = {};
   objQueue = {f};
   edgeList = {};
   
-  While[Length[objQueue] > 0, 
-    Block[{ff = objQueue[[1]]}, 
+  While[Length[objQueue] > 0,
+    Block[{ff = objQueue[[1]]},
       relationalCandidates = Flatten[KeyValueMap[
-          With[{cases = optCases[#2]}, 
-            If[Length[cases] > 0, 
-              Function[{case}, {ff, case, #1}] /@ cases, Missing[]]] &, 
+          With[{cases = optCases[#2]},
+            If[Length[cases] > 0,
+              Function[{case}, {ff, case, #1}] /@ cases, Missing[]]] &,
           ff["data"]
         ] /. Missing[] -> Sequence[], 1];
       edgeList = Join[edgeList, DirectedEdge @@@ relationalCandidates];
       visitedObjs = Join[visitedObjs, {ff}];
       objQueue = DeleteCases[objQueue, ff];
       objQueue = 
-      Join[objQueue, 
+      Join[objQueue,
         Complement[relationalCandidates[[;; , 2]], visitedObjs]];
     ]
   ];
   
   g = Graph[edgeList, VertexLabels -> "Name", EdgeLabels -> "EdgeTag"];
-  If[Not @ OptionValue[TrivialEdges], 
-    g = EdgeDelete[g, 
+  If[Not @ OptionValue[TrivialEdges],
+    g = EdgeDelete[g,
       EdgeList[
         g][[Flatten @ 
           Position[
-            SameQ[{}, #] & /@ StringCases[EdgeTags[g], ___ ~~ "Of"], 
+            SameQ[{}, #] & /@ StringCases[EdgeTags[g], ___ ~~ "Of"],
             False]]]]];
   g
 ]
@@ -703,11 +703,11 @@ Sort[HoldForm @@@
 DEBUG = True;
 
 (* basic stateful object that has inheritance *)
-optObj[data_Association] := With[{ix = Unique[]}, 
+optObj[data_Association] := With[{ix = Unique[]},
   optObj[ix]["data"] = data;
   optObj[ix]
 ]
-optObj[ix_]["get", prop_] := Lookup[optObj[ix]["data"], prop, 
+optObj[ix_]["get", prop_] := Lookup[optObj[ix]["data"], prop,
   With[{newProp = optObj[ix]["init", prop]}, If[(*Not[First @ newProp === "init"]*)True, AppendTo[optObj[ix]["data"], prop -> newProp]]];
   optObj[ix]["data"][prop]
 ];
@@ -718,14 +718,14 @@ prop;(* useful, but highlights naming convention issue; get is \
   what actually inits things in the data... *)
 
 optObj["initData", expr_, vars_] := Module[
-  {exprTMP = expr, varsTMP = vars, 
-    cnd}, 
+  {exprTMP = expr, varsTMP = vars,
+    cnd},
   (*process and validate input*)
-  If[SameQ[Head @ varsTMP, Symbol], 
+  If[SameQ[Head @ varsTMP, Symbol],
     varsTMP = {vars}
   ];
-  If[SameQ[Head @ exprTMP, List], 
-    cnd = exprTMP[[2]]; exprTMP = exprTMP[[1]], 
+  If[SameQ[Head @ exprTMP, List],
+    cnd = exprTMP[[2]]; exprTMP = exprTMP[[1]],
     cnd = True; exprTMP = exprTMP
   ];
   <|"expr" -> exprTMP, "vars" -> varsTMP, "cnd" -> cnd|>];
@@ -749,13 +749,13 @@ optFun[ix_]["init", "name"] := Subscript[\[FormalF], ix]
 
 optFun[ix_]["init", "displayMode"] := "full"
 (*Format[optFun[id_]] := Module[{hlRules, f = optFun[id], d0 = {}(*KeyDrop[\
-          optFun[id]["data"], "parent"]*)}, 
-    Switch[f["displayMode"], 
-      "full", 
+          optFun[id]["data"], "parent"]*)},
+    Switch[f["displayMode"],
+      "full",
       hlRules = # -> Style[#, FontColor -> Blue, FontWeight -> Medium]& /@ f["vars"];
       Tooltip[Panel[Magnify[f["expr"] /. hlRules//TraditionalForm, 1.25], \
-          FrameMargins -> 0, Background -> Lighter[Gray, 0.95]], d0], 
-      "name", 
+          FrameMargins -> 0, Background -> Lighter[Gray, 0.95]], d0],
+      "name",
       Tooltip[Magnify[Style[f["name"], FontColor -> Red, FontWeight -> Medium]//\
           TraditionalForm, 1.25], d0]
   ]];*)
@@ -769,34 +769,34 @@ plotBoundsParser[vars_, bounds_ : {}] :=
     If[Length[b] == 2 && NumberQ[b[[1]]], b = Table[b, {nVars}]];
     b = Join[List /@ vars, b, 2]]
 plot[optFun[ix_], bounds_ : {}, varargin___] := 
-  Module[{f = optFun[ix], 
-      b = plotBoundsParser[optFun[ix]["vars"], bounds]}, 
+  Module[{f = optFun[ix],
+      b = plotBoundsParser[optFun[ix]["vars"], bounds]},
     (*TODO: make manipulate if there are parameters*)
-    Switch[Length[f["vars"]], 
-      1, Plot[f["expr"] // cvxReduce, Evaluate[Sequence @@ b], varargin], 
-      2, Plot3D[f["expr"] // cvxReduce, Evaluate[Sequence @@ b], 
-        varargin], 
+    Switch[Length[f["vars"]],
+      1, Plot[f["expr"] // cvxReduce, Evaluate[Sequence @@ b], varargin],
+      2, Plot3D[f["expr"] // cvxReduce, Evaluate[Sequence @@ b],
+        varargin],
       _, Missing[]]
   ]
 cplot[optFun[ix_], bounds_ : {}, varargin___] := 
-  Module[{f = optFun[ix], 
-      b = plotBoundsParser[optFun[ix]["vars"], bounds]}, 
+  Module[{f = optFun[ix],
+      b = plotBoundsParser[optFun[ix]["vars"], bounds]},
     (*TODO: make manipulate if there are parameters*)
-    Switch[Length[f["vars"]], 
-      1, Missing[], 
-      2, ContourPlot[f["expr"] // cvxReduce, Evaluate[Sequence @@ b], 
-        varargin], 
-      3, ContourPlot3D[f["expr"] // cvxReduce, Evaluate[Sequence @@ b], 
+    Switch[Length[f["vars"]],
+      1, Missing[],
+      2, ContourPlot[f["expr"] // cvxReduce, Evaluate[Sequence @@ b],
+        varargin],
+      3, ContourPlot3D[f["expr"] // cvxReduce, Evaluate[Sequence @@ b],
         varargin], _, Missing[]]
   ]
 
 optFun[ix_]["init", "parent"] := Null
 
 optFun[ix_]["init", "lev"] := 
-  Module[{f = optFun[ix], d = optFun[ix]["data"], dObj}, 
+  Module[{f = optFun[ix], d = optFun[ix]["data"], dObj},
     dObj = initializeSet @@ lev[d["expr"], d["vars"], 1];
     
-    If[! SameQ[d["convexity"], Indeterminate], 
+    If[! SameQ[d["convexity"], Indeterminate],
       AppendTo[dObj["data"], "convex" -> True]];
     If[trep[d["expr"], d["vars"], ConstantArray[0, Length[d["vars"]]]] == 
       0 && dObj["contains0"], AppendTo[dObj["data"], "gauge" -> f]];(*
@@ -806,14 +806,14 @@ optFun[ix_]["init", "lev"] :=
   ]
 
 optFun[ix_]["init", "convexity"] := 
-  With[{d = optFun[ix]["data"]}, 
+  With[{d = optFun[ix]["data"]},
     FunctionConvexity[{d["expr"], d["cnd"]}, d["vars"]]]
 optFun[ix_]["init", "convex"] := optFun[ix]["data"]["convexity"] === 1
 optFun[ix_]["init", "domain"] := 
-  With[{d = optFun[ix]["data"]}, 
+  With[{d = optFun[ix]["data"]},
     initializeSet @@ dom[d["expr"], d["vars"]]]
 optFun[ix_]["init", "epi"] := 
-  With[{d = optFun[ix]["data"]}, 
+  With[{d = optFun[ix]["data"]},
     initializeSet @@ epi[d["expr"], d["vars"]]]
 
 DownValues[optMaxFun] = 
@@ -825,19 +825,19 @@ sub[optMaxFun[ix_], val_] :=
 optMaxFun[ix_]["init", "verbose"] := DEBUG
 
 optMaxFun[ix_]["init", "children"] := 
-  Module[{parts = optMaxFun[ix]["expr"] /. Max -> List, children, 
-      myName}, 
+  Module[{parts = optMaxFun[ix]["expr"] /. Max -> List, children,
+      myName},
     children = 
     If[Head[#] === optFun, #, optFun[#, optMaxFun[ix]["vars"]]] & /@ 
     parts;
-    AppendTo[optMaxFun[ix]["data"], 
+    AppendTo[optMaxFun[ix]["data"],
       "expr" -> Max @@ (#["expr"] & /@ children)];(*
       inheritance is kind of tricky when *)
     myName = optMaxFun[ix]["name"];
     MapIndexed[
-      AppendTo[#1["data"], 
+      AppendTo[#1["data"],
         "name" -> Subscript[myName, #2[[1]]] /. 
-        Subscript[a_, Subscript[b_, c_]] :> Subscript[a, {b, c}]] &, 
+        Subscript[a_, Subscript[b_, c_]] :> Subscript[a, {b, c}]] &,
       children];
     Map[AppendTo[#1["data"], "parent" -> optMaxFun[ix]] &, children];
     (*Map[AppendTo[#1["data"], "displayMode" -> "name"]&, children];*)
@@ -847,33 +847,33 @@ optMaxFun[ix_]["init", "name"] := Subscript[\[FormalF], ix]
 
 (*Format[optMaxFun[id_]] := Module[{hlRules, d0 = \
       KeyDrop[optMaxFun[id]["data"], "children"], c = \
-      optMaxFun[id]["data"]["children"]}, 
+      optMaxFun[id]["data"]["children"]},
     Tooltip[Panel[c /. List -> CirclePlus]//TraditionalForm, d0]]*)
 
 optMaxFun[ix_]["init", "epi"] := 
-  Module[{c = optMaxFun[ix]["children"]}, 
-    initializeSet[Fold[And, #["epi"]["expr"] & /@ c], 
+  Module[{c = optMaxFun[ix]["children"]},
+    initializeSet[Fold[And, #["epi"]["expr"] & /@ c],
       c[[1]]["epi"]["vars"], Name -> epi[optMaxFun[ix]["name"]]]]
 
 plot[optMaxFun[ix_], bounds_ : {}, varargin___] := 
-  Module[{f = optMaxFun[ix], 
-      b = plotBoundsParser[optMaxFun[ix]["vars"], bounds]}, 
+  Module[{f = optMaxFun[ix],
+      b = plotBoundsParser[optMaxFun[ix]["vars"], bounds]},
     (*TODO: make manipulate if there are parameters*)
-    Switch[Length[f["vars"]], 
-      1, Plot[f["expr"] // cvxReduce, Evaluate[Sequence @@ b], varargin], 
-      2, Plot3D[f["expr"] // cvxReduce, Evaluate[Sequence @@ b], 
-        varargin], 
+    Switch[Length[f["vars"]],
+      1, Plot[f["expr"] // cvxReduce, Evaluate[Sequence @@ b], varargin],
+      2, Plot3D[f["expr"] // cvxReduce, Evaluate[Sequence @@ b],
+        varargin],
       _, Missing[]]
   ]
 cplot[optMaxFun[ix_], bounds_ : {}, varargin___] := 
-  Module[{f = optMaxFun[ix], 
-      b = plotBoundsParser[optMaxFun[ix]["vars"], bounds]}, 
+  Module[{f = optMaxFun[ix],
+      b = plotBoundsParser[optMaxFun[ix]["vars"], bounds]},
     (*TODO: make manipulate if there are parameters*)
-    Switch[Length[f["vars"]], 
-      1, Missing[], 
-      2, ContourPlot[f["expr"] // cvxReduce, Evaluate[Sequence @@ b], 
-        varargin], 
-      3, ContourPlot3D[f["expr"] // cvxReduce, Evaluate[Sequence @@ b], 
+    Switch[Length[f["vars"]],
+      1, Missing[],
+      2, ContourPlot[f["expr"] // cvxReduce, Evaluate[Sequence @@ b],
+        varargin],
+      3, ContourPlot3D[f["expr"] // cvxReduce, Evaluate[Sequence @@ b],
         varargin], _, Missing[]]
   ]
 
@@ -890,13 +890,13 @@ nVars[optSet[ix_]] := Length[optSet[ix]["vars"]]
 optSet[ix_]["init", "verbose"] := DEBUG
 
 (*Format[optSet[id_]] := Module[{hlRules, f = optSet[id], d0 = {}(*KeyDrop[\
-          optSet[id]["data"], "parent"]*)}, 
-    Switch[f["displayMode"], 
-      "full", 
+          optSet[id]["data"], "parent"]*)},
+    Switch[f["displayMode"],
+      "full",
       hlRules = # -> Style[#, FontColor -> Blue, FontWeight -> Medium]& /@ f["vars"];
       Tooltip[Panel[Magnify[f["expr"] /. hlRules//TraditionalForm, 1.25], \
-          FrameMargins -> 0], d0], 
-      "name", 
+          FrameMargins -> 0], d0],
+      "name",
       Tooltip[Magnify[Style[f["name"], FontColor -> Purple, FontWeight -> Medium]//\
           TraditionalForm, 1.25], d0]
   ]];*)
@@ -905,26 +905,26 @@ optSet[ix_]["init", "name"] := Subscript[C, ix]
 optSet[ix_]["init", "displayMode"] := "full"
 
 plot[optSet[ix_], bounds_ : {}, varargin___] := 
-  Module[{f = optSet[ix], 
-      b = plotBoundsParser[optSet[ix]["vars"], bounds]}, 
+  Module[{f = optSet[ix],
+      b = plotBoundsParser[optSet[ix]["vars"], bounds]},
     (*TODO: make manipulate if there are parameters*)
-    Switch[Length[f["vars"]], 
-      2, RegionPlot[f["expr"] // cvxReduce, Evaluate[Sequence @@ b], 
-        varargin], 
-      3, RegionPlot3D[f["expr"] // cvxReduce, Evaluate[Sequence @@ b], 
-        varargin], 
+    Switch[Length[f["vars"]],
+      2, RegionPlot[f["expr"] // cvxReduce, Evaluate[Sequence @@ b],
+        varargin],
+      3, RegionPlot3D[f["expr"] // cvxReduce, Evaluate[Sequence @@ b],
+        varargin],
       _, Missing[]]
   ]
 
 plot[optISet[ix_], bounds_ : {}, varargin___] := 
-  Module[{f = optISet[ix], 
-      b = plotBoundsParser[optISet[ix]["vars"], bounds]}, 
+  Module[{f = optISet[ix],
+      b = plotBoundsParser[optISet[ix]["vars"], bounds]},
     (*TODO: make manipulate if there are parameters*)
-    Switch[Length[f["vars"]], 
-      2, RegionPlot[f["expr"] // cvxReduce, Evaluate[Sequence @@ b], 
-        varargin], 
-      3, RegionPlot3D[f["expr"] // cvxReduce, Evaluate[Sequence @@ b], 
-        varargin], 
+    Switch[Length[f["vars"]],
+      2, RegionPlot[f["expr"] // cvxReduce, Evaluate[Sequence @@ b],
+        varargin],
+      3, RegionPlot3D[f["expr"] // cvxReduce, Evaluate[Sequence @@ b],
+        varargin],
       _, Missing[]]
   ]
 
@@ -933,12 +933,12 @@ optISet[ix_]["init", "parent"] := Null
 optSet[ix_]["init", "name"] := Subscript[C, ix]
 optSet[ix_]["init", "displayMode"] := "full"
 optSet[ix_]["init", "contains0"] := 
-  With[{f = optSet[ix]}, 
-    Reduce[Implies[f["cnd"], 
+  With[{f = optSet[ix]},
+    Reduce[Implies[f["cnd"],
         Reduce[sub[f, Table[0, Length[f["vars"]]]]]], f["vars"], Reals]]
 optSet[ix_]["init", "bounded"] := 
-  With[{f = optSet[ix]}, 
-    Reduce[Implies[f["cnd"], bounded[cvxReduce[f["expr"]], f["vars"]]], 
+  With[{f = optSet[ix]},
+    Reduce[Implies[f["cnd"], bounded[cvxReduce[f["expr"]], f["vars"]]],
       f["vars"], Reals]]
 
 DownValues[optIntSet] = 
@@ -954,16 +954,16 @@ optIntSet[ix_]["init", "verbose"] := DEBUG
         List -> And]//TraditionalForm, d0]]*)
 
 optIntSet[ix_]["init", "children"] := 
-  Module[{parts = optIntSet[ix]["expr"] /. And -> List, children, 
-      myName}, 
+  Module[{parts = optIntSet[ix]["expr"] /. And -> List, children,
+      myName},
     Assert[AllTrue[parts, Head[#] === LessEqual &]];
     children = 
     optSet[#[[1]] - #[[2]] + 1 <= 1, optIntSet[ix]["vars"]] & /@ parts;
     myName = optIntSet[ix]["name"];
     MapIndexed[
-      AppendTo[#1["data"], 
+      AppendTo[#1["data"],
         "name" -> Subscript[myName, #2[[1]]] /. 
-        Subscript[a_, Subscript[b_, c_]] :> Subscript[a, {b, c}]] &, 
+        Subscript[a_, Subscript[b_, c_]] :> Subscript[a, {b, c}]] &,
       children];
     Map[AppendTo[#1["data"], "parent" -> optIntSet[ix]] &, children];
     (*Map[AppendTo[#1["data"], "displayMode" -> "name"]&, children];*)
@@ -972,36 +972,36 @@ optIntSet[ix_]["init", "children"] :=
 optIntSet[ix_]["init", "name"] := Subscript[C, ix]
 
 plot[optIntSet[ix_], bounds_ : {}, varargin___] := 
-  Module[{f = optIntSet[ix], 
-      b = plotBoundsParser[optIntSet[ix]["vars"], bounds]}, 
+  Module[{f = optIntSet[ix],
+      b = plotBoundsParser[optIntSet[ix]["vars"], bounds]},
     (*TODO: make manipulate if there are parameters*)
-    Switch[Length[f["vars"]], 
-      2, RegionPlot[f["expr"] // cvxReduce, Evaluate[Sequence @@ b], 
-        varargin], 
-      3, RegionPlot3D[f["expr"] // cvxReduce, Evaluate[Sequence @@ b], 
-        varargin], 
+    Switch[Length[f["vars"]],
+      2, RegionPlot[f["expr"] // cvxReduce, Evaluate[Sequence @@ b],
+        varargin],
+      3, RegionPlot3D[f["expr"] // cvxReduce, Evaluate[Sequence @@ b],
+        varargin],
       _, Missing[]]
   ]
 boundaryPlot[optIntSet[ix_], varargin___] := 
-  Module[{f = optIntSet[ix]}, 
+  Module[{f = optIntSet[ix]},
     (*TODO: make manipulate if there are parameters*)
     boundaryAtlasPlot[f["boundaryAtlas"], f["vars"]]
   ]
 
 optIntSet[ix_]["init", "contains0"] := 
-  Module[{c = optIntSet[ix]["children"]}, 
+  Module[{c = optIntSet[ix]["children"]},
     Reduce[And @@ Map[#["contains0"] &, c]]]
 optIntSet[ix_]["init", "bounded"] := 
-  Module[{c = optIntSet[ix]["children"]}, 
-    If[Reduce[And @@ Map[#["bounded"] &, c]] === True, True, 
+  Module[{c = optIntSet[ix]["children"]},
+    If[Reduce[And @@ Map[#["bounded"] &, c]] === True, True,
       With[{f = optIntSet[ix]}, bounded[f["expr"], f["vars"]]]
   ]]
 optIntSet[ix_]["init", "gauge"] := 
-  Module[{c = optIntSet[ix]["children"], d = optIntSet[ix]["data"]}, 
+  Module[{c = optIntSet[ix]["children"], d = optIntSet[ix]["data"]},
     initializeFunction[Max[Map[#["gauge"] &, c]], d["vars"]]
   ]
 optIntSet[ix_]["init", "ncList"] := 
-  Module[{c = optIntSet[ix]["children"], d = optIntSet[ix]["data"]}, 
+  Module[{c = optIntSet[ix]["children"], d = optIntSet[ix]["data"]},
     Map[#["normalizedNormalCone"] &, c]
   ]
 
@@ -1014,12 +1014,12 @@ DownValues[optISet] = ReplaceRepeated[DownValues[optObj], optObj -> optISet];
 SubValues[optISet] = ReplaceRepeated[SubValues[optObj], optObj -> optISet];
 sub[optISet[ix_], val_] := optISet[ix]["expr"] /. Thread[optISet[ix]["vars"] -> val]
 
-Format[optISet[id_]] := Module[{hlRules, f = optISet[id]}, 
+Format[optISet[id_]] := Module[{hlRules, f = optISet[id]},
   hlRules = # -> Style[#, FontColor -> Blue, FontWeight -> Medium] & /@ f["vars"];
   PopupWindow[
-    Panel[Magnify[f["expr"] /. hlRules // TraditionalForm, 1.25], 
-      FrameMargins -> 0], 
-    f["data"], 
+    Panel[Magnify[f["expr"] /. hlRules // TraditionalForm, 1.25],
+      FrameMargins -> 0],
+    f["data"],
     WindowTitle -> "optISet " <> ToString @ id]]
 
 DownValues[optDSet] = ReplaceRepeated[DownValues[optObj], optObj -> optDSet];
@@ -1028,24 +1028,24 @@ sub[optDSet[ix_], val_] := optDSet[ix]["expr"] /. Thread[optDSet[ix]["vars"] -> 
 
 Options[initializeFunction] = {Conditions -> True, Name -> Automatic}
 initializeFunction[{f_, cnds_}, vars_, OptionsPattern[]] := 
-  initializeFunction[f, vars, 
+  initializeFunction[f, vars,
     Sequence @@ (
-      If[#1 === Conditions, 
+      If[#1 === Conditions,
         #1 -> 
         cnds && Element[Alternatives @@ vars, Reals] && 
-          OptionValue[#1] // Simplify, 
+          OptionValue[#1] // Simplify,
         #1 -> OptionValue[#1]
       ] & @@@ Options[initializeFunction]
       )]
-initializeFunction[f_, vars_, OptionsPattern[]] := Module[{f0}, 
+initializeFunction[f_, vars_, OptionsPattern[]] := Module[{f0},
   f0 = optFun[{f, OptionValue[Conditions]}, vars];
-  If[Not[OptionValue[Name] === Automatic], 
+  If[Not[OptionValue[Name] === Automatic],
     AppendTo[f0["data"], "name" -> OptionValue[Name]]];
   f0
 ]
-initializeFunction[f_Max, vars_, OptionsPattern[]] := Module[{F0}, 
+initializeFunction[f_Max, vars_, OptionsPattern[]] := Module[{F0},
   F0 = optMaxFun[{f, OptionValue[Conditions]}, vars];
-  If[Not[OptionValue[Name] === Automatic], 
+  If[Not[OptionValue[Name] === Automatic],
     AppendTo[F0["data"], "name" -> OptionValue[Name]]];
   F0["children"];
   F0
@@ -1055,28 +1055,28 @@ initializeFunction[f_Max, vars_, OptionsPattern[]] := Module[{F0},
 (* ::Input::Initialization:: *)
 Options[initializeSet] = {Conditions -> True, Name -> Automatic}
 initializeSet[{f_, cnds_}, vars_, OptionsPattern[]] := 
-  initializeSet[f, vars, 
+  initializeSet[f, vars,
     Sequence @@ (
-      If[#1 === Conditions, 
+      If[#1 === Conditions,
         #1 -> 
         cnds && Element[Alternatives @@ vars, Reals] && 
-          OptionValue[#1] // Simplify, 
+          OptionValue[#1] // Simplify,
         #1 -> OptionValue[#1]
       ] & @@@ Options[initializeSet]
       )]
 
 initializeSet[f_GreaterEqual, vars_, OptionsPattern[]] := 
-  initializeSet[-f[[2]] <= f[[1]], vars, 
+  initializeSet[-f[[2]] <= f[[1]], vars,
     Sequence @@ (#1 -> OptionValue[#1] & @@@ Options[initializeSet])]
-initializeSet[f_LessEqual, vars_, OptionsPattern[]] := Module[{f0}, 
+initializeSet[f_LessEqual, vars_, OptionsPattern[]] := Module[{f0},
   f0 = optSet[{f, OptionValue[Conditions]}, vars];
-  If[Not[OptionValue[Name] === Automatic], 
+  If[Not[OptionValue[Name] === Automatic],
     AppendTo[f0["data"], "name" -> OptionValue[Name]]];
   f0
 ]
-initializeSet[f_And, vars_, OptionsPattern[]] := Module[{F0}, 
+initializeSet[f_And, vars_, OptionsPattern[]] := Module[{F0},
   F0 = optIntSet[{f, OptionValue[Conditions]}, vars];
-  If[Not[OptionValue[Name] === Automatic], 
+  If[Not[OptionValue[Name] === Automatic],
     AppendTo[F0["data"], "name" -> OptionValue[Name]]];
   F0["children"];
   F0
@@ -1085,48 +1085,48 @@ initializeSet[f_And, vars_, OptionsPattern[]] := Module[{F0},
 
 (* ::Input::Initialization:: *)
 optSet[ix_]["init", "support"] := 
-  Module[{f = optSet[ix], d = optSet[ix]["data"], sol, dObj, 
-      polarReccCnds}, 
-    Echo[{FreeQ[d["expr"], indicator], f["bounded"]}, {f["name"], 
+  Module[{f = optSet[ix], d = optSet[ix]["data"], sol, dObj,
+      polarReccCnds},
+    Echo[{FreeQ[d["expr"], indicator], f["bounded"]}, {f["name"],
         "Support"}];
     
-    If[FreeQ[d["expr"], indicator] || f["bounded"] === True, 
+    If[FreeQ[d["expr"], indicator] || f["bounded"] === True,
       
       sol = simpleSupport[d["expr"] /. indicator[_] -> 0, d["vars"]];
       
-      If[! FreeQ[sol, formalVector[d["vars"]][[1]]], 
-        If[f["verbose"], 
+      If[! FreeQ[sol, formalVector[d["vars"]][[1]]],
+        If[f["verbose"],
           Echo[StringForm[
               "Support computation of `` using stationarySupport failed: \
-              ``", {d["expr"] /. indicator[_] -> 0, d["vars"]}, sol], {f["name"], 
+              ``", {d["expr"] /. indicator[_] -> 0, d["vars"]}, sol], {f["name"],
             "Support"}]];
       (* TODO: better control flow *)
       sol = support[d["expr"] // cvxReduce, d["vars"]];
-      If[f["verbose"], 
-        Echo[StringForm["Support `` computed directly", sol], {f["name"], 
+      If[f["verbose"],
+        Echo[StringForm["Support `` computed directly", sol], {f["name"],
             "Support"}]];
-      , 
-      If[f["verbose"], 
-        Echo[StringForm["Support `` computed using stationarySupport", 
+      ,
+      If[f["verbose"],
+        Echo[StringForm["Support `` computed using stationarySupport",
             sol], {f["name"], "Support"}]];
     ];
     
-    If[! f["bounded"], 
+    If[! f["bounded"],
       
       (*If[isComputed[f, "gauge"], Echo[f["gauge"]]];*)
       
-      If[f["contains0"] && isComputed[f, "gauge"], 
+      If[f["contains0"] && isComputed[f, "gauge"],
         (* Basu, A. 3.3.11 *)
         polarReccCnds = 
-        polar[Reduce[f["gauge"]["expr"] == 0 // cvxReduce, 
+        polar[Reduce[f["gauge"]["expr"] == 0 // cvxReduce,
             f["gauge"]["vars"], Reals], f["gauge"]["vars"]];
-        If[f["verbose"], 
-          Echo[StringForm["polarReccCnds `` computed using gauge", 
+        If[f["verbose"],
+          Echo[StringForm["polarReccCnds `` computed using gauge",
               polarReccCnds], {f["name"], "Support"}]];
-        , 
+        ,
         polarReccCnds = polarRecc[d["expr"] // cvxReduce, d["vars"]];
-        If[f["verbose"], 
-          Echo[StringForm["polarReccCnds `` computed directly", 
+        If[f["verbose"],
+          Echo[StringForm["polarReccCnds `` computed directly",
               polarReccCnds], {f["name"], "Support"}]];
       ];
       
@@ -1135,17 +1135,17 @@ optSet[ix_]["init", "support"] :=
       Assuming[polarReccCnds[[1]] && d["cnd"], Simplify[sol]] +
       indicator[polarReccCnds[[1]]]
     ]
-    , 
+    ,
     sol = support[d["expr"] // cvxReduce, d["vars"]];
-    If[f["verbose"], 
-      Echo[StringForm["Support `` computed directly", sol], {f["name"], 
+    If[f["verbose"],
+      Echo[StringForm["Support `` computed directly", sol], {f["name"],
           "Support"}]];
   ];
 
-Echo[List[sol, 
+Echo[List[sol,
     Fold[And, Element[#, Reals] & /@ d["vars"]] && d["cnd"]]];
-dObj = initializeFunction[{FullSimplify[sol, 
-      Fold[And, Element[#, Reals] & /@ d["vars"]] && d["cnd"]], 
+dObj = initializeFunction[{FullSimplify[sol,
+      Fold[And, Element[#, Reals] & /@ d["vars"]] && d["cnd"]],
     d["cnd"]}, d["vars"], Name -> \[Sigma][f["name"]]];
 Echo[dObj["expr"], {f["name"], "Support"}];
 If[True, AppendTo[dObj["data"], "supportOf" -> f]];
@@ -1153,20 +1153,20 @@ If[True, AppendTo[dObj["data"], "supportOf" -> f]];
 dObj
 ]
 optSet[ix_]["init", "polar"] := 
-  Module[{f = optSet[ix], d = optSet[ix]["data"], dObj, polarGauge, 
-      polarExpr}, 
+  Module[{f = optSet[ix], d = optSet[ix]["data"], dObj, polarGauge,
+      polarExpr},
     polarGauge = f["support"];
     polarExpr = 
     FullSimplify[
-      cvxResolveOverReals[polarGauge["expr"] <= 1, d["vars"], d["cnd"]], 
+      cvxResolveOverReals[polarGauge["expr"] <= 1, d["vars"], d["cnd"]],
       d["cnd"]];
     
-    dObj = initializeSet[{polarExpr, d["cnd"]}, 
+    dObj = initializeSet[{polarExpr, d["cnd"]},
       f["vars"](*formalCovector[f["vars"]]*), Name -> polar[f["name"]]];
-    If[! f["contains0"], 
+    If[! f["contains0"],
       (*Echo[contains0polar];*)
       polarGauge = 
-      initializeFunction[Max[polarGauge, 0], f["vars"], 
+      initializeFunction[Max[polarGauge, 0], f["vars"],
         Name -> gauge[polar[f["name"]]]]
     ];
     
@@ -1176,9 +1176,9 @@ optSet[ix_]["init", "polar"] :=
     If[True, AppendTo[dObj["data"], "gauge" -> polarGauge]];
     (*If[f["contains0"], AppendTo[dObj["data"], "bounded" -> True]];*)(*
       this has to be stated for optSet[x^2-y-1 <= 1 /. Thread[{x, y} -> 
-          RotationMatrix[0].({x, y}-1/8)], {x, y}]["polar"], 
+          RotationMatrix[0].({x, y}-1/8)], {x, y}]["polar"],
       removed for epi graphs *)
-    If[isComputed[f, "polarOf"], 
+    If[isComputed[f, "polarOf"],
       AppendTo[dObj["data"], "zeroHull" -> f["polarOf"]]];
     
     If[f["contains0"], AppendTo[dObj["data"], "polar" -> f]
@@ -1187,7 +1187,7 @@ optSet[ix_]["init", "polar"] :=
     dObj
   ]
 optSet[ix_]["init", "gauge"] := 
-  Module[{f = optSet[ix], d = optSet[ix]["data"], dObj, polarGauge}, 
+  Module[{f = optSet[ix], d = optSet[ix]["data"], dObj, polarGauge},
     dObj = optSet[ix]["polar"]["support"];
     If[True, AppendTo[dObj["data"], "lev" -> f]];
     dObj
@@ -1196,38 +1196,38 @@ optSet[ix_]["init", "normalizedNormalCone"] :=
   Grad[optSet[ix]["gauge"]["expr"], optSet[ix]["vars"]]
 
 formatMode = "dynamic";
-setOptFormat[formatMode_] := Switch[formatMode, 
-  "bare", (FormatValues[#] = {}) & /@ {optFun, optMaxFun, optSet, 
-    optIntSet};, 
-  "expr", 
+setOptFormat[formatMode_] := Switch[formatMode,
+  "bare", (FormatValues[#] = {}) & /@ {optFun, optMaxFun, optSet,
+    optIntSet};,
+  "expr",
   (*optInstance[_, _, ix_, h_] := h[ix];*)
   exprFormater[(f_optFun | f_optMaxFun | f_optSet | f_optIntSet)] := 
     optInstance[f["expr"], f["vars"], f[[1]], Head @ f];
   Format[optFun[id_]] := exprFormater[optFun[id]];
   Format[optMaxFun[id_]] := exprFormater[optMaxFun[id]];
   Format[optSet[id_]] := exprFormater[optSet[id]];
-  Format[optIntSet[id_]] := exprFormater[optIntSet[id]];, 
-  "noButton", 
-  formatExpr[optFun[id_]] := Module[{hlRules, f = optFun[id]}, 
+  Format[optIntSet[id_]] := exprFormater[optIntSet[id]];,
+  "noButton",
+  formatExpr[optFun[id_]] := Module[{hlRules, f = optFun[id]},
     hlRules = # -> 
     Style[#, FontColor -> Blue, FontWeight -> Medium] & /@ 
     f["vars"];
-    Panel[Magnify[f["expr"] /. hlRules // TraditionalForm, 1.25], 
+    Panel[Magnify[f["expr"] /. hlRules // TraditionalForm, 1.25],
       FrameMargins -> 0, Background -> Lighter[Gray, 0.95]]
   ];
-  formatExpr[optSet[id_]] := Module[{hlRules, f = optSet[id]}, 
+  formatExpr[optSet[id_]] := Module[{hlRules, f = optSet[id]},
     hlRules = # -> 
     Style[#, FontColor -> Blue, FontWeight -> Medium] & /@ 
     f["vars"];
-    Panel[Magnify[f["expr"] /. hlRules // TraditionalForm, 1.25], 
+    Panel[Magnify[f["expr"] /. hlRules // TraditionalForm, 1.25],
       FrameMargins -> 0]
   ];
   formatExpr[optMaxFun[id_]] := 
-    Module[{f = optMaxFun[id], c = optMaxFun[id]["children"]}, 
+    Module[{f = optMaxFun[id], c = optMaxFun[id]["children"]},
       Panel[CirclePlus @@ Deploy /@ c, FrameMargins -> 0]
     ];
   formatExpr[optIntSet[id_]] := 
-    Module[{f = optIntSet[id], c = optIntSet[id]["children"]}, 
+    Module[{f = optIntSet[id], c = optIntSet[id]["children"]},
       Panel[And @@ Deploy /@ c, FrameMargins -> 0]
     ];
   formatName[(f_optFun | f_optMaxFun)] := 
@@ -1241,28 +1241,28 @@ setOptFormat[formatMode_] := Switch[formatMode,
   Format[optFun[id_]] := dynamicOptFormater[optFun[id]];
   Format[optMaxFun[id_]] := dynamicOptFormater[optMaxFun[id]];
   Format[optSet[id_]] := dynamicOptFormater[optSet[id]];
-  Format[optIntSet[id_]] := dynamicOptFormater[optIntSet[id]];, 
-  "dynamic", 
-  formatExpr[optFun[id_]] := Module[{hlRules, f = optFun[id]}, 
+  Format[optIntSet[id_]] := dynamicOptFormater[optIntSet[id]];,
+  "dynamic",
+  formatExpr[optFun[id_]] := Module[{hlRules, f = optFun[id]},
     hlRules = # -> 
     Style[#, FontColor -> Blue, FontWeight -> Medium] & /@ 
     f["vars"];
-    Panel[Magnify[f["expr"] /. hlRules // TraditionalForm, 1.25], 
+    Panel[Magnify[f["expr"] /. hlRules // TraditionalForm, 1.25],
       FrameMargins -> 0, Background -> Lighter[Gray, 0.95]]
   ];
-  formatExpr[optSet[id_]] := Module[{hlRules, f = optSet[id]}, 
+  formatExpr[optSet[id_]] := Module[{hlRules, f = optSet[id]},
     hlRules = # -> 
     Style[#, FontColor -> Blue, FontWeight -> Medium] & /@ 
     f["vars"];
-    Panel[Magnify[f["expr"] /. hlRules // TraditionalForm, 1.25], 
+    Panel[Magnify[f["expr"] /. hlRules // TraditionalForm, 1.25],
       FrameMargins -> 0]
   ];
   formatExpr[optMaxFun[id_]] := 
-    Module[{f = optMaxFun[id], c = optMaxFun[id]["children"]}, 
+    Module[{f = optMaxFun[id], c = optMaxFun[id]["children"]},
       Panel[CirclePlus @@ Deploy /@ c, FrameMargins -> 0]
     ];
   formatExpr[optIntSet[id_]] := 
-    Module[{f = optIntSet[id], c = optIntSet[id]["children"]}, 
+    Module[{f = optIntSet[id], c = optIntSet[id]["children"]},
       Panel[And @@ Deploy /@ c, FrameMargins -> 0]
     ];
   formatName[(f_optFun | f_optMaxFun)] := 
@@ -1272,23 +1272,23 @@ setOptFormat[formatMode_] := Switch[formatMode,
   (*(h_optFun|h_optMaxFun|h_optSet|h_optIntSet)*)
   dynamicOptFormater[(f_optFun | f_optMaxFun | f_optSet |
       f_optIntSet)] := 
-    DynamicModule[{showingPanel = False, usingNames = False, 
-        tabChoice = 1}, 
-      Dynamic[Refresh[DynamicModule[{nameDisplay, selectorPanel}, 
+    DynamicModule[{showingPanel = False, usingNames = False,
+        tabChoice = 1},
+      Dynamic[Refresh[DynamicModule[{nameDisplay, selectorPanel},
             nameDisplay = If[usingNames, formatName[f], formatExpr[f]];
             selectorPanel = 
             Tooltip[Toggler[
-                Dynamic[showingPanel], # -> nameDisplay & /@ {True, False}], 
+                Dynamic[showingPanel], # -> nameDisplay & /@ {True, False}],
               {Head[f], f[[1]], f["name"]}];
             Column[{
-                selectorPanel, 
+                selectorPanel,
                 Sequence @@ If[! showingPanel, {}, {TabView[{
-                        "DataSet" -> Dataset[f["data"]], 
+                        "DataSet" -> Dataset[f["data"]],
                         "Plots" -> Dynamic[Refresh[
-                            If[tabChoice == 2, 
+                            If[tabChoice == 2,
                               (* [Preset dropdown] [code textbox] [copy button] [
                                   evaluate button]*)
-                              plot[f], 
+                              plot[f],
                               "Generating ..."]
                             , TrackedSymbols :> {tabChoice}]]
                       }, Dynamic[tabChoice], FrameMargins -> 0]}]
@@ -1303,13 +1303,13 @@ setOptFormat[formatMode_] := Switch[formatMode,
 setOptFormat["noButton"]
 
 simpleSupport[cons_LessEqual, vars_] := 
-  Module[{newVars = formalVector[vars], exprNew, sols}, 
+  Module[{newVars = formalVector[vars], exprNew, sols},
     (* assumes cons is convex, bounded, and contains 0 *)
     exprNew = cons /. Thread[vars -> newVars];
-    sols = lagrangeStationaryPoints[vars . newVars, 
+    sols = lagrangeStationaryPoints[vars . newVars,
       exprNew /. LessEqual -> Equal, newVars];
     Echo[sols];
-    Simplify[FullSimplify @ Max[sols], 
+    Simplify[FullSimplify @ Max[sols],
       Element[Alternatives @@ vars, Reals]]
   ]
 
@@ -1319,58 +1319,58 @@ optSet[ix_]["init", "boundaryAtlas"] :=
 optISet[ix_]["init", "contains0"] := 
   With[{f = optISet[ix]}, Reduce[sub[f, Table[0, Length[f["vars"]]]]]]
 optISet[ix_]["init", "pSet"] := 
-  Module[{f = optISet[ix], d = optISet[ix]["data"], def, dObj, 
+  Module[{f = optISet[ix], d = optISet[ix]["data"], def, dObj,
       bdryParam, sol, t}, def = d["expr"];
     If[Length[f["vars"]] == 2 && 
         SameQ[f["contains0"], True], (*thispartneedsalotofwork*)
-      sol = Solve[{def, Cos[t] f["vars"][[2]] == Sin[t] f["vars"][[1]]}, 
+      sol = Solve[{def, Cos[t] f["vars"][[2]] == Sin[t] f["vars"][[1]]},
         f["vars"], Reals];
       If[Length @ sol == 2, (*assumerootobjectssplitalongx-axis*)
         bdryParam = 
         Simplify[
           Piecewise @ 
-          Transpose @ {f["vars"] /. sol, {Pi <= t <= 2 Pi, 
+          Transpose @ {f["vars"] /. sol, {Pi <= t <= 2 Pi,
               0 <= t < Pi}}], (*assumesinglesolution*)
         bdryParam = f["vars"] /. sol, bdryParam = f["vars"] /. sol];];
     dObj = optPSet[{bdryParam, f["cnd"]}, f["vars"]]]
 optISet[ix_]["init", "bounded"] := 
-  Block[{f = optISet[ix], d = optISet[ix]["data"], B, out}, 
-    Resolve[Exists[B, 
-        ForAll[Evaluate[d["vars"]], f["expr"], 
+  Block[{f = optISet[ix], d = optISet[ix]["data"], B, out},
+    Resolve[Exists[B,
+        ForAll[Evaluate[d["vars"]], f["expr"],
           d["vars"] . d["vars"] <= B]]]]
 optISet[ix_]["init", "conicHullCnds"] := 
-  Block[{f = optISet[ix], d = optISet[ix]["data"], B, out}, 
-    Exists[\[Lambda], \[Lambda] > 0, 
+  Block[{f = optISet[ix], d = optISet[ix]["data"], B, out},
+    Exists[\[Lambda], \[Lambda] > 0,
       f["expr"] /. Thread[f["vars"] -> \[Lambda]f["vars"]]] // Reduce //
     FullSimplify]
 optISet[ix_]["init", "reccCnds"] := 
-  Module[{f = optISet[ix], d = optISet[ix]["data"], B, out, newVars, x, 
+  Module[{f = optISet[ix], d = optISet[ix]["data"], B, out, newVars, x,
       reccCnd}, newVars = Array[Subscript[x, #] &, Length[f["vars"]]];
     reccCnd = 
-    ForAll[Evaluate[newVars], 
-      f["expr"] /. Thread[f["vars"] -> newVars], 
+    ForAll[Evaluate[newVars],
+      f["expr"] /. Thread[f["vars"] -> newVars],
       f["expr"] /. Thread[f["vars"] -> newVars + f["vars"]]];
     Reduce[reccCnd, newVars, Reals]]
 optISet[ix_]["init", "polarReccCnds"] := 
-  Module[{f = optISet[ix], d = optISet[ix]["data"], B, out, newVars, x, 
+  Module[{f = optISet[ix], d = optISet[ix]["data"], B, out, newVars, x,
       pPeccCnd}, newVars = Array[Subscript[x, #] &, Length[f["vars"]]];
     pPeccCnd = 
-    ForAll[Evaluate[newVars], 
-      f["reccCnds"] /. Thread[f["vars"] -> newVars], 
+    ForAll[Evaluate[newVars],
+      f["reccCnds"] /. Thread[f["vars"] -> newVars],
       f["vars"] . newVars <= 1];
     Reduce[pPeccCnd, newVars, Reals]]
 optISet[ix_]["init", "support"] := 
-  Module[{f = optISet[ix], d = optISet[ix]["data"], def, dObj, 
+  Module[{f = optISet[ix], d = optISet[ix]["data"], def, dObj,
       bdryParam, sol, sols, x, newVars, exprnew, lhs, cnd}, (*sol = 
-      Maximize[{f["vars"].newVars, f["expr"] /. Thread[f["vars"] -> newVars]}, 
+      Maximize[{f["vars"].newVars, f["expr"] /. Thread[f["vars"] -> newVars]},
         newVars, Reals][[1]]//FullSimplify;(*thisbreaksthedomaindownbadly*)*)
     newVars = Array[Subscript[x, #] &, Length[f["vars"]]];
     (*hotfixforunboundedsets.TODO:formalizewithindicators*)
     exprnew = sub[f, newVars];
     lhs = exprnew[[1]];
     {lhs, cnd} = 
-    If[Head @ lhs === Piecewise, 
-      lhs /. {Piecewise[{{a_, c_}}, DirectedInfinity[1]] :> {a, 
+    If[Head @ lhs === Piecewise,
+      lhs /. {Piecewise[{{a_, c_}}, DirectedInfinity[1]] :> {a,
           c}}, {lhs, True}];
     (*Echo[{optISet[ix], lhs}];*)sols = f["vars"] . newVars /. 
     Solve[
@@ -1379,30 +1379,30 @@ optISet[ix_]["init", "support"] :=
               newVars, {\[Lambda]}]}] == 0, \[Lambda]], newVars];
     (*Echo[{optISet[ix], sols, dObj}];*)(*Which[And[f["contains0"], f[
             "bounded"]], sol = Simplify[FullSimplify @ Max[sols], Element[
-            Alternatives @@ f["vars"], Reals]], !f["contains0"], Echo[{exprnew, sols, 
+            Alternatives @@ f["vars"], Reals]], !f["contains0"], Echo[{exprnew, sols,
             D[f["vars"].newVars-\[Lambda](exprnew[[2]]-lhs), {Join[
                   newVars, {\[Lambda]}]}] == 0}];
-        sol = FullSimplify @ Piecewise[Transpose @ {sols, Reduce[#>0, f1["vars"], 
+        sol = FullSimplify @ Piecewise[Transpose @ {sols, Reduce[#>0, f1["vars"],
               Reals]& /@ sols}, Infinity];
-        sol = Simplify[FullSimplify @ Max[sols], Element[Alternatives @@ f["vars"], 
-            Reals]], True, sol = FullSimplify @ Piecewise[Transpose @ {sols, Reduce[# >= 0, 
+        sol = Simplify[FullSimplify @ Max[sols], Element[Alternatives @@ f["vars"],
+            Reals]], True, sol = FullSimplify @ Piecewise[Transpose @ {sols, Reduce[# >= 0,
               f1["vars"], Reals]& /@ sols}, Infinity]];*)Echo[sols];
-    sol = Simplify[FullSimplify @ Max[sols], 
+    sol = Simplify[FullSimplify @ Max[sols],
       Element[Alternatives @@ f["vars"], Reals]];
-    If[Not[f["bounded"]], 
-      sol = Piecewise[{{Assuming[f["polarReccCnds"], FullSimplify[sol]], 
+    If[Not[f["bounded"]],
+      sol = Piecewise[{{Assuming[f["polarReccCnds"], FullSimplify[sol]],
             f["polarReccCnds"]}}, Infinity]];
     dObj = optFun[{sol, f["cnd"]}, f["vars"]];
     dObj]
 optISet[ix_]["init", "polar"] := 
-  Module[{f = optISet[ix], d = optISet[ix]["data"], def, dObj, 
+  Module[{f = optISet[ix], d = optISet[ix]["data"], def, dObj,
       bdryParam, sol, x, newVars, support}, support = f["support"];
     dObj = 
     optISet[{support["expr"] <= 1, support["cnd"]}, support["vars"]];
-    (*(!Contains0) = >DomGaugeisconichull*)(*(!Contains0) = >max(support, 
+    (*(!Contains0) = >DomGaugeisconichull*)(*(!Contains0) = >max(support,
         0)ispolargauge, butpolarcanbedefinedthesame, simpler, way*)(*If[Not[f[
-            "contains0"]], supportNew = Piecewise[{{Assuming[f["conicHullCnds"], 
-                FullSimplify[Max[support["expr"], 0]]], f["conicHullCnds"]}}, 
+            "contains0"]], supportNew = Piecewise[{{Assuming[f["conicHullCnds"],
+                FullSimplify[Max[support["expr"], 0]]], f["conicHullCnds"]}},
           Infinity];Echo[{supportNew, f["conicHullCnds"]}]];*)
     AppendTo[dObj["data"], "gauge" -> support];
     (*AppendTo[dObj["data"], "reccCnds" -> f["polarReccCnds"]];

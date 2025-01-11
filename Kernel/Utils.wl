@@ -26,14 +26,14 @@ PackageExport["pwDropLast"]
 trep[expr_, vars_, inp_] := expr /. Thread[vars -> inp]
 mtrep[expr_, vars_, inp_] := expr /. Thread[vars -> #] & /@ inp
 
-repelem[ix_List] :=
-Flatten[ConstantArray[#1, #2] & @@@ Transpose @ {Range[Length[ix]], ix}]
+repelem[ix_List] := 
+  Flatten[ConstantArray[#1, #2] & @@@ Transpose @ {Range[Length[ix]], ix}]
 repelem[v_List, ix_List] := v[[repelem[ix]]]
 
-cyclicTakeUpTo[v_List, n_Integer] :=
-v[[Mod[Range[n] - 1, Length[v]] + 1]]
+cyclicTakeUpTo[v_List, n_Integer] := 
+  v[[Mod[Range[n] - 1, Length[v]] + 1]]
 
-bsxRow::usage =
+bsxRow::usage = 
 "bsxRow[op, mat, row] performs a broadcast-style operation between \
 a row vector `row` and a matrix `mat` using the listable binary operation `op`.
 `op` must be listable.
@@ -49,17 +49,17 @@ pwGetPairs[f_Piecewise] := Module[{vals, cnds},
   cnds = f[[1, ;; , 2]];
   cnds = Append[cnds, Not @ Fold[Or, cnds]];
   {vals, cnds}]
-pwAddConditionIgnoreLast[f_Piecewise, cnd_] :=
-(f[[1, ;; , 2]] = # && cnd & /@ f[[1, ;; , 2]]; f)
+pwAddConditionIgnoreLast[f_Piecewise, cnd_] := 
+  (f[[1, ;; , 2]] = # && cnd & /@ f[[1, ;; , 2]]; f)
 pwAddCondition[f_Piecewise, cnd_] := Module[{vals, cnds},
   {vals, cnds} = pwGetPairs[f];
   cnds = (# && cnd &) /@ cnds;
   Piecewise[{vals, cnds}\[Transpose], Undefined[]]]
 
 (*TODO: pwDropLastSafe *)
-pwDropLast[f_Piecewise] :=
-f /. Piecewise -> \[FormalL] //. \[FormalL][a_List, b_] :>
-Piecewise[a[[1 ;; -2]], a[[-1, 1]]]
+pwDropLast[f_Piecewise] := 
+  f /. Piecewise -> \[FormalL] //. \[FormalL][a_List, b_] :> 
+    Piecewise[a[[1 ;; -2]], a[[-1, 1]]]
 
 
 (* ::Section:: *)
@@ -74,7 +74,7 @@ PackageExport["FirstKSubset"]
 
 
 (* ::Input::Initialization:: *)
-NthKSubset::usage =
+NthKSubset::usage = 
 "NthKSubset[n, k, N] computes the n-th k-subset of a set of size N \
 in lexicographical order.
 Complexity: O(k log N) time, O(k) space.
@@ -96,7 +96,7 @@ NthKSubset[n_Integer?NonNegative, k_Integer?Positive,
 
 
 (* ::Input::Initialization:: *)
-NextKSubset::usage =
+NextKSubset::usage = 
 "NextKSubset[current, N] computes the next k-subset in \
 lexicographical order from the given subset `current`.
 Complexity: O(k) time, O(k) space.
@@ -105,24 +105,24 @@ the current subset is known.
 Note: The first k-subset is simply Range[k].";
 (*Function to compute the next k-subset in lex order: \
   NextKSubset[{2, 3, 4}, 5] > {2, 3, 5}; NextKSubset[{4, 5}, 5] > {}*)
-NextKSubset[current_List, m_Integer?Positive] /;
-OrderedQ[current] && Max[current] <= m := With[
-  {k = Length[current]},
-  Block[
-    {i = k, subset = current},
-    (*Find the rightmost element that can be incremented*)
-    While[i > 0 && subset[[i]] == m - k + i, i--];
-    If[i == 0,
-      (*No next subset exists*){},
-      subset[[i]] += 1;
-      subset = ReplacePart[subset,
-        Thread[
-          Range[i + 1, k] -> Range[subset[[i]] + 1, subset[[i]] + k - i]]
-      ];
-      subset
+NextKSubset[current_List, m_Integer?Positive] /; 
+  OrderedQ[current] && Max[current] <= m := With[
+    {k = Length[current]},
+    Block[
+      {i = k, subset = current},
+      (*Find the rightmost element that can be incremented*)
+      While[i > 0 && subset[[i]] == m - k + i, i--];
+      If[i == 0,
+        (*No next subset exists*){},
+        subset[[i]] += 1;
+        subset = ReplacePart[subset,
+          Thread[
+            Range[i + 1, k] -> Range[subset[[i]] + 1, subset[[i]] + k - i]]
+        ];
+        subset
+      ]
     ]
   ]
-]
 
 
 FirstKSubsetIx[set_, k_, test_] := NestWhile[
@@ -144,9 +144,9 @@ PackageExport["getDiscreteColorTheme"]
 
 (* https://mathematica.stackexchange.com/questions/54486/how-to-\
   access-new-colour-schemes-in-version-10 *)
-showDiscreteColorThemes[] :=
-Grid[{#, getDiscreteColorTheme[#]} & /@ ("Color" /.
-    Charting`$PlotThemes), Dividers -> All]
-getDiscreteColorTheme[name_] :=
-Cases["DefaultPlotStyle" /. (Method /.
-    Charting`ResolvePlotTheme[name, ListPlot]), _RGBColor, Infinity]
+showDiscreteColorThemes[] := 
+  Grid[{#, getDiscreteColorTheme[#]} & /@ ("Color" /. 
+      Charting`$PlotThemes), Dividers -> All]
+getDiscreteColorTheme[name_] := 
+  Cases["DefaultPlotStyle" /. (Method /. 
+      Charting`ResolvePlotTheme[name, ListPlot]), _RGBColor, Infinity]

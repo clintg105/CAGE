@@ -47,6 +47,7 @@ SpaceOperators[string_] := StringReplace[string, With[{w = " "|"\t"}, {
       , (w...~~"!="~~w...) :> " != "
       , (w...~~"=!="~~w...) :> " =!= "
       , (w...~~"="~~w...) :> " = "
+      , (", "~~w...) :> ", "
       , (w...~~":="~~w...) :> " := "
       , (w...~~"^:="~~w...) :> " ^:= "
       , (w...~~"+="~~w...) :> " += "
@@ -66,7 +67,6 @@ SpaceOperators[string_] := StringReplace[string, With[{w = " "|"\t"}, {
       , (w...~~"@@@"~~w...) :> " @@@ "
       , (w...~~"@@"~~w...) :> " @@ "
       , (w...~~"@"~~w...) :> " @ "
-      , (", "~~w...) :> ", "
 }]]
 
 CAGHelper[]:=CreatePalette[Block[{sep},DynamicModule[
