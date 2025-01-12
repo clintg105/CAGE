@@ -6,12 +6,25 @@
             "File"
             ->
             File[
+                "Kernel\\ConvexAnalysisGeometry_dev-nb.nb"
+            ]
+            ,
+            "Hash"
+            ->
+            "477fda0d764dea27db64d6184fe1660159dfa963af45878597475403152f0d17"
+                
+        |>
+        ,
+        <|
+            "File"
+            ->
+            File[
                 "Kernel\\ConvexAnalysisGeometry.wl"
             ]
             ,
             "Hash"
             ->
-            "64867d3f9efb06ddf1024ee42effcf47d5b86cf9d984a0c2897b40543a1c751a"
+            "4640940a8736b87f1eb29f40ae598624bd2f9f3d044728f46ecfa93a8be04e04"
                 
         |>
         ,
@@ -38,6 +51,19 @@
             "Hash"
             ->
             "52fe6d1170f4c0cb8a4a1a603741418ae2c22ee8d6a958e1a0ec70d306dc47ea"
+                
+        |>
+        ,
+        <|
+            "File"
+            ->
+            File[
+                "Kernel\\Legacy\\FCC_dev-nb.nb"
+            ]
+            ,
+            "Hash"
+            ->
+            "d530b2c51306daaadba7a92860f78a094cbd6e41d348b8439911f1d253115e73"
                 
         |>
         ,
@@ -103,7 +129,35 @@
             ,
             "Hash"
             ->
-            "4d1136573e095a6be11b84beff1feb540979f805ff6830c2542215b4ca56f7ee"
+            "7f3fb7ebde154e7c8ba22404b6a6080ae371cc6af9297bc316c60b329ddbbf52"
+                
+        |>
+        ,
+        <|
+            "File"
+            ->
+            File[
+                "Documentation\\English\\ReferencePages\\Symbols\\IndicatorFunction.nb"
+                    
+            ]
+            ,
+            "Hash"
+            ->
+            "660cf4c58cce6511d713beb86b27819658dc1c00c677ae89ab00377e9c5961ca"
+                
+        |>
+        ,
+        <|
+            "File"
+            ->
+            File[
+                "Documentation\\English\\ReferencePages\\Symbols\\InfimalConvolution.nb"
+                    
+            ]
+            ,
+            "Hash"
+            ->
+            "41c18f844cd665d1b52bd3e6f31091112e28b5ae5ae401f0352a512da79c1937"
                 
         |>
         ,
@@ -117,7 +171,21 @@
             ,
             "Hash"
             ->
-            "74cc1a649cceed095584afb5eaa1edb81b8a8cb40f012d7d157192cd7709d0bf"
+            "10643ba9adb890ba92407a2122f42dd5b40651113822ee0a59cc07348baa9f5a"
+                
+        |>
+        ,
+        <|
+            "File"
+            ->
+            File[
+                "Documentation\\English\\ReferencePages\\Symbols\\WLReduce.nb"
+                    
+            ]
+            ,
+            "Hash"
+            ->
+            "2fdf7d4eab65a168c557c3825fc1f184f2caa082c326e786426b5488f748d522"
                 
         |>
         ,
@@ -131,7 +199,21 @@
             ,
             "Hash"
             ->
-            "4fc285ab340d76cc27d7736456375ef0607bd9d4c7323701b0b308d65099aace"
+            "707ea5afc1ddf8843d5c3aa7472cd1153a4c1a5a48d6a006cb342cfc43456893"
+                
+        |>
+        ,
+        <|
+            "File"
+            ->
+            File[
+                "Documentation\\English\\Tutorials\\LegacyFCCDemo.nb"
+                    
+            ]
+            ,
+            "Hash"
+            ->
+            "35d33bcbb55455299754909b120eafcc7193e53b5757303b42765f3417002fcb"
                 
         |>
         ,
@@ -145,7 +227,7 @@
             ,
             "Hash"
             ->
-            "80fd1157f48819a554da6d02a5a5a8a9092bbc71b2cf79c7ae355de8df9ca31f"
+            "df7197c75fab93509af98380a3a3910fcedc1743fbb256b30700c8b843988c1f"
                 
         |>
     }

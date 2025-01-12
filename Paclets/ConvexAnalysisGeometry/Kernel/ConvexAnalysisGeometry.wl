@@ -10,6 +10,87 @@ PackageImport["ConvexAnalysisGeometry`Utils`"]
 
 
 (* ::Section:: *)
+(*InfimalConvolution*)
+
+PackageExport["WLReduce"]
+PackageExport["InfimalConvolution"]
+PackageExport["IndicatorFunction"]
+
+Clear[InfimalConvolution]
+WLReduce[InfimalConvolution[f_, g_, x_]] := 
+  Module[{y = formalVector[x], out}, 
+    out = ConvexAnalysisGeometry`Utils`trep[f, x, y] +
+    ConvexAnalysisGeometry`Utils`trep[g, x, x - y];
+    out = Minimize[out, y];
+    If[Head @ out =!= Minimize, 
+      out[[1]], 
+      InfimalConvolution[f, g, x]
+    ]
+  ]
+
+InfimalConvolution[a_, b_, x_Symbol] := InfimalConvolution[a, b, {x}]
+
+
+Clear[IndicatorFunction]
+(* Reduced Definition *)
+WLReduce[IndicatorFunction[ImplicitRegion[expr_, vars_], vars_]] := 
+  Function[Evaluate[vars], Evaluate[
+      Piecewise[{{0, expr}}, Infinity]
+  ]]
+WLReduce[IndicatorFunction[reg_, vars_]] := With[
+  {implicit = RegionConvert[reg, "Implicit"]}, 
+  If[Head @ implicit === ImplicitRegion, 
+    (* Has to match "full argin reduction" or goes back through \
+      IndicatorFunction sepecial forms *)
+    WLReduce[IndicatorFunction[
+        ImplicitRegion[implicit[[1]] /. Thread[implicit[[2]] -> vars], 
+          vars], 
+        vars]], 
+    IndicatorFunction[reg, vars]
+  ]
+]
+
+(* Type/Argin Reductions *)
+IndicatorFunction[ImplicitRegion[expr_, vars_]] := 
+  IndicatorFunction[ImplicitRegion[expr, vars], vars]
+IndicatorFunction[reg_, vars_Symbol] := 
+  IndicatorFunction[reg, {vars}]
+
+(* Special From Reductions *)
+IndicatorFunction[ImplicitRegion[
+    LessEqual[a_ : -Infinity, x_, b_ : Infinity], {x_}
+]] := 
+  IndicatorFunction[Interval[{a, b}], {x}]
+
+
+InfimalConvolution[fx_, 
+  IndicatorFunction[Interval[indBnds_], {x_}], {x_}] /; 
+  ! FreeQ[fx, x] && 
+    FunctionConvexity[{fx, $Assumptions}, x] >= 0 := 
+      Module[{f = Evaluate[fx /. x -> #] &, minX}, 
+        (*TODO: add tests for certain simplified forms, using sign and abs *)
+        
+        
+        minX = If[
+          FunctionContinuous[{D[fx, x], $Assumptions}, x, Reals] === True, 
+          SolveValues[D[f[x], x] == 0, {x}, Reals, Cubics -> True, 
+            Quartics -> True][[1, 1]], 
+          Minimize[f[x], x][[1]]
+        ];
+        Piecewise[{
+            {f[minX + x - indBnds[[1]]], x <= indBnds[[1]]}, 
+            {f[minX], 
+              Inequality[indBnds[[1]], Less, x, LessEqual, indBnds[[2]]]}
+          }, 
+          f[minX + x - indBnds[[2]]]
+        ]
+      ]
+InfimalConvolution[IndicatorFunction[Interval[indBnds_], {x_}], 
+  fx_, {x_}] /; 
+  ! FreeQ[fx, x] := 
+    InfimalConvolution[fx, IndicatorFunction[Interval[indBnds], x], x]
+
+(* ::Section:: *)
 (*Sets*)
 PackageExport["SimplifyAssuming"]
 PackageExport["Polar"]
@@ -21,23 +102,40 @@ Options[SimplifyAssuming] = {
 };
 (*SetSystemOptions["SimplificationOptions" -> {"AssumptionsMaxNonlinearVariables" -> 5}]*)
 Options[SimplifyAssuming] = {
-   PerformanceGoal -> "Speed"
-   };
+  PerformanceGoal -> "Speed"
+};
 SimplifyAssuming[statement_, assum_, OptionsPattern[]] := 
- If[assum === True,
-  statement,
-  With[{
-    simplifyFn = 
-     Switch[OptionValue[PerformanceGoal], "Speed", Simplify, 
-      "Quality", FullSimplify],
-    assumFlat = 
-     assum /. 
-      f_[c_Alternatives, v_] :> Fold[And, f[#, v] & /@ List @@ c]
-    },
-   simplifyFn[Reduce[assumFlat && statement], assumFlat]
-   ]
+  If[assum === True, 
+    statement, 
+    With[{
+        simplifyFn = 
+        Switch[OptionValue[PerformanceGoal], 
+          "Speed", Simplify, 
+          "Quality", FullSimplify], 
+        assumFlat = assum /. 
+        f_[c_Alternatives, v_] :> Fold[And, f[#, v] & /@ List @@ c]
+      }, 
+      simplifyFn[Reduce[assumFlat && statement], assumFlat]
+    ]
   ]
 
+
+ReduceClosureReals[expr_] := Block[
+  {splitExpr, regExpr, pseudoClosure}, 
+  splitExpr = List @@ BooleanConvert[expr, "DNF"];
+  regExpr = 
+  Or @@ Select[
+    splitExpr, !
+    FreeQ[#, (Greater | Less | LessEqual | GreaterEqual)] &];
+  pseudoClosure = 
+  regExpr /. {Less -> LessEqual, Greater -> GreaterEqual};
+  If[LeafCount[pseudoClosure] < LeafCount[expr] && Reduce[
+      Equivalent[pseudoClosure, expr], 
+      Reals] === True, 
+    pseudoClosure, 
+    expr
+  ]
+]
 
 (* ::Subsection:: *)
 (*Polar*)
@@ -50,13 +148,16 @@ Options[Polar] = {
 Polar[ImplicitRegion[expr_, vars_], OptionsPattern[]] := Polar[expr, vars, 
   Sequence @@ (# -> OptionValue[#] & @@@ Options[Polar])];
 Polar[expr_, vars_, OptionsPattern[]] := Module[{newVars = formalCovector[vars], cnd}, 
-  ImplicitRegion[SimplifyAssuming[
-      Resolve[
-        ForAll[Evaluate[newVars], ConvexAnalysisGeometry`Utils`trep[expr, vars, newVars], 
-          vars . newVars <= 1], 
-        Reals], 
-      OptionValue[Assumptions], PerformanceGoal -> OptionValue[PerformanceGoal]], 
-     vars]
+  cnd = SimplifyAssuming[
+    Resolve[
+      ForAll[Evaluate[newVars], trep[expr, vars, newVars], 
+        vars . newVars <= 1], 
+      Reals], 
+    OptionValue[Assumptions], PerformanceGoal -> OptionValue[PerformanceGoal]];
+  cnd = If[OptionValue[PerformanceGoal] === "Quality", 
+    ReduceClosureReals[cnd], 
+    cnd];
+  ImplicitRegion[cnd, vars]
 ]
 
 

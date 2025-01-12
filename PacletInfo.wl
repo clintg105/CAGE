@@ -6,7 +6,7 @@ PacletObject[
     "Description" -> "Convex Analysis Toolkit",
     "Creator" -> "Clinten Graham",
     "License" -> "MIT",
-    "Version" -> "0.0.1",
+    "Version" -> "0.0.2",
     "WolframVersion" -> "13.0+",
     "Extensions" -> {
 		

@@ -1,0 +1,811 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 13.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     25471,        802]
+NotebookOptionsPosition[     18252,        650]
+NotebookOutlinePosition[     20576,        707]
+CellTagsIndexPosition[     20533,        704]
+WindowTitle->Legacy FCC Demo
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[GridBox[{
+   {GridBox[{
+      {
+       ItemBox[Cell[BoxData[
+         RowBox[{
+          TemplateBox[{12},
+           "Spacer1"], Cell[
+          "CONVEX ANALYSIS GEOMETRY TECH NOTE", "PacletNameCell",
+           TextAlignment->Center], 
+          TemplateBox[{8},
+           "Spacer1"]}]],
+         TextAlignment->Center],
+        Background->RGBColor[
+         0.3843137254901961, 0.4627450980392157, 0.7019607843137254],
+        ItemSize->Full], ""}
+     },
+     GridBoxAlignment->{"Rows" -> {{Center}}},
+     GridBoxItemSize->{"Columns" -> {Full, 
+         Scaled[0.02]}, "Rows" -> {{2.5}}}], Cell[TextData[Cell[BoxData[
+     TagBox[
+      ActionMenuBox[
+       FrameBox[Cell[TextData[{
+         "URL",
+         " ",
+         Cell[BoxData[
+          GraphicsBox[
+           {GrayLevel[0.66667], Thickness[0.13], 
+            LineBox[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]},
+           AspectRatio->1,
+           ImageSize->20,
+           PlotRange->{{-3, 4}, {-1, 1}}]]]
+        }]],
+        StripOnInput->
+         False], {"\<\"ConvexAnalysisGeometry/tutorial/LegacyFCCTools\"\>":>
+       None, "\<\"Copy Wolfram Documentation Center URL\"\>":>
+       Module[{DocumentationSearch`Private`nb$}, 
+        DocumentationSearch`Private`nb$ = NotebookPut[
+           Notebook[{
+             Cell["ConvexAnalysisGeometry/tutorial/LegacyFCCTools"]}, Visible -> 
+            False]]; SelectionMove[
+         DocumentationSearch`Private`nb$, All, Notebook]; 
+        FrontEndTokenExecute[DocumentationSearch`Private`nb$, "Copy"]; 
+        NotebookClose[DocumentationSearch`Private`nb$]; Null], 
+       Delimiter, "\<\"Copy web URL\"\>":>
+       Module[{DocumentationSearch`Private`nb$}, 
+        DocumentationSearch`Private`nb$ = NotebookPut[
+           Notebook[{
+             Cell[
+              BoxData[
+               MakeBoxes[
+                Hyperlink[
+                "http://reference.wolfram.com/language/ConvexAnalysisGeometry/\
+tutorial/LegacyFCCTools.html"], StandardForm]], "Input", TextClipboardType -> 
+              "PlainText"]}, Visible -> False]]; 
+        SelectionMove[DocumentationSearch`Private`nb$, All, Notebook]; 
+        FrontEndTokenExecute[DocumentationSearch`Private`nb$, "Copy"]; 
+        NotebookClose[DocumentationSearch`Private`nb$]; 
+        Null], "\<\"Go to web URL\"\>":>FrontEndExecute[{
+         NotebookLocate[{
+           URL[If[
+              TrueQ[DocumentationBuild`Make`Private`wsmlinkQ$11403], 
+              "http://reference.wolfram.com/system-modeler/", 
+              "http://reference.wolfram.com/language/"] <> 
+            "ConvexAnalysisGeometry/tutorial/LegacyFCCTools" <> ".html"], 
+           None}]}]},
+       Appearance->None,
+       MenuAppearance->Automatic,
+       MenuStyle->"URLMenu"],
+      MouseAppearanceTag["LinkHand"]]],
+     LineSpacing->{1.4, 0}]], "AnchorBar",
+     CacheGraphics->False]}
+  }]], "AnchorBarGrid",
+ GridBoxOptions->{GridBoxItemSize->{"Columns" -> {
+     Scaled[0.65], {
+      Scaled[0.34]}}, "ColumnsIndexed" -> {}, "Rows" -> {{1.}}, 
+   "RowsIndexed" -> {}}},
+ CellID->1],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[GridBox[{
+   {Cell[TextData[{
+     Cell["Legacy FCC Demo", "TechNoteTitle"],
+     Cell[BoxData[
+      TemplateBox[{8},
+       "Spacer1"]]],
+     Cell[BoxData[""], "ObjectNameTranslation"]
+    }]], Cell[BoxData[
+     TooltipBox[
+      StyleBox[
+       TagBox[
+        StyleBox[
+         GraphicsBox[InsetBox[
+           StyleBox["\<\"NEW IN ??\"\>",
+            StripOnInput->False,
+            FontFamily->"Source Sans Pro",
+            FontSize->18,
+            FontWeight->"Bold",
+            FontSlant->"Italic",
+            FontColor->RGBColor[0.968627, 0.466667, 0]], {Right, Center}, {
+           Right, Center}],
+          ImageSize->{125, 24}], "NewInGraphic",
+         StripOnInput->False],
+        Deploy,
+        DefaultBaseStyle->"Deploy"], "NewInGraphic",
+       StripOnInput->False],
+      "New in 13.2",
+      TooltipDelay->0.3]],
+     Magnification->1]}
+  }]], "ObjectNameGrid",
+ CacheGraphics->False],
+
+Cell["This code can be accessed using:", "TechNoteText",
+ CellID->79811664],
+
+Cell[BoxData[
+ RowBox[{"<<", "ConvexAnalysisGeometry`Legacy`FCC`"}]], "Input",
+ InitializationCell->True,
+ CellLabel->"In[10]:=",
+ CellID->361112670]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Setup", "Subsubsection",
+ CellID->895678724],
+
+Cell[BoxData[{
+ RowBox[{"Lxv", "=", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"x", "^", "2"}], "/", "2"}], "+", 
+   RowBox[{"ind", "[", 
+    RowBox[{"x", ",", "x", ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "1"}], ",", "1"}], "}"}]}], "]"}], "+", 
+   RowBox[{"Abs", "[", "v", "]"}]}]}], "\n", 
+ RowBox[{"slfc", "[", 
+  RowBox[{"Lxv", ",", 
+   RowBox[{"{", 
+    RowBox[{"x", ",", "v"}], "}"}]}], "]"}], "\n", 
+ RowBox[{"%", "//", "TraditionalForm"}]}], "Input",
+ CellID->435405422],
+
+Cell[BoxData[{
+ RowBox[{"L1x", "=", 
+  RowBox[{"Lxv", "[", 
+   RowBox[{"[", 
+    RowBox[{"{", 
+     RowBox[{"1", ",", "3"}], "}"}], "]"}], "]"}]}], "\n", 
+ RowBox[{"L2v", "=", 
+  RowBox[{"Lxv", "[", 
+   RowBox[{"[", "2", "]"}], "]"}]}]}], "Input",
+ CellID->225572798],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Myw", "=", 
+   RowBox[{
+    RowBox[{"slfc", "[", 
+     RowBox[{"Lxv", ",", 
+      RowBox[{"{", 
+       RowBox[{"x", ",", "v"}], "}"}]}], "]"}], "/.", "\n", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"slfc", "[", "v", "]"}], "->", "y"}], ",", 
+      RowBox[{
+       RowBox[{"slfc", "[", "x", "]"}], "->", "w"}]}], "}"}]}]}], ";"}], "\n", 
+ RowBox[{"Myw", "//", "TraditionalForm"}]}], "Input",
+ CellID->169894861],
+
+Cell[BoxData[{
+ RowBox[{"M1y", "=", 
+  RowBox[{"Myw", "[", 
+   RowBox[{"[", "1", "]"}], "]"}]}], "\n", 
+ RowBox[{"M2w", "=", 
+  RowBox[{"Myw", "[", 
+   RowBox[{"[", "2", "]"}], "]"}]}]}], "Input",
+ CellID->60527308],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"huber", "[", "x_", "]"}], ":=", 
+   RowBox[{
+    RowBox[{"x", "^", "2"}], "/", 
+    RowBox[{"(", 
+     RowBox[{"2", "\[Lambda]"}], ")"}]}]}], ";"}]], "Input",
+ CellID->61934977]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[Cell[BoxData[
+ FormBox[
+  RowBox[{
+   SubscriptBox["e", "\[Lambda]"], " ", 
+   RowBox[{
+    SubscriptBox["M", "1"], "(", "y", ")"}]}], 
+  TraditionalForm]], "InlineMath"]], "Subsubsection",
+ CellID->53466836],
+
+Cell[BoxData[
+ RowBox[{"M1y", "//", "TraditionalForm"}]], "Input",
+ CellID->585270346],
+
+Cell[BoxData[
+ RowBox[{"meM1y", "=", 
+  RowBox[{"infconv", "[", 
+   RowBox[{
+    RowBox[{"huber", "[", "y", "]"}], ",", "M1y", ",", "y"}], 
+   "]"}]}]], "Input",
+ CellID->145456589]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[Cell[BoxData[
+ FormBox[
+  RowBox[{
+   SubscriptBox["e", "\[Lambda]"], " ", 
+   RowBox[{
+    SubscriptBox["L", "2"], "(", "v", ")"}]}], 
+  TraditionalForm]], "InlineMath"]], "Subsubsection",
+ CellID->19890528],
+
+Cell[BoxData[
+ RowBox[{"L2v", "//", "TraditionalForm"}]], "Input",
+ CellID->226850993],
+
+Cell[BoxData[
+ RowBox[{"meL2v", "=", 
+  RowBox[{"infconv", "[", 
+   RowBox[{
+    RowBox[{"huber", "[", "v", "]"}], ",", "L2v", ",", "v"}], 
+   "]"}]}]], "Input",
+ CellID->134474809]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[Cell[BoxData[
+ FormBox[
+  RowBox[{
+   SubscriptBox["e", "\[Lambda]"], " ", 
+   RowBox[{
+    SubscriptBox["L", "1"], "(", "x", ")"}]}], 
+  TraditionalForm]], "InlineMath"]], "Subsubsection",
+ CellID->170715800],
+
+Cell[BoxData[
+ RowBox[{"L1x", "//", "TraditionalForm"}]], "Input",
+ CellID->574162701],
+
+Cell[BoxData[
+ RowBox[{"meL1x", "=", 
+  RowBox[{"infconv", "[", 
+   RowBox[{
+    RowBox[{"huber", "[", "v", "]"}], ",", "L1x", ",", "v"}], 
+   "]"}]}]], "Input",
+ CellID->117191643],
+
+Cell["That didn't work... New strategy:", "TechNoteText",
+ CellID->551252924],
+
+Cell[TextData[Cell[BoxData[
+ FormBox[
+  RowBox[{
+   RowBox[{"h", " ", "\[Placeholder]", " ", 
+    RowBox[{"(", 
+     RowBox[{"f", "+", 
+      SubscriptBox["\[Delta]", "R"]}], ")"}]}], "=", 
+   RowBox[{
+    SuperscriptBox[
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"f", "+", 
+         SubscriptBox["\[Delta]", "R"]}], ")"}], "\[Placeholder]", "h"}], 
+      ")"}], "**"], " ", "=", 
+    SuperscriptBox[
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{
+        SuperscriptBox["f", "*"], " ", "\[Placeholder]", " ", 
+        SuperscriptBox[
+         RowBox[{"(", 
+          SubscriptBox["\[Delta]", "R"], ")"}], "*"]}], "+", 
+       SuperscriptBox["h", "*"]}], ")"}], "*"]}]}], 
+  TraditionalForm]], "InlineMath"]], "TechNoteText",
+ CellID->22069777],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"meL1xConj", "=", 
+   RowBox[{
+    RowBox[{"infconv", "[", "\n", 
+     RowBox[{
+      RowBox[{"slfc", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"x", "^", "2"}], "/", "2"}], ",", "x"}], "]"}], ",", "\n", 
+      RowBox[{"slfc", "[", 
+       RowBox[{
+        RowBox[{"ind", "[", 
+         RowBox[{"x", ",", "x", ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", "1"}], ",", "1"}], "}"}]}], "]"}], ",", "x"}], "]"}],
+       ",", 
+      RowBox[{"slfc", "[", "x", "]"}]}], "\n", "]"}], "+", 
+    RowBox[{"slfc", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"x", "^", "2"}], "/", 
+       RowBox[{"(", 
+        RowBox[{"2", "\[Lambda]"}], ")"}]}], ",", "x"}], "]"}]}]}], 
+  ";"}], "\n", 
+ RowBox[{"%", "//", "TraditionalForm"}]}], "Input",
+ CellID->60650547],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"$Assumptions", "=", 
+   RowBox[{"\[Lambda]", ">", "0"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"meL1xConj", "=", 
+   RowBox[{
+    RowBox[{"infconv", "[", 
+     RowBox[{
+      RowBox[{"slfc", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"x", "^", "2"}], "/", "2"}], ",", "x"}], "]"}], ",", 
+      RowBox[{"slfc", "[", 
+       RowBox[{
+        RowBox[{"ind", "[", 
+         RowBox[{"x", ",", "x", ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", "1"}], ",", "1"}], "}"}]}], "]"}], ",", "x"}], "]"}],
+       ",", 
+      RowBox[{"slfc", "[", "x", "]"}]}], "]"}], "+", 
+    RowBox[{"slfc", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"x", "^", "2"}], "/", 
+       RowBox[{"(", 
+        RowBox[{"2", "\[Lambda]"}], ")"}]}], ",", "x"}], "]"}]}]}], 
+  ";"}], "\n", 
+ RowBox[{"%", "//", "TraditionalForm"}]}], "Input",
+ CellID->60032458],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"meL1x", "=", 
+   RowBox[{"slfc", "[", 
+    RowBox[{"meL1xConj", ",", 
+     RowBox[{"slfc", "[", "x", "]"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{"%", "//", "TraditionalForm"}], "\n", 
+ RowBox[{
+  RowBox[{"meL1x", "=", 
+   RowBox[{
+    RowBox[{"meL1x", "/.", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"slfc", "[", 
+        RowBox[{"slfc", "[", "x_", "]"}], "]"}], ":>", "x"}], "}"}]}], "//", 
+    "FullSimplify"}]}], ";"}], "\n", 
+ RowBox[{"%", "//", "TraditionalForm"}]}], "Input",
+ CellID->196044180],
+
+Cell["(*(*Note the complicated redundant terms above...*)*)", "TechNoteText",
+ InitializationCell->True,
+ CellID->39705292]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[Cell[BoxData[
+ FormBox[
+  RowBox[{
+   SubscriptBox["e", "\[Lambda]"], " ", 
+   RowBox[{
+    SubscriptBox["M", "2"], "(", "w", ")"}]}], 
+  TraditionalForm]], "InlineMath"]], "Subsubsection",
+ CellID->287179525],
+
+Cell[BoxData[
+ RowBox[{"M2w", "//", "TraditionalForm"}]], "Input",
+ CellID->383331394],
+
+Cell[BoxData[
+ RowBox[{"meM2w", "=", 
+  RowBox[{"infconv", "[", 
+   RowBox[{
+    RowBox[{"huber", "[", "y", "]"}], ",", "M2w", ",", "y"}], 
+   "]"}]}]], "Input",
+ CellID->149363461],
+
+Cell[TextData[{
+ "That didn't work... New strategy:\n",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{"f", " ", "\[Placeholder]", " ", "h"}], " ", "=", " ", 
+    RowBox[{
+     SuperscriptBox[
+      RowBox[{"(", 
+       RowBox[{"f", "\[Placeholder]", "h"}], " ", ")"}], "**"], 
+     SuperscriptBox[
+      RowBox[{"(", 
+       RowBox[{
+        SuperscriptBox["f", "*"], "+", 
+        SuperscriptBox["h", "*"]}], ")"}], "*"]}]}], TraditionalForm]], 
+  "InlineMath"]
+}], "TechNoteText",
+ CellID->72593369],
+
+Cell[BoxData[
+ RowBox[{"M2wConj", " ", "=", 
+  RowBox[{
+   RowBox[{"slfc", "[", 
+    RowBox[{"M2w", ",", "w"}], "]"}], "//", "FullSimplify"}]}]], "Input",
+ CellID->36356064],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"M2wConj", " ", "=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{"slfc", "[", "w", "]"}], "^", "2"}], "/", "2"}], "+", 
+    RowBox[{"ind", "[", 
+     RowBox[{
+      RowBox[{"slfc", "[", "w", "]"}], ",", 
+      RowBox[{"slfc", "[", "w", "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"-", "2"}], ",", "2"}], "}"}]}], "]"}]}]}], ";"}], "\n", 
+ RowBox[{"%", "//", "TraditionalForm"}]}], "Input",
+ CellID->362482100],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"meM2wConj", "=", 
+   RowBox[{"M2wConj", "+", 
+    RowBox[{"slfc", "[", 
+     RowBox[{
+      RowBox[{"huber", "[", "w", "]"}], ",", "w"}], "]"}]}]}], ";"}], "\n", 
+ RowBox[{"%", "//", "TraditionalForm"}], "\n", 
+ RowBox[{
+  RowBox[{"meM2w", "=", 
+   RowBox[{"slfc", "[", 
+    RowBox[{"meM2wConj", ",", 
+     RowBox[{"slfc", "[", "w", "]"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{"%", "//", "TraditionalForm"}], "\n", 
+ RowBox[{
+  RowBox[{"meM2w", "=", 
+   RowBox[{
+    RowBox[{"meM2w", "/.", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"slfc", "[", 
+        RowBox[{"slfc", "[", "x_", "]"}], "]"}], ":>", "x"}], "}"}]}], "//", 
+    "FullSimplify"}]}], ";"}], "\n", 
+ RowBox[{"%", "//", "TraditionalForm"}]}], "Input",
+ CellID->20463173]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Goebel Envelopes", "Subsubsection",
+ CellID->994610238],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"geL1x", "=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"1", "-", "\[Lambda]"}], ")"}], "^", "2"}], 
+       RowBox[{"(", "meL1x", ")"}]}], "+", 
+      RowBox[{"\[Lambda]", " ", 
+       RowBox[{
+        RowBox[{"x", "^", "2"}], "/", "2"}]}]}], "//", "PiecewiseExpand"}], "//",
+     "FullSimplify"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"geL2v", "=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"1", "-", "\[Lambda]"}], ")"}], "^", "2"}], 
+       RowBox[{"(", "meL2v", ")"}]}], "+", 
+      RowBox[{"\[Lambda]", " ", 
+       RowBox[{
+        RowBox[{"v", "^", "2"}], "/", "2"}]}]}], "//", "PiecewiseExpand"}], "//",
+     "FullSimplify"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"geM1y", "=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"1", "-", "\[Lambda]"}], ")"}], "^", "2"}], 
+       RowBox[{"(", "meM1y", ")"}]}], "+", 
+      RowBox[{"\[Lambda]", " ", 
+       RowBox[{
+        RowBox[{"y", "^", "2"}], "/", "2"}]}]}], "//", "PiecewiseExpand"}], "//",
+     "FullSimplify"}]}], ";"}], "\n", 
+ RowBox[{"geM2w", "=", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"1", "-", "\[Lambda]"}], ")"}], "^", "2"}], 
+      RowBox[{"(", "meM2w", ")"}]}], "+", 
+     RowBox[{"\[Lambda]", " ", 
+      RowBox[{
+       RowBox[{"w", "^", "2"}], "/", "2"}]}]}], "//", "PiecewiseExpand"}], "//",
+    "FullSimplify"}]}]}], "Input",
+ CellID->308785024]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Hamiltonian trajectories", "Subsubsection",
+ CellID->381511653],
+
+Cell[BoxData[
+ RowBox[{"meH", "=", 
+  RowBox[{"geM1y", "-", "geL1x", 
+   RowBox[{"(*", 
+    RowBox[{"rename", " ", "to", " ", "geH"}], "*)"}]}]}]], "Input",
+ CellID->39573933],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"bnd", "=", "5"}], ";"}], "\n", 
+ RowBox[{"Manipulate", "[", 
+  RowBox[{
+   RowBox[{"Plot3D", "[", 
+    RowBox[{
+     RowBox[{"Evaluate", "[", 
+      RowBox[{"meH", "/.", 
+       RowBox[{"\[Lambda]", "->", "\[Lambda]0"}]}], "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"x", ",", 
+       RowBox[{"-", "bnd"}], ",", "bnd"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"y", ",", 
+       RowBox[{"-", "bnd"}], ",", "bnd"}], "}"}], ",", 
+     RowBox[{"PlotRange", "->", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"-", "bnd"}], ",", "bnd"}], "}"}]}]}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"\[Lambda]0", ",", "0.5"}], "}"}], ",", "0.00001", ",", "2"}], 
+    "}"}]}], "]"}]}], "Input",
+ CellID->10985510],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"bnd", "=", "5"}], ";"}], "\n", 
+ RowBox[{"Manipulate", "[", 
+  RowBox[{
+   RowBox[{"ContourPlot", "[", 
+    RowBox[{
+     RowBox[{"Evaluate", "[", 
+      RowBox[{"meH", "/.", 
+       RowBox[{"\[Lambda]", "->", "\[Lambda]0"}]}], "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"y", ",", 
+       RowBox[{"-", "bnd"}], ",", "bnd"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"x", ",", 
+       RowBox[{"-", "bnd"}], ",", "bnd"}], "}"}], ",", 
+     RowBox[{"PlotRange", "->", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"-", "bnd"}], ",", "bnd"}], "}"}]}]}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"\[Lambda]0", ",", "0.5"}], "}"}], ",", "0.00001", ",", "2"}], 
+    "}"}]}], "]"}]}], "Input",
+ CellID->279435482]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[GridBox[{
+   {
+    DynamicBox[FEPrivate`ImportImage[
+      FrontEnd`FileName[{"Documentation", "FooterIcons"}, "RelatedGuide.png"]],
+     ImageSizeCache->{50., {27., 33.}}], GridBox[{
+      {
+       StyleBox[
+        RowBox[{"Related", " ", "Guides"}], "TutorialMoreAboutSection"]},
+      {
+       RowBox[{
+       "\[FilledVerySmallSquare]", Cell[TextData[ButtonBox[
+        "ConvexAnalysisGeometry",
+         BaseStyle->"Link",
+         ButtonData->
+          "paclet:ConvexAnalysisGeometry/guide/ConvexAnalysisGeometry"]], 
+         "TutorialMoreAbout"]}]}
+     }]}
+  }]], "TutorialMoreAboutSection"],
+
+Cell[BoxData[""], "Input"]
+}, Open  ]],
+
+Cell[" ", "FooterCell"]
+},
+Saveable->False,
+ScreenStyleEnvironment->"Working",
+WindowSize->{900., 830.4},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowTitle->"Legacy FCC Demo",
+TaggingRules->{
+ "ModificationHighlight" -> False, "ColorType" -> "", "LinkTrails" -> "", 
+  "ExampleCounter" -> 1, 
+  "Openers" -> {
+   "PrimaryExamplesSection" -> Open, "ExampleSection" -> {"0" -> Open}}, 
+  "NewStyles" -> True, "CitationPopupData" -> {$Failed, ""}, "ShowCitation" -> 
+  False, "RootCaptions" -> "", 
+  "Metadata" -> {
+   "built" -> "{2025, 1, 12, 11, 57, 15.5479443}", 
+    "history" -> {"??", "", "", ""}, "context" -> "ConvexAnalysisGeometry`", 
+    "keywords" -> {}, "specialkeywords" -> {}, 
+    "tutorialcollectionlinks" -> {}, "index" -> True, "label" -> 
+    "Convex Analysis Geometry Tech Note", "language" -> "en", "paclet" -> 
+    "ConvexAnalysisGeometry", "status" -> "None", "summary" -> 
+    "This code can be accessed using: That didn't work... New strategy: h \
+\\[Placeholder] (f+\\[Delta]_R)=((f+\\[Delta]_R)\\[Placeholder] h)^** =(f^* \
+\\[Placeholder] (\\[Delta]_R)^*+h^*)^*", "synonyms" -> {}, "tabletags" -> 
+    DocumentationBuild`Make`Private`tabletaggingrules$11374, "title" -> 
+    "Legacy FCC Demo", "titlemodifier" -> "", "metadescription" -> "", 
+    "windowtitle" -> "Legacy FCC Demo", "type" -> "Tech Note", "uri" -> 
+    "ConvexAnalysisGeometry/tutorial/LegacyFCCTools"}},
+FrontEndVersion->"13.0 for Microsoft Windows (64-bit) (February 4, 2022)",
+StyleDefinitions->Notebook[{
+   Cell[
+    StyleData[
+    StyleDefinitions -> FrontEnd`FileName[{"Wolfram"}, "Reference.nb"]]], 
+   Cell[
+    StyleData["Input"], CellContext -> Notebook], 
+   Cell[
+    StyleData["Output"], CellContext -> Notebook], 
+   Cell[
+    StyleData["TutorialMoreAboutSection"], 
+    CellGroupingRules -> {"SectionGrouping", 30}], 
+   Cell[
+    StyleData["RelatedTutorialsSection"], 
+    CellGroupingRules -> {"SectionGrouping", 30}], 
+   Cell[
+    StyleData["TutorialRelatedLinksSection"], 
+    CellGroupingRules -> {"SectionGrouping", 30}]}, Visible -> False, 
+  FrontEndVersion -> "13.0 for Microsoft Windows (64-bit) (February 4, 2022)",
+   StyleDefinitions -> "Default.nb"]
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[587, 21, 3066, 76, 70, "AnchorBarGrid",ExpressionUUID->"98094cec-41ff-4d2b-b4b5-287a3317e904",
+ CellID->1],
+Cell[CellGroupData[{
+Cell[3678, 101, 930, 30, 70, "ObjectNameGrid",ExpressionUUID->"b3fcadad-8b03-49d8-91b9-81b8915f0cca"],
+Cell[4611, 133, 75, 1, 70, "TechNoteText",ExpressionUUID->"4c25ddda-35cd-40de-a033-3b7d744d190e",
+ CellID->79811664],
+Cell[4689, 136, 149, 4, 70, "Input",ExpressionUUID->"4b61c227-39ff-4064-8d2d-371871c25ec5",
+ InitializationCell->True,
+ CellID->361112670]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4875, 145, 50, 1, 70, "Subsubsection",ExpressionUUID->"31e692d1-8e3e-4718-bc34-369733c56710",
+ CellID->895678724],
+Cell[4928, 148, 491, 16, 70, "Input",ExpressionUUID->"9989bdcb-2aa0-4356-a61d-e4b54ae0428f",
+ CellID->435405422],
+Cell[5422, 166, 267, 9, 70, "Input",ExpressionUUID->"5d0bf6c1-616e-4e8d-be18-51893b813bbd",
+ CellID->225572798],
+Cell[5692, 177, 467, 15, 70, "Input",ExpressionUUID->"b834ea43-04dc-4467-ba25-6cd7d3aa3830",
+ CellID->169894861],
+Cell[6162, 194, 215, 7, 70, "Input",ExpressionUUID->"267cea90-1c52-4b00-aa9e-e5e3ead64da5",
+ CellID->60527308],
+Cell[6380, 203, 224, 8, 70, "Input",ExpressionUUID->"bcfcea34-d8ca-479a-aba8-6f52a31bdcef",
+ CellID->61934977]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6641, 216, 222, 7, 70, "Subsubsection",ExpressionUUID->"f76d9579-442d-477f-b0d0-6146dae75f59",
+ CellID->53466836],
+Cell[6866, 225, 86, 2, 70, "Input",ExpressionUUID->"300c4ffc-f700-41e7-a130-80526797cba0",
+ CellID->585270346],
+Cell[6955, 229, 181, 6, 70, "Input",ExpressionUUID->"ef552eda-4a9c-4c8a-ac90-86e04fa49260",
+ CellID->145456589]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7173, 240, 222, 7, 70, "Subsubsection",ExpressionUUID->"a07a633f-9454-4275-9f6a-5caaed5311c1",
+ CellID->19890528],
+Cell[7398, 249, 86, 2, 70, "Input",ExpressionUUID->"41b68d6b-2026-4ef4-9cec-820638c07164",
+ CellID->226850993],
+Cell[7487, 253, 181, 6, 70, "Input",ExpressionUUID->"23411b3c-1d89-40f7-8e1b-30677df56838",
+ CellID->134474809]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7705, 264, 223, 7, 70, "Subsubsection",ExpressionUUID->"04f2467e-d3d4-4033-88b6-fa1f82c3d0e4",
+ CellID->170715800],
+Cell[7931, 273, 86, 2, 70, "Input",ExpressionUUID->"4976e2e1-3490-44a3-9a74-befcf5c54826",
+ CellID->574162701],
+Cell[8020, 277, 181, 6, 70, "Input",ExpressionUUID->"d2672543-48a3-432c-b454-1f349188a42a",
+ CellID->117191643],
+Cell[8204, 285, 77, 1, 70, "TechNoteText",ExpressionUUID->"ae503945-5ee4-4555-bce7-7adebc2bee11",
+ CellID->551252924],
+Cell[8284, 288, 776, 25, 70, "TechNoteText",ExpressionUUID->"cf526fbd-3dbb-4681-9801-aa8bb98033a4",
+ CellID->22069777],
+Cell[9063, 315, 829, 27, 70, "Input",ExpressionUUID->"549ace33-d61b-473d-870d-a39b9ee98bb4",
+ CellID->60650547],
+Cell[9895, 344, 905, 30, 70, "Input",ExpressionUUID->"96c13a7b-6c0d-4591-aecd-399195565f93",
+ CellID->60032458],
+Cell[10803, 376, 542, 17, 70, "Input",ExpressionUUID->"96062a89-7f0b-46d5-8026-b5ba0bea6e16",
+ CellID->196044180],
+Cell[11348, 395, 123, 2, 70, "TechNoteText",ExpressionUUID->"2e4d1dd7-75d8-407e-9c22-5f31dcfae7f4",
+ InitializationCell->True,
+ CellID->39705292]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[11508, 402, 223, 7, 70, "Subsubsection",ExpressionUUID->"fb313bcb-b242-43f1-aa8f-68cf33311021",
+ CellID->287179525],
+Cell[11734, 411, 86, 2, 70, "Input",ExpressionUUID->"fb6723b7-ae91-42a7-81ea-d628b3a1ab9d",
+ CellID->383331394],
+Cell[11823, 415, 181, 6, 70, "Input",ExpressionUUID->"31fd716b-b732-4643-b3b7-4bb8af14326a",
+ CellID->149363461],
+Cell[12007, 423, 505, 17, 70, "TechNoteText",ExpressionUUID->"dd492f0e-e2d5-47f3-944d-474b55ab3498",
+ CellID->72593369],
+Cell[12515, 442, 173, 5, 70, "Input",ExpressionUUID->"d36e6c4f-7f77-40dc-ba33-d11dcf050e40",
+ CellID->36356064],
+Cell[12691, 449, 475, 15, 70, "Input",ExpressionUUID->"47f1e337-981e-499d-a934-e6dd3fbaea2d",
+ CellID->362482100],
+Cell[13169, 466, 773, 24, 70, "Input",ExpressionUUID->"b05cd4bd-dc75-4c4c-bebe-b0ad35e0a9c1",
+ CellID->20463173]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[13979, 495, 61, 1, 70, "Subsubsection",ExpressionUUID->"2039f122-f8fd-4504-b581-fe90697e3710",
+ CellID->994610238],
+Cell[14043, 498, 1620, 56, 70, "Input",ExpressionUUID->"3618f0fd-ed67-4a6d-a39a-b7ba86438175",
+ CellID->308785024]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[15700, 559, 69, 1, 70, "Subsubsection",ExpressionUUID->"5b4681bd-f7bf-4864-bea7-39ce9448128b",
+ CellID->381511653],
+Cell[15772, 562, 175, 5, 70, "Input",ExpressionUUID->"dc98c171-bfc1-4109-8eed-cb41e657492e",
+ CellID->39573933],
+Cell[15950, 569, 785, 25, 70, "Input",ExpressionUUID->"13afb1d3-4f8d-49f3-9dc2-5d462fa24a2e",
+ CellID->10985510],
+Cell[16738, 596, 791, 25, 70, "Input",ExpressionUUID->"7d1ef864-9852-4895-aca8-7ed224b6f1d1",
+ CellID->279435482]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[17566, 626, 615, 17, 70, "TutorialMoreAboutSection",ExpressionUUID->"438b7a20-8e73-400f-a518-6f708a862b43"],
+Cell[18184, 645, 26, 0, 70, "Input",ExpressionUUID->"9245554c-1c84-4c56-b371-78861358d022"]
+}, Open  ]],
+Cell[18225, 648, 23, 0, 70, "FooterCell",ExpressionUUID->"439a29bf-0f07-4177-bd3b-1b654037be48"]
+}
+]
+*)
+
+(* End of internal cache information *)

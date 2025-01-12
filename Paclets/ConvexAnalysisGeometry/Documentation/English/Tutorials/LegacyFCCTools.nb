@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     13170,        374]
+NotebookDataLength[     13171,        374]
 NotebookOptionsPosition[      8752,        281]
-NotebookOutlinePosition[     11293,        342]
-CellTagsIndexPosition[     11250,        339]
+NotebookOutlinePosition[     11294,        342]
+CellTagsIndexPosition[     11251,        339]
 WindowTitle->Legacy FCC Tools
 WindowFrame->Normal*)
 
@@ -79,7 +79,7 @@ tutorial/LegacyFCCTools.html"], StandardForm]], "Input", TextClipboardType ->
         Null], "\<\"Go to web URL\"\>":>FrontEndExecute[{
          NotebookLocate[{
            URL[If[
-              TrueQ[DocumentationBuild`Make`Private`wsmlinkQ$22029], 
+              TrueQ[DocumentationBuild`Make`Private`wsmlinkQ$11677], 
               "http://reference.wolfram.com/system-modeler/", 
               "http://reference.wolfram.com/language/"] <> 
             "ConvexAnalysisGeometry/tutorial/LegacyFCCTools" <> ".html"], 
@@ -292,7 +292,7 @@ TaggingRules->{
   "NewStyles" -> True, "CitationPopupData" -> {$Failed, ""}, "ShowCitation" -> 
   False, "RootCaptions" -> "", 
   "Metadata" -> {
-   "built" -> "{2025, 1, 12, 0, 11, 17.2122158}", 
+   "built" -> "{2025, 1, 12, 11, 57, 15.9137238}", 
     "history" -> {"??", "", "", ""}, "context" -> "ConvexAnalysisGeometry`", 
     "keywords" -> {}, "specialkeywords" -> {}, 
     "tutorialcollectionlinks" -> {}, "index" -> True, "label" -> 
@@ -305,7 +305,7 @@ be \\[Infinity] outside its domain. If f is convex its extended-value \
 extension is \
 f:\\[DoubleStruckCapitalR]^n\\[RightArrow]\\[DoubleStruckCapitalR]\\[Union]{\\\
 [Infinity]}", "synonyms" -> {}, "tabletags" -> 
-    DocumentationBuild`Make`Private`tabletaggingrules$21996, "title" -> 
+    DocumentationBuild`Make`Private`tabletaggingrules$11644, "title" -> 
     "Legacy FCC Tools", "titlemodifier" -> "", "metadescription" -> "", 
     "windowtitle" -> "Legacy FCC Tools", "type" -> "Tech Note", "uri" -> 
     "ConvexAnalysisGeometry/tutorial/LegacyFCCTools"}},
@@ -341,10 +341,10 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[588, 21, 3066, 76, 70, "AnchorBarGrid",ExpressionUUID->"610f1329-9fd3-46bd-93a2-7f279818e712",
+Cell[588, 21, 3066, 76, 70, "AnchorBarGrid",ExpressionUUID->"90693d8d-1f7d-440b-a668-d2fc75b21e97",
  CellID->1],
 Cell[CellGroupData[{
-Cell[3679, 101, 931, 30, 70, "ObjectNameGrid",ExpressionUUID->"f1042630-e9b0-48d3-90e6-8f7cb0b6e6c7"],
+Cell[3679, 101, 931, 30, 70, "ObjectNameGrid",ExpressionUUID->"cf1dd355-b50f-407e-8295-db789ff49cbe"],
 Cell[4613, 133, 264, 7, 70, "TechNoteText",ExpressionUUID->"f585ff56-7890-4148-ba8a-6f1c0c73f924",
  CellID->440261135],
 Cell[4880, 142, 44, 1, 70, "TechNoteText",ExpressionUUID->"635eef83-b5f9-9444-acf1-6c693c5cf7ad",
@@ -373,9 +373,9 @@ Cell[8229, 256, 226, 8, 70, "Input",ExpressionUUID->"f960d4f9-8c26-4f65-b10c-7f3
  CellID->473838779],
 Cell[8458, 266, 223, 8, 70, "Input",ExpressionUUID->"f4944a8c-32df-49a0-8181-873efcdc2f42",
  CellID->312615722],
-Cell[8684, 276, 26, 0, 70, "Input",ExpressionUUID->"4a9f6583-bcf7-4a71-ab3f-14eafb0c85b3"]
+Cell[8684, 276, 26, 0, 70, "Input",ExpressionUUID->"651c961f-b79b-48e8-a60c-bd2c1414a110"]
 }, Open  ]],
-Cell[8725, 279, 23, 0, 70, "FooterCell",ExpressionUUID->"19e4a47b-035c-4c39-a1eb-6ebc1e06c5e0"]
+Cell[8725, 279, 23, 0, 70, "FooterCell",ExpressionUUID->"008b4afc-683e-4c9f-bc73-27289b2634f3"]
 }
 ]
 *)
