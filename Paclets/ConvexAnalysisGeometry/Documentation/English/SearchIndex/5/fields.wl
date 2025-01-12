@@ -392,7 +392,7 @@
 		"BulkRetrievalOptimized" -> False
 	|>,
 	<|
-		"Name" -> "LinkedSymbols",
+		"Name" -> "Caption",
 		"Type" -> "Text",
 		"Tokenized" -> True,
 		"Stored" -> False,
@@ -407,7 +407,7 @@
 		"BulkRetrievalOptimized" -> False
 	|>,
 	<|
-		"Name" -> "Caption",
+		"Name" -> "LinkedSymbols",
 		"Type" -> "Text",
 		"Tokenized" -> True,
 		"Stored" -> False,

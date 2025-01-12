@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[      8841,        244]
-NotebookOptionsPosition[      5909,        177]
-NotebookOutlinePosition[      8011,        231]
-CellTagsIndexPosition[      7927,        226]
+NotebookDataLength[     10504,        291]
+NotebookOptionsPosition[      7466,        223]
+NotebookOutlinePosition[      9567,        277]
+CellTagsIndexPosition[      9483,        272]
 WindowTitle->WLReduce
 WindowFrame->Normal*)
 
@@ -36,55 +36,82 @@ Cell[BoxData[GridBox[{
      },
      GridBoxAlignment->{"Rows" -> {{Center}}},
      GridBoxItemSize->{"Columns" -> {Full, 
-         Scaled[0.02]}, "Rows" -> {{2.5}}}], Cell[TextData[Cell[BoxData[
-     TagBox[
-      ActionMenuBox[
-       FrameBox[Cell[TextData[{
-         "URL",
-         " ",
-         Cell[BoxData[
-          GraphicsBox[
-           {GrayLevel[0.66667], Thickness[0.13], 
-            LineBox[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]},
-           AspectRatio->1,
-           ImageSize->20,
-           PlotRange->{{-3, 4}, {-1, 1}}]]]
-        }]],
-        StripOnInput->False], {"\<\"ConvexAnalysisGeometry/ref/WLReduce\"\>":>
-       None, "\<\"Copy Wolfram Documentation Center URL\"\>":>
-       Module[{DocumentationSearch`Private`nb$}, 
-        DocumentationSearch`Private`nb$ = NotebookPut[
-           Notebook[{
-             Cell["ConvexAnalysisGeometry/ref/WLReduce"]}, Visible -> False]]; 
-        SelectionMove[DocumentationSearch`Private`nb$, All, Notebook]; 
-        FrontEndTokenExecute[DocumentationSearch`Private`nb$, "Copy"]; 
-        NotebookClose[DocumentationSearch`Private`nb$]; Null], 
-       Delimiter, "\<\"Copy web URL\"\>":>
-       Module[{DocumentationSearch`Private`nb$}, 
-        DocumentationSearch`Private`nb$ = NotebookPut[
-           Notebook[{
-             Cell[
-              BoxData[
-               MakeBoxes[
-                Hyperlink[
-                "http://reference.wolfram.com/language/ConvexAnalysisGeometry/\
-ref/WLReduce.html"], StandardForm]], "Input", TextClipboardType -> 
-              "PlainText"]}, Visible -> False]]; 
-        SelectionMove[DocumentationSearch`Private`nb$, All, Notebook]; 
-        FrontEndTokenExecute[DocumentationSearch`Private`nb$, "Copy"]; 
-        NotebookClose[DocumentationSearch`Private`nb$]; 
-        Null], "\<\"Go to web URL\"\>":>FrontEndExecute[{
-         NotebookLocate[{
-           URL[If[
-              TrueQ[DocumentationBuild`Make`Private`wsmlinkQ$10720], 
-              "http://reference.wolfram.com/system-modeler/", 
-              "http://reference.wolfram.com/language/"] <> 
-            "ConvexAnalysisGeometry/ref/WLReduce" <> ".html"], None}]}]},
-       Appearance->None,
-       MenuAppearance->Automatic,
-       MenuStyle->"URLMenu"],
-      MouseAppearanceTag["LinkHand"]]],
-     LineSpacing->{1.4, 0}]], "AnchorBar",
+         Scaled[0.02]}, "Rows" -> {{2.5}}}], Cell[TextData[{
+     Cell[BoxData[
+      TagBox[
+       ActionMenuBox[
+        FrameBox[Cell[TextData[{
+          "Related Guides",
+          " ",
+          Cell[BoxData[
+           GraphicsBox[
+            {GrayLevel[0.66667], Thickness[0.13], 
+             LineBox[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]},
+            AspectRatio->1,
+            ImageSize->20,
+            PlotRange->{{-3, 4}, {-1, 1}}]]]
+         }]],
+         StripOnInput->False], {"\<\"Convex Analysis Geometry Paclet\"\>":>
+        Documentation`HelpLookup[
+        "paclet:ConvexAnalysisGeometry/guide/ConvexAnalysisGeometry"]},
+        Appearance->None,
+        MenuAppearance->Automatic,
+        MenuStyle->"MoreAbout"],
+       MouseAppearanceTag["LinkHand"]]],
+      LineSpacing->{1.4, 0}],
+     "\[ThickSpace]\[ThickSpace]\[ThickSpace]\[ThickSpace]\[ThickSpace]\
+\[ThickSpace]",
+     Cell[BoxData[
+      TagBox[
+       ActionMenuBox[
+        FrameBox[Cell[TextData[{
+          "URL",
+          " ",
+          Cell[BoxData[
+           GraphicsBox[
+            {GrayLevel[0.66667], Thickness[0.13], 
+             LineBox[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]},
+            AspectRatio->1,
+            ImageSize->20,
+            PlotRange->{{-3, 4}, {-1, 1}}]]]
+         }]],
+         StripOnInput->False], {"\<\"ConvexAnalysisGeometry/ref/WLReduce\"\>":>
+        None, "\<\"Copy Wolfram Documentation Center URL\"\>":>
+        Module[{DocumentationSearch`Private`nb$}, 
+         DocumentationSearch`Private`nb$ = NotebookPut[
+            Notebook[{
+              Cell["ConvexAnalysisGeometry/ref/WLReduce"]}, Visible -> 
+             False]]; SelectionMove[
+          DocumentationSearch`Private`nb$, All, Notebook]; 
+         FrontEndTokenExecute[DocumentationSearch`Private`nb$, "Copy"]; 
+         NotebookClose[DocumentationSearch`Private`nb$]; Null], 
+        Delimiter, "\<\"Copy web URL\"\>":>
+        Module[{DocumentationSearch`Private`nb$}, 
+         DocumentationSearch`Private`nb$ = NotebookPut[
+            Notebook[{
+              Cell[
+               BoxData[
+                MakeBoxes[
+                 Hyperlink[
+                 "http://reference.wolfram.com/language/\
+ConvexAnalysisGeometry/ref/WLReduce.html"], StandardForm]], "Input", 
+               TextClipboardType -> "PlainText"]}, Visible -> False]]; 
+         SelectionMove[DocumentationSearch`Private`nb$, All, Notebook]; 
+         FrontEndTokenExecute[DocumentationSearch`Private`nb$, "Copy"]; 
+         NotebookClose[DocumentationSearch`Private`nb$]; 
+         Null], "\<\"Go to web URL\"\>":>FrontEndExecute[{
+          NotebookLocate[{
+            URL[If[
+               TrueQ[DocumentationBuild`Make`Private`wsmlinkQ$19775], 
+               "http://reference.wolfram.com/system-modeler/", 
+               "http://reference.wolfram.com/language/"] <> 
+             "ConvexAnalysisGeometry/ref/WLReduce" <> ".html"], None}]}]},
+        Appearance->None,
+        MenuAppearance->Automatic,
+        MenuStyle->"URLMenu"],
+       MouseAppearanceTag["LinkHand"]]],
+      LineSpacing->{1.4, 0}]
+    }], "AnchorBar",
      CacheGraphics->False]}
   }]], "AnchorBarGrid",
  GridBoxOptions->{GridBoxItemSize->{"Columns" -> {
@@ -162,7 +189,7 @@ Cell[TextData[{
  WholeCellGroupOpener->True,
  CacheGraphics->False,
  CellTags->"PrimaryExamplesSection",
- CellID->291932375],
+ CellID->125940645],
 
 Cell[BoxData[
  RowBox[{"Needs", "[", "\"\<ConvexAnalysisGeometry`\>\"", "]"}]], "Input", \
@@ -172,6 +199,25 @@ Cell[BoxData[
 }, Dynamic[CurrentValue[
  EvaluationNotebook[], {TaggingRules, "Openers", "PrimaryExamplesSection"}, 
   Closed]]]],
+
+Cell[BoxData[GridBox[{
+   {
+    DynamicBox[FEPrivate`ImportImage[
+      FrontEnd`FileName[{"Documentation", "FooterIcons"}, "RelatedGuide.png"]],
+     ImageSizeCache->{50., {27., 33.}}], GridBox[{
+      {
+       StyleBox[
+        RowBox[{"Related", " ", "Guides"}], "MoreAboutSection"]},
+      {
+       RowBox[{"\[FilledVerySmallSquare]", Cell[BoxData[
+         TemplateBox[{
+           Cell[
+            TextData["Convex Analysis Geometry Paclet"]], 
+           "paclet:ConvexAnalysisGeometry/guide/ConvexAnalysisGeometry"},
+          "RefLinkPlain",
+          BaseStyle->{"MoreAbout"}]], "MoreAbout"]}]}
+     }]}
+  }]], "MoreAboutSection"],
 
 Cell[" ", "FooterCell"]
 },
@@ -188,7 +234,7 @@ TaggingRules->{
   "NewStyles" -> True, "CitationPopupData" -> $Failed, "ShowCitation" -> 
   False, "RootCaptions" -> "", 
   "Metadata" -> {
-   "built" -> "{2025, 1, 12, 11, 57, 14.1074806}", 
+   "built" -> "{2025, 1, 12, 12, 2, 26.6211507}", 
     "history" -> {"XX", "", "", ""}, "context" -> "ConvexAnalysisGeometry`", 
     "keywords" -> {}, "specialkeywords" -> {}, 
     "tutorialcollectionlinks" -> {}, "index" -> True, "label" -> 
@@ -218,34 +264,35 @@ StyleDefinitions->Notebook[{
 (*CellTagsOutline
 CellTagsIndex->{
  "PrimaryExamplesSection"->{
-  Cell[4409, 129, 1194, 35, 70, "PrimaryExamplesSection",ExpressionUUID->"acb619ee-9a89-4822-89ed-0aa999ec467b",
+  Cell[5322, 156, 1194, 35, 70, "PrimaryExamplesSection",ExpressionUUID->"6631f545-ce6b-4ff3-b567-b622496f147c",
    CellTags->"PrimaryExamplesSection",
-   CellID->291932375]}
+   CellID->125940645]}
  }
 *)
 (*CellTagsIndex
 CellTagsIndex->{
- {"PrimaryExamplesSection", 7728, 219}
+ {"PrimaryExamplesSection", 9284, 265}
  }
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[580, 21, 2943, 72, 70, "AnchorBarGrid",ExpressionUUID->"581b768c-7adb-439b-a050-11e2902b573f",
+Cell[580, 21, 3856, 99, 70, "AnchorBarGrid",ExpressionUUID->"8409fab0-b986-47bb-b7cc-02218cc22200",
  CellID->1],
-Cell[3526, 95, 50, 0, 70, "ContextNameCell",ExpressionUUID->"df449686-678f-45ca-a946-72a7c584e561"],
+Cell[4439, 122, 50, 0, 70, "ContextNameCell",ExpressionUUID->"76b8fab1-bd18-46e6-80bf-f1a809efad7c"],
 Cell[CellGroupData[{
-Cell[3601, 99, 243, 8, 70, "ObjectNameGrid",ExpressionUUID->"2f337183-0462-4b3c-a725-ef2fed659231"],
-Cell[3847, 109, 525, 15, 70, "Usage",ExpressionUUID->"7df99bfd-d481-4806-bfbd-4f79421900e6",
+Cell[4514, 126, 243, 8, 70, "ObjectNameGrid",ExpressionUUID->"2fcd1db7-a5d7-442d-8c1f-6b141226c9de"],
+Cell[4760, 136, 525, 15, 70, "Usage",ExpressionUUID->"ec916694-dad4-4996-9dff-145b58bcc4b4",
  CellID->35905448]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[4409, 129, 1194, 35, 70, "PrimaryExamplesSection",ExpressionUUID->"acb619ee-9a89-4822-89ed-0aa999ec467b",
+Cell[5322, 156, 1194, 35, 70, "PrimaryExamplesSection",ExpressionUUID->"6631f545-ce6b-4ff3-b567-b622496f147c",
  CellTags->"PrimaryExamplesSection",
- CellID->291932375],
-Cell[5606, 166, 158, 4, 70, "Input",ExpressionUUID->"2fddad71-045e-4646-bad2-bcba173078ad",
+ CellID->125940645],
+Cell[6519, 193, 158, 4, 70, "Input",ExpressionUUID->"f3aa695a-79e6-496c-881e-15f46c1f3e6f",
  CellID->580191123]
 }, Dynamic[CurrentValue[EvaluationNotebook[], {TaggingRules, "Openers", "PrimaryExamplesSection"}, Closed]]]],
-Cell[5882, 175, 23, 0, 70, "FooterCell",ExpressionUUID->"a0bb2394-dc29-44fd-a2be-316f3a433ad2"]
+Cell[6795, 202, 641, 17, 70, "MoreAboutSection",ExpressionUUID->"8070c6f8-08d7-4939-bfdc-6f36799f5af5"],
+Cell[7439, 221, 23, 0, 70, "FooterCell",ExpressionUUID->"7d6eecd3-754a-4575-ad01-c9f62c614fbf"]
 }
 ]
 *)

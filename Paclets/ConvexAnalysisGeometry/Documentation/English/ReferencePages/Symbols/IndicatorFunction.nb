@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     20561,        597]
-NotebookOptionsPosition[     15674,        494]
-NotebookOutlinePosition[     17915,        550]
-CellTagsIndexPosition[     17830,        545]
+NotebookDataLength[     22215,        643]
+NotebookOptionsPosition[     17220,        539]
+NotebookOutlinePosition[     19460,        595]
+CellTagsIndexPosition[     19375,        590]
 WindowTitle->IndicatorFunction
 WindowFrame->Normal*)
 
@@ -36,58 +36,84 @@ Cell[BoxData[GridBox[{
      },
      GridBoxAlignment->{"Rows" -> {{Center}}},
      GridBoxItemSize->{"Columns" -> {Full, 
-         Scaled[0.02]}, "Rows" -> {{2.5}}}], Cell[TextData[Cell[BoxData[
-     TagBox[
-      ActionMenuBox[
-       FrameBox[Cell[TextData[{
-         "URL",
-         " ",
-         Cell[BoxData[
-          GraphicsBox[
-           {GrayLevel[0.66667], Thickness[0.13], 
-            LineBox[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]},
-           AspectRatio->1,
-           ImageSize->20,
-           PlotRange->{{-3, 4}, {-1, 1}}]]]
-        }]],
-        StripOnInput->
-         False], {"\<\"ConvexAnalysisGeometry/ref/IndicatorFunction\"\>":>
-       None, "\<\"Copy Wolfram Documentation Center URL\"\>":>
-       Module[{DocumentationSearch`Private`nb$}, 
-        DocumentationSearch`Private`nb$ = NotebookPut[
-           Notebook[{
-             Cell["ConvexAnalysisGeometry/ref/IndicatorFunction"]}, Visible -> 
-            False]]; SelectionMove[
-         DocumentationSearch`Private`nb$, All, Notebook]; 
-        FrontEndTokenExecute[DocumentationSearch`Private`nb$, "Copy"]; 
-        NotebookClose[DocumentationSearch`Private`nb$]; Null], 
-       Delimiter, "\<\"Copy web URL\"\>":>
-       Module[{DocumentationSearch`Private`nb$}, 
-        DocumentationSearch`Private`nb$ = NotebookPut[
-           Notebook[{
-             Cell[
-              BoxData[
-               MakeBoxes[
-                Hyperlink[
-                "http://reference.wolfram.com/language/ConvexAnalysisGeometry/\
-ref/IndicatorFunction.html"], StandardForm]], "Input", TextClipboardType -> 
-              "PlainText"]}, Visible -> False]]; 
-        SelectionMove[DocumentationSearch`Private`nb$, All, Notebook]; 
-        FrontEndTokenExecute[DocumentationSearch`Private`nb$, "Copy"]; 
-        NotebookClose[DocumentationSearch`Private`nb$]; 
-        Null], "\<\"Go to web URL\"\>":>FrontEndExecute[{
-         NotebookLocate[{
-           URL[If[
-              TrueQ[DocumentationBuild`Make`Private`wsmlinkQ$9364], 
-              "http://reference.wolfram.com/system-modeler/", 
-              "http://reference.wolfram.com/language/"] <> 
-            "ConvexAnalysisGeometry/ref/IndicatorFunction" <> ".html"], 
-           None}]}]},
-       Appearance->None,
-       MenuAppearance->Automatic,
-       MenuStyle->"URLMenu"],
-      MouseAppearanceTag["LinkHand"]]],
-     LineSpacing->{1.4, 0}]], "AnchorBar",
+         Scaled[0.02]}, "Rows" -> {{2.5}}}], Cell[TextData[{
+     Cell[BoxData[
+      TagBox[
+       ActionMenuBox[
+        FrameBox[Cell[TextData[{
+          "Related Guides",
+          " ",
+          Cell[BoxData[
+           GraphicsBox[
+            {GrayLevel[0.66667], Thickness[0.13], 
+             LineBox[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]},
+            AspectRatio->1,
+            ImageSize->20,
+            PlotRange->{{-3, 4}, {-1, 1}}]]]
+         }]],
+         StripOnInput->False], {"\<\"Convex Analysis Geometry Paclet\"\>":>
+        Documentation`HelpLookup[
+        "paclet:ConvexAnalysisGeometry/guide/ConvexAnalysisGeometry"]},
+        Appearance->None,
+        MenuAppearance->Automatic,
+        MenuStyle->"MoreAbout"],
+       MouseAppearanceTag["LinkHand"]]],
+      LineSpacing->{1.4, 0}],
+     "\[ThickSpace]\[ThickSpace]\[ThickSpace]\[ThickSpace]\[ThickSpace]\
+\[ThickSpace]",
+     Cell[BoxData[
+      TagBox[
+       ActionMenuBox[
+        FrameBox[Cell[TextData[{
+          "URL",
+          " ",
+          Cell[BoxData[
+           GraphicsBox[
+            {GrayLevel[0.66667], Thickness[0.13], 
+             LineBox[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]},
+            AspectRatio->1,
+            ImageSize->20,
+            PlotRange->{{-3, 4}, {-1, 1}}]]]
+         }]],
+         StripOnInput->
+          False], {"\<\"ConvexAnalysisGeometry/ref/IndicatorFunction\"\>":>
+        None, "\<\"Copy Wolfram Documentation Center URL\"\>":>
+        Module[{DocumentationSearch`Private`nb$}, 
+         DocumentationSearch`Private`nb$ = NotebookPut[
+            Notebook[{
+              Cell["ConvexAnalysisGeometry/ref/IndicatorFunction"]}, Visible -> 
+             False]]; SelectionMove[
+          DocumentationSearch`Private`nb$, All, Notebook]; 
+         FrontEndTokenExecute[DocumentationSearch`Private`nb$, "Copy"]; 
+         NotebookClose[DocumentationSearch`Private`nb$]; Null], 
+        Delimiter, "\<\"Copy web URL\"\>":>
+        Module[{DocumentationSearch`Private`nb$}, 
+         DocumentationSearch`Private`nb$ = NotebookPut[
+            Notebook[{
+              Cell[
+               BoxData[
+                MakeBoxes[
+                 Hyperlink[
+                 "http://reference.wolfram.com/language/\
+ConvexAnalysisGeometry/ref/IndicatorFunction.html"], StandardForm]], "Input", 
+               TextClipboardType -> "PlainText"]}, Visible -> False]]; 
+         SelectionMove[DocumentationSearch`Private`nb$, All, Notebook]; 
+         FrontEndTokenExecute[DocumentationSearch`Private`nb$, "Copy"]; 
+         NotebookClose[DocumentationSearch`Private`nb$]; 
+         Null], "\<\"Go to web URL\"\>":>FrontEndExecute[{
+          NotebookLocate[{
+            URL[If[
+               TrueQ[DocumentationBuild`Make`Private`wsmlinkQ$18449], 
+               "http://reference.wolfram.com/system-modeler/", 
+               "http://reference.wolfram.com/language/"] <> 
+             "ConvexAnalysisGeometry/ref/IndicatorFunction" <> ".html"], 
+            None}]}]},
+        Appearance->None,
+        MenuAppearance->Automatic,
+        MenuStyle->"URLMenu"],
+       MouseAppearanceTag["LinkHand"]]],
+      LineSpacing->{1.4, 0}]
+    }], "AnchorBar",
      CacheGraphics->False]}
   }]], "AnchorBarGrid",
  GridBoxOptions->{GridBoxItemSize->{"Columns" -> {
@@ -166,7 +192,7 @@ Cell[TextData[{
  WholeCellGroupOpener->True,
  CacheGraphics->False,
  CellTags->"PrimaryExamplesSection",
- CellID->147409357],
+ CellID->229084151],
 
 Cell[BoxData[
  RowBox[{"Needs", "[", "\"\<ConvexAnalysisGeometry`\>\"", "]"}]], "Input", \
@@ -210,7 +236,7 @@ Cell[TextData[{
 }], "ExampleSection", "ExampleSection",
  WholeCellGroupOpener->True,
  CacheGraphics->False,
- CellID->207461330],
+ CellID->121497323],
 
 Cell[CellGroupData[{
 
@@ -490,6 +516,25 @@ Cell[BoxData[
  EvaluationNotebook[], {TaggingRules, "Openers", "PrimaryExamplesSection"}, 
   Closed]]]],
 
+Cell[BoxData[GridBox[{
+   {
+    DynamicBox[FEPrivate`ImportImage[
+      FrontEnd`FileName[{"Documentation", "FooterIcons"}, "RelatedGuide.png"]],
+     ImageSizeCache->{50., {27., 33.}}], GridBox[{
+      {
+       StyleBox[
+        RowBox[{"Related", " ", "Guides"}], "MoreAboutSection"]},
+      {
+       RowBox[{"\[FilledVerySmallSquare]", Cell[BoxData[
+         TemplateBox[{
+           Cell[
+            TextData["Convex Analysis Geometry Paclet"]], 
+           "paclet:ConvexAnalysisGeometry/guide/ConvexAnalysisGeometry"},
+          "RefLinkPlain",
+          BaseStyle->{"MoreAbout"}]], "MoreAbout"]}]}
+     }]}
+  }]], "MoreAboutSection"],
+
 Cell[" ", "FooterCell"]
 },
 Saveable->False,
@@ -507,7 +552,7 @@ TaggingRules->{
     "ExampleSubsubsection" -> {"0" -> Closed}}, "NewStyles" -> True, 
   "CitationPopupData" -> $Failed, "ShowCitation" -> False, "RootCaptions" -> 
   "", "Metadata" -> {
-   "built" -> "{2025, 1, 12, 11, 57, 11.9453024}", 
+   "built" -> "{2025, 1, 12, 12, 2, 24.6744652}", 
     "history" -> {"XX", "", "", ""}, "context" -> "ConvexAnalysisGeometry`", 
     "keywords" -> {}, "specialkeywords" -> {}, 
     "tutorialcollectionlinks" -> {}, "index" -> True, "label" -> 
@@ -537,68 +582,69 @@ StyleDefinitions->Notebook[{
 (*CellTagsOutline
 CellTagsIndex->{
  "PrimaryExamplesSection"->{
-  Cell[4533, 133, 1194, 35, 70, "PrimaryExamplesSection",ExpressionUUID->"396aef18-e359-4935-88f7-5197f26a05d9",
+  Cell[5435, 159, 1194, 35, 70, "PrimaryExamplesSection",ExpressionUUID->"b9dcee19-e18a-4deb-a983-c00a5151aec1",
    CellTags->"PrimaryExamplesSection",
-   CellID->147409357]}
+   CellID->229084151]}
  }
 *)
 (*CellTagsIndex
 CellTagsIndex->{
- {"PrimaryExamplesSection", 17631, 538}
+ {"PrimaryExamplesSection", 19176, 583}
  }
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[589, 21, 3014, 75, 70, "AnchorBarGrid",ExpressionUUID->"c6d335e3-d6dc-462d-babe-541701eb5827",
+Cell[589, 21, 3916, 101, 70, "AnchorBarGrid",ExpressionUUID->"e752185b-cb36-4ee6-b435-9bf4f0366610",
  CellID->1],
-Cell[3606, 98, 50, 0, 70, "ContextNameCell",ExpressionUUID->"a43af9cb-74b8-45f0-926a-996cd24f2f7d"],
+Cell[4508, 124, 50, 0, 70, "ContextNameCell",ExpressionUUID->"cf5d15a8-091d-4470-a3c4-d8bfbb246dc0"],
 Cell[CellGroupData[{
-Cell[3681, 102, 252, 8, 70, "ObjectNameGrid",ExpressionUUID->"6771f128-df11-4c11-bba1-8f1969625af2"],
-Cell[3936, 112, 560, 16, 70, "Usage",ExpressionUUID->"79feda58-dc76-49db-9406-4ba7a4b18ff6",
+Cell[4583, 128, 252, 8, 70, "ObjectNameGrid",ExpressionUUID->"df17a08c-ca1a-4b22-88b4-f7eee123c561"],
+Cell[4838, 138, 560, 16, 70, "Usage",ExpressionUUID->"41569ee5-8dbe-4626-8b00-4834a8b7c061",
  CellID->737582229]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[4533, 133, 1194, 35, 70, "PrimaryExamplesSection",ExpressionUUID->"396aef18-e359-4935-88f7-5197f26a05d9",
+Cell[5435, 159, 1194, 35, 70, "PrimaryExamplesSection",ExpressionUUID->"b9dcee19-e18a-4deb-a983-c00a5151aec1",
  CellTags->"PrimaryExamplesSection",
- CellID->147409357],
-Cell[5730, 170, 157, 4, 70, "Input",ExpressionUUID->"945ea225-e0d5-4299-9b94-aabdcbc3e263",
+ CellID->229084151],
+Cell[6632, 196, 157, 4, 70, "Input",ExpressionUUID->"9ed13987-6011-423b-b40f-0edf8ddc6b14",
  CellID->68016920],
 Cell[CellGroupData[{
-Cell[5912, 178, 1172, 34, 70, "ExampleSection",ExpressionUUID->"e0fa6e11-655f-4420-b08e-91282ebece5f",
- CellID->207461330],
+Cell[6814, 204, 1172, 34, 70, "ExampleSection",ExpressionUUID->"4cb35493-539e-42c4-9927-29538908ddb9",
+ CellID->121497323],
 Cell[CellGroupData[{
-Cell[7109, 216, 394, 11, 70, "Input",ExpressionUUID->"7dfc882e-07ff-4829-8c9d-62d29c305cde",
+Cell[8011, 242, 394, 11, 70, "Input",ExpressionUUID->"e6959c70-ce3e-4c5a-913d-99903a6ce8bb",
  CellID->163364188],
-Cell[7506, 229, 1433, 42, 70, "Output",ExpressionUUID->"6a99ef38-133d-4ebd-b03e-548011541530",
+Cell[8408, 255, 1433, 42, 70, "Output",ExpressionUUID->"100f7832-f8d5-40bc-bded-b37c352af1b4",
  CellID->124585788]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[8976, 276, 293, 9, 70, "Input",ExpressionUUID->"46b78321-4fe1-4976-978f-a7319cb71f6b",
+Cell[9878, 302, 293, 9, 70, "Input",ExpressionUUID->"e218a8de-63e4-47fe-844a-f97aac8935f0",
  CellID->254262597],
-Cell[9272, 287, 1537, 46, 70, "Output",ExpressionUUID->"9fe449a6-09f1-4bb9-9e6c-de77b2dffdab",
+Cell[10174, 313, 1537, 46, 70, "Output",ExpressionUUID->"5a437051-eb20-41bc-a6d5-36fd4c2a0a35",
  CellID->317997125]
 }, Open  ]]
 }, Dynamic[CurrentValue[EvaluationNotebook[], {TaggingRules, "Openers", "ExampleSection", "0"}, Closed]]]],
 Cell[CellGroupData[{
-Cell[10958, 341, 1186, 35, 70, "ExampleSection",ExpressionUUID->"28ef3a57-5665-448b-8c79-8ad05eb8565b",
+Cell[11860, 367, 1186, 35, 70, "ExampleSection",ExpressionUUID->"d13af3ea-ffaf-4cc8-b336-c3526b2bccb8",
  CellID->256125300],
 Cell[CellGroupData[{
-Cell[12169, 380, 1203, 35, 70, "ExampleSubsection",ExpressionUUID->"8011d895-a536-4c34-ab7f-ace9168648e4",
+Cell[13071, 406, 1203, 35, 70, "ExampleSubsection",ExpressionUUID->"1a7d5f8d-847c-4071-924e-a9ecf1165942",
  CellID->208882292],
 Cell[CellGroupData[{
-Cell[13397, 419, 1182, 35, 70, "ExampleSubsubsection",ExpressionUUID->"01f177c7-160f-49e6-be29-e33d38dadd84",
+Cell[14299, 445, 1182, 35, 70, "ExampleSubsubsection",ExpressionUUID->"a03b1a73-8daf-4cd6-88ac-ebdf9dae3dd6",
  CellID->79577806],
 Cell[CellGroupData[{
-Cell[14604, 458, 286, 8, 70, "Input",ExpressionUUID->"98f2442b-799f-4b9f-b553-66a159586471",
+Cell[15506, 484, 286, 8, 70, "Input",ExpressionUUID->"4be112f1-31da-4b1d-aeef-99dcfb5adcea",
  CellID->218906035],
-Cell[14893, 468, 279, 9, 70, "Output",ExpressionUUID->"d36db3c5-39cf-40a8-86ad-dc49716c1648",
+Cell[15795, 494, 279, 9, 70, "Output",ExpressionUUID->"901e12ce-a786-44da-b414-e180febb711c",
  CellID->27280857]
 }, Open  ]]
 }, Dynamic[CurrentValue[EvaluationNotebook[], {TaggingRules, "Openers", "ExampleSubsubsection", "0"}, Closed]]]]
 }, Dynamic[CurrentValue[EvaluationNotebook[], {TaggingRules, "Openers", "ExampleSubsection", "0"}, Closed]]]]
 }, Dynamic[CurrentValue[EvaluationNotebook[], {TaggingRules, "Openers", "ExampleSection", "1"}, Closed]]]]
 }, Dynamic[CurrentValue[EvaluationNotebook[], {TaggingRules, "Openers", "PrimaryExamplesSection"}, Closed]]]],
-Cell[15647, 492, 23, 0, 70, "FooterCell",ExpressionUUID->"15c8d5c9-73ac-4781-b275-d02a250d98e0"]
+Cell[16549, 518, 641, 17, 70, "MoreAboutSection",ExpressionUUID->"e3d45520-34e9-4767-900a-7f84f8e93f0a"],
+Cell[17193, 537, 23, 0, 70, "FooterCell",ExpressionUUID->"c7ff286d-8b6a-47dc-897c-a3542c93add4"]
 }
 ]
 *)
