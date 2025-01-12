@@ -28,16 +28,33 @@ SimplifyAssuming[statement_, assum_, OptionsPattern[]] :=
   statement,
   With[{
     simplifyFn = 
-     Switch[OptionValue[PerformanceGoal], "Speed", Simplify, 
+     Switch[OptionValue[PerformanceGoal], 
+      "Speed", Simplify, 
       "Quality", FullSimplify],
-    assumFlat = 
-     assum /. 
-      f_[c_Alternatives, v_] :> Fold[And, f[#, v] & /@ List @@ c]
+    assumFlat = assum /. 
+        f_[c_Alternatives, v_] :> Fold[And, f[#, v] & /@ List @@ c]
     },
    simplifyFn[Reduce[assumFlat && statement], assumFlat]
    ]
   ]
 
+
+ReduceClosureReals[expr_] := Block[
+  {splitExpr, regExpr, pseudoClosure},
+  splitExpr = List @@ BooleanConvert[expr, "DNF"];
+  regExpr = 
+   Or @@ Select[
+     splitExpr, ! 
+       FreeQ[#, (Greater | Less | LessEqual | GreaterEqual)] &];
+  pseudoClosure = 
+   regExpr /. {Less -> LessEqual, Greater -> GreaterEqual};
+If[LeafCount[pseudoClosure] < LeafCount[expr] && Reduce[
+    Equivalent[pseudoClosure, expr],
+    Reals] === True,
+ pseudoClosure,
+ expr
+ ]
+  ]
 
 (* ::Subsection:: *)
 (*Polar*)
@@ -50,13 +67,16 @@ Options[Polar] = {
 Polar[ImplicitRegion[expr_, vars_], OptionsPattern[]] := Polar[expr, vars, 
   Sequence @@ (# -> OptionValue[#] & @@@ Options[Polar])];
 Polar[expr_, vars_, OptionsPattern[]] := Module[{newVars = formalCovector[vars], cnd}, 
-  ImplicitRegion[SimplifyAssuming[
+  cnd = SimplifyAssuming[
       Resolve[
-        ForAll[Evaluate[newVars], ConvexAnalysisGeometry`Utils`trep[expr, vars, newVars], 
+        ForAll[Evaluate[newVars], trep[expr, vars, newVars], 
           vars . newVars <= 1], 
         Reals], 
-      OptionValue[Assumptions], PerformanceGoal -> OptionValue[PerformanceGoal]], 
-     vars]
+      OptionValue[Assumptions], PerformanceGoal -> OptionValue[PerformanceGoal]];
+  cnd = If[OptionValue[PerformanceGoal] === "Quality",
+    ReduceClosureReals[cnd],
+    cnd];
+  ImplicitRegion[cnd, vars]
 ]
 
 
