@@ -6,7 +6,7 @@ Package["ConvexAnalysisGeometry`Utils`"]
 
 
 (* ::Section:: *)
-(*Geometry*)
+(*General*)
 
 
 (* ::Input::Initialization:: *)
@@ -64,6 +64,20 @@ pwDropLast[f_Piecewise] :=
   f /. Piecewise -> \[FormalL] //. \[FormalL][a_List, b_] :> 
     Piecewise[a[[1 ;; -2]], a[[-1, 1]]]
 
+
+uJoin[v1_, v2_, n_:1] := DeleteDuplicates[Join[v1, v2, n]]
+
+LongestOutComponentPath[g_Graph, v_] := Module[{
+    visited = {}, 
+    DFS
+  }, 
+  DFS[u_] := Module[{len}, 
+    AppendTo[visited, u];
+    len = Max[0, Sequence @@ (DFS[#1] & ) /@ Select[VertexOutComponent[g, u], !MemberQ[visited, #1] & ]];
+    visited = DeleteCases[visited, u];
+    len + 1];
+  DFS[v] - 1 (*subtract 1 to get the edge count*)
+]
 
 (* ::Section:: *)
 (*Combinatorics*)
@@ -154,3 +168,8 @@ showDiscreteColorThemes[] :=
 getDiscreteColorTheme[name_] := 
   Cases["DefaultPlotStyle" /. (Method /. 
       Charting`ResolvePlotTheme[name, ListPlot]), _RGBColor, Infinity]
+discreteColors[n_] := With[{partL = Ceiling[Sqrt[n]]}, 
+  DeleteCases[Flatten[Transpose[Partition[
+          Table[Lighter[Darker[Hue[c], 0.1], 0.25], {c, 0, 1 - 1/n, 1/n}], 
+          partL, partL, 1, 0]]], 0]
+]

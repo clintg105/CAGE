@@ -1410,3 +1410,278 @@ optISet[ix_]["init", "polar"] :=
 optISet[ix_]["init", "gauge"] := optISet[ix]["polar"]["support"]
 optISet[ix_]["init", "normalizedNormalCone"] := 
   Grad[optISet[ix]["gauge"]["expr"], optISet[ix]["vars"]]
+
+
+(* ::Section:: *)
+(*Region Management*)
+
+
+(* ::Subsection:: *)
+(*ir (Implicit Region) Functions*)
+
+
+PackageExport["irSame"]
+PackageExport["irDeleteDuplicates"]
+PackageExport["irPos"]
+PackageExport["irPosContains"]
+PackageExport["irListIntersetDMinus1"]
+PackageExport["irBuildSubsetGraph"]
+PackageExport["irsgEnumGaugeList"]
+PackageExport["irsgEnumProblems"]
+
+irSame[ir1_, ir2_] := Reduce[Equivalent[ir1[[1]], ir2[[1]]], Evaluate[uJoin[ir1[[2]], ir2[[2]]]], Reals] === True
+irSame[ir1_EmptyRegion, ir2_ImplicitRegion] := False
+irSame[ir1_ImplicitRegion, ir2_EmptyRegion] := False
+
+irDeleteDuplicates[irList_] := DeleteDuplicates[irList, irSame]
+irPos[irList_, ir0_] := Position[(irSame[#1, ir0] & ) /@ irList, True]
+irPosContains[irList_, x_] := Position[(RegionMember[#1, x] & ) /@ irList, True]
+
+
+irListIntersetDMinus1[irList_] := irDeleteDuplicates[
+  Flatten[Table[
+      RegionIntersection[irList[[i]], irList[[j]]], 
+      {i, Length[irList]}, {j, i + 1, Length[irList]}]]
+ /. EmptyRegion[_] -> Sequence[] (* empty regions appear if low dims are disjoint *)
+]
+
+irBuildSubsetGraph[irList_] := Module[{
+    regAll, intMat, pathPairs, irsgDir, pathGraph
+  }, 
+  (* get all intersections down to lowest dim *)
+  regAll = irDeleteDuplicates[Flatten[NestList[irListIntersetDMinus1[#1] & , irList, 2]] /. EmptyRegion[_] -> Sequence[]];
+  intMat = Outer[irPos[regAll, RegionIntersection[#1, #2]] & , regAll, regAll];
+  pathPairs = Flatten[MapApply[
+      Function[{list, ix}, ({ix, #} -> 1 &) /@ DeleteDuplicates[Flatten[list]]], 
+      ({intMat, Range[Length[intMat]]}\[Transpose])] /. ({x_, x_} -> 1) -> Sequence[]];
+  irsgDir = AdjacencyGraph[SparseArray[pathPairs, Max[intMat]]];
+  pathGraph = UndirectedGraph[irsgDir];
+  {irsgDir, regAll}
+]
+
+
+irsgEnumGaugeList[gaugesHighDim_, irListHighDim_, irsgDir_] := Module[{
+    nRegHD, nReg, gIxs, gFuns, gDims
+  }, 
+  (* p1 and p2 are assumed to be numeric *)
+  nRegHD = Length[irListHighDim];
+  nReg = VertexCount[irsgDir];
+  (* all that matters is that the top level of gDir are the top dims, otherwise would have to do a fancy check on who doesn't have incomponents or some other graph theory stuff *)
+  gIxs = Join[Range[nRegHD], (Select[VertexInComponent[irsgDir, #1], #1 <= nRegHD & ] & ) /@ Range[nRegHD + 1, nReg]];
+  gFuns = (If[Head[#1] === List, Function[x, Evaluate[Min @@ (#1[x] & ) /@ gaugesHighDim[[#1]]]], gaugesHighDim[[#1]]] & ) /@ gIxs;
+  
+  (* TODO: profile against RegionDimension /@ regAll and just make a function *)
+  gDims = RegionEmbeddingDimension[irListHighDim[[1]]]-((LongestOutComponentPath[ReverseGraph[irsgDir], #1] & ) /@ Range[VertexCount[irsgDir]]);
+  ((gFuns[[#1]] = 0 & ) & ) /@ Position[gDims, 0, 1]; (*regions of zero dim don't need gauges*)
+  
+  gFuns
+]
+
+irsgEnumProblems[p0_, p1_, gaugesAll_, irListAll_, irsgDir_] := Module[{
+    irIx0, irIx1, g, paths, gDims, subVars, subVarCnds, pointList, gaugeSum, ans
+  }, 
+  irIx0 = irPosContains[irListAll, p0][[1, 1]];
+  irIx1 = irPosContains[irListAll, p1][[1, 1]];
+  
+  g = UndirectedGraph[irsgDir];
+  paths = FindPath[g, irIx0, irIx1, All, All];
+  (* below formula only works if graph has terminal object:
+    gDims = (LongestOutComponentPath[irsgDir, #1] & ) /@ Range[VertexCount[irsgDir]]; *)
+  gDims = RegionDimension /@ regAll;
+  paths = paths /. (#1 -> Sequence[] & ) /@ Flatten[Position[gDims, 0, 1]];
+  
+  ans = Table[
+    (* now we want to solve for the nth path (so we can put in a loop and update dynamically)*)
+    (* we only need sub variables for "inner" regions of the path because p0 and p1 come from path[[1]] and path[[-1]] *)
+    subVars = ({Indexed[s1, #1], Indexed[s2, #1]} & ) /@ Range[Length[path] - 1]; (* todo: higher dims *)
+    subVarCnds = (Reduce[RegionMember[#2[[1]], #1] && RegionMember[#2[[2]], #1], #1, Reals] & ) @@@ Transpose[{subVars, Partition[irListAll[[path]], 2, 1]}];
+    (* might want to remove reduce to assume *)
+    subVarCnds = And @@ subVarCnds;
+    pointList = Partition[Join[{p0}, subVars, {p1}], 2, 1];
+    gaugeSum = Total[(gaugesAll[[#2]][#1[[2]] - #1[[1]]] & ) @@@ Transpose[{pointList, path}]];
+    {gaugeSum, subVarCnds, Flatten[subVars], pointList}
+    , {path, paths}];
+  Transpose[Join[Transpose[ans], {paths}]]
+]
+
+
+(* ::Section:: *)
+(*pwl Functions*)
+
+PackageExport["pwlMaxSurf2lcon"]
+PackageExport["pwlSurf2vertR3"]
+PackageExport["lcon2vert"]
+PackageExport["vellHull2pwlMaxSurf"]
+PackageExport["vellHull2lcon"]
+PackageExport["lcon2pwlMaxSurf"]
+PackageExport["pwlMaxSurf2vert"]
+PackageExport["infConv3D"]
+PackageExport["meshFacesInRegion"]
+PackageExport["meshFaces"]
+
+pwlMaxSurf2lcon[Max[s__], cutZ_:Infinity] := Module[{
+    bentSurf = Max[s], 
+    A, b, dim, zVar, polys
+  }, 
+  {b, A} = {-1, 1}*CoefficientArrays[Transpose[(#1 == zVar & ) /@ List @@ bentSurf]];
+  dim = Length[A[[1]]];
+  If[ !cutZ === Infinity, 
+    (* set inf-bounding level *)
+    {A, b} = {Join[A, {Join[ConstantArray[0, dim - 1], {1}]}], 
+      Join[b, {cutZ}]};
+  ];
+  {A, b}
+]
+
+pwlSurf2vertR3[Max[s__], cutZ_:10] := Module[
+  {A, b}, 
+  {A, b} = pwlMaxSurf2lcon[Max[s], cutZ];
+  slicedPoly[lcon2vert[A, b], cutZ]
+]
+
+lcon2vert[A_, b0_] := Module[{
+    (* A*x <= b *)
+    m, dim, c, Dm, DmCH, k, nonsing, oneCol, bdPts, b
+  }, 
+  (* b might be (correctly) given as a column vector, wich confuses Thread *)
+  b = Flatten[b0];
+  
+  (* need a feasible point to center our set *)
+  {m, dim} = TensorDimensions[A];
+  c = PseudoInverse[A] . b;
+  If[ !VectorLess[{A . c, b}], 
+    (* easy guess failed *)
+    c = LinearOptimization[
+      Join[ConstantArray[0, {dim}], {1}, 1], 
+      {-Join[A, ConstantArray[-1, {m, 1}], 2], b}];
+    Assert[Negative[c[[-1]]], 
+      "Could not find feasible point!"];
+    c = c[[;; -2]];
+  ];
+  
+  (* duality normalization trick *)
+  Dm = (#1/#2 & ) @@@ Transpose[{A, b - A . c}];
+  
+  Assert[dim == 3 || dim == 2]; (* ConvexHullMesh only works in 2d and 3d. TODO: Fix assert? *)
+  DmCH = ConvexHullMesh[Dm];
+  Dm = MeshCoordinates[DmCH];
+  k = MeshCells[DmCH, dim - 1][[;;, 1, ;;]];
+  
+  (* In mathematica's general mesh framework, none of these should be singular. Not sure about qHull. *)
+  nonsing = (MatrixRank[Dm[[#1, ;;]]] == dim & ) /@ k;
+  oneCol = ConstantArray[1, {dim, 1}];
+  bdPts = Flatten /@ DeleteDuplicates[
+    (Inverse[Dm[[#1[[;; dim]], ;;]]] . oneCol + c & )
+ /@ k[[Flatten[Position[nonsing, True]]]]
+  ]
+]
+
+lcon2vert[A_, b_, F_, d_] := Module[{
+    xp, H, vv
+  }, 
+  xp = PseudoInverse[F] . d;
+  H = Transpose[NullSpace[F]];
+  vv = lcon2vert[A . H, Flatten[b - A . xp]];
+  vv . Transpose[H] + ConstantArray[Flatten[xp], Length[vv]]
+]
+
+vellHull2pwlMaxSurf[velHull_BoundaryMeshRegion, (cutZ_)?NumberQ] := Module[{
+    (*
+      Verison with simple cutZ.
+      (0) Will need more complex version with "into-region" to avoid extra work (computing vertices going back).
+      (1) fix the det[A] = 0 equation to make this more than 3D
+      (2) Solve the det[A] = 0 equation smartly
+      *)
+    dim = RegionEmbeddingDimension[velHull], 
+    verts = MeshCoordinates[velHull], 
+    faces
+  }, 
+  faces = (verts[[#1]] & ) /@ MeshCells[velHull, dim - 1][[;;, 1, ;;]];
+  faces = Select[faces, Min[N[#1[[1;;, -1]]]] < cutZ & ];
+  (* extract planes in expressions of (x, y) *)
+  faces = (
+    SolveValues[
+      Det[
+        Join[{{x, y, z, 1}}, Join[#1[[;; dim]], ConstantArray[1, {dim, 1}], 2], 1]
+      ] == 0, z]&
+    ) /@ faces;
+  (* Flatten ensures planes parallel to z are ignored, only 1 solution each otherwise *)
+  Max @@ Flatten[faces]
+]
+
+vellHull2lcon[velHull_BoundaryMeshRegion, (cutZ_)?NumberQ] := Module[{
+    (*
+      Verison with simple cutZ.
+      (0) Will need more complex version with "into-region" to avoid extra work (computing vertices going back).
+      (1) fix the det[A] = 0 equation to make this more than 3D
+      (2) Solve the det[A] = 0 equation smartly
+      *)
+    dim = RegionEmbeddingDimension[velHull], 
+    verts = MeshCoordinates[velHull], 
+    faces, A, b
+  }, 
+  faces = (verts[[#1]] & ) /@ MeshCells[velHull, dim - 1][[;;, 1, ;;]];
+  faces = Select[faces, Min[N[#1[[;;, -1]]]] < cutZ & ];
+  {b, A} = {-1, 1}*Normal[
+    CoefficientArrays[(
+        Det[Join[{{x, y, z, 1}}, Join[#1[[;; dim]], ConstantArray[1, {dim, 1}], 2], 1]] == 0 &
+        ) /@ faces, {x, y, z}]];
+  {A, b}
+]
+
+lcon2pwlMaxSurf[{A_, b_}] := Module[{
+    (* we might want a version with explicit Zcut *)
+    mZ = -A[[;;, 3]]
+  }, 
+  A = Transpose[Thread[A/mZ]];
+  b = Thread[b/mZ];
+  Max @@ (A[[;;, ;; -2]] . {x, y} - b)
+]
+
+pwlMaxSurf2vert[s_Max, cutZ_] := lcon2vert @@ pwlMaxSurf2lcon[s, cutZ]
+
+infConv3D[s1_Max, s2_Max, cutZ_] := Module[{
+    verts1 = pwlMaxSurf2vert[s1, cutZ], 
+    verts2 = pwlMaxSurf2vert[s2, cutZ], 
+    convHull
+  }, 
+  convHull = ConvexHullMesh[Flatten[Outer[Plus, verts1, verts2, 1], 1]];
+  vellHull2pwlMaxSurf[convHull, cutZ]
+]
+
+
+meshFacesInRegion[poly_BoundaryMeshRegion, reg_ImplicitRegion] := With[{
+    faces = meshFaces[poly], rDim = RegionEmbeddingDimension[reg]
+  }, 
+  Select[faces, AllTrue[#1, RegionMember[reg, #1[[1 ;; rDim]]] & ] & ]
+]
+meshFaces[(poly_BoundaryMeshRegion) | (poly_MeshRegion)] := With[{verts = MeshCoordinates[poly]}, 
+  (verts[[#1]] & ) /@ MeshCells[poly, RegionEmbeddingDimension[poly] - 1][[;;, 1, ;;]]
+]
+
+
+(* ::Section:: *)
+(*ELVIS propagation*)
+
+PackageExport["elvisPropv1"]
+
+elvisPropv1[gLcon1_List, gLcon2_List, yBdry_?NumericQ, Tmax_:100?NumericQ] := Module[{
+    (*
+      We're basically assuming gLcon1 is a global gauge and gLcon2 is a true (centered) gauge (I don't think it has to be pos. homogeneous).
+      This is the sum of two epigraphs, one of the functions is basically 1D - it's the global gauge plus the inidcator of the interface.
+      *)
+    verts1 = lcon2vert[gLcon1[[1]], gLcon1[[2]]], 
+    verts2 = lcon2vert[gLcon2[[1]], gLcon2[[2]]], 
+    F = {{0, 1, 0}}, d = {{yBdry}}, 
+    vSlice, velEpiFwd, velEpiBwd
+  }, 
+  vSlice = lcon2vert[gLcon1[[1]], gLcon1[[2]], F, d];
+  velEpiFwd = ConvexHullMesh[
+    Flatten[Outer[Plus, vSlice, verts2, 1], 1]
+  ];
+  velEpiBwd = ConvexHullMesh[
+    Flatten[Outer[Plus, verts1, MeshCoordinates[velEpiFwd], 1], 1]
+  ];
+  (* Fwd, Bwd*)
+  {Piecewise[{{vellHull2pwlMaxSurf[velEpiFwd, Tmax], y >= yBdry}}, 0], Piecewise[{{vellHull2pwlMaxSurf[velEpiBwd, Tmax], y <= yBdry}}, 0]}
+]
