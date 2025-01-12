@@ -80,7 +80,7 @@ CAGHelper[]:=CreatePalette[Block[{sep},DynamicModule[
           ] //. x_Association :> KeyDrop[x,
             Select[Keys @ x, StringContainsQ[#, "Protected"]&]];
           Column[{(
-                hasDevAssoc/.Association->List//.Rule[k_,v_List]:>OpenerView[{k,v//Column},True]//Column
+                hasDevAssoc/.Association->List//.Rule[k_,v_List]:>OpenerView[{k,v//Column},False]//Column
                 )/.{
                 Rule[k_,sep[v_,False]]:>Button[k,
                   With[{devNB=StringReplace[v, RegularExpression["\\.(wl|m)$"] -> "_dev-nb.nb"]},
