@@ -44,14 +44,14 @@ Example: bsxRow[Plus, mat, row] adds `row` to each row (element) of \
 bsxRow[op_, mat_, row_] := Transpose[op[row, Transpose[mat]]]
 addRow[mat_, row_] := Transpose[row + Transpose[mat]]
 
-pwGetPairs[f_Piecewise] := Module[{vals, cnds},
+pwGetPairs[f_Piecewise] := Module[{vals, cnds}, 
   vals = Append[f[[1, ;; , 1]], f[[2]]];
   cnds = f[[1, ;; , 2]];
   cnds = Append[cnds, Not @ Fold[Or, cnds]];
   {vals, cnds}]
 pwAddConditionIgnoreLast[f_Piecewise, cnd_] := 
   (f[[1, ;; , 2]] = # && cnd & /@ f[[1, ;; , 2]]; f)
-pwAddCondition[f_Piecewise, cnd_] := Module[{vals, cnds},
+pwAddCondition[f_Piecewise, cnd_] := Module[{vals, cnds}, 
   {vals, cnds} = pwGetPairs[f];
   cnds = (# && cnd &) /@ cnds;
   Piecewise[{vals, cnds}\[Transpose], Undefined[]]]
@@ -82,13 +82,13 @@ Efficient for direct access to the n-th subset without generating \
 preceding subsets. Ideal for large n or sparse indexing.";
 (*Efficient computation of the n-th k-subset: NthKSubset[5, 3, 5] > \
   {1, 4, 5}*)
-NthKSubset[n_Integer?NonNegative, k_Integer?Positive,
+NthKSubset[n_Integer?NonNegative, k_Integer?Positive, 
   m_Integer?Positive] /; Binomial[m, k] > n := Block[
-  {subset, r = n, x = 1, remaining = k},
+  {subset, r = n, x = 1, remaining = k}, 
   Reap[
-    While[remaining > 0 && x <= m,
-      If[Binomial[m - x, remaining - 1] > r,
-        Sow[x]; remaining -= 1; x += 1,
+    While[remaining > 0 && x <= m, 
+      If[Binomial[m - x, remaining - 1] > r, 
+        Sow[x]; remaining -= 1; x += 1, 
         r -= Binomial[m - x, remaining - 1]; x += 1
       ]
     ]
@@ -107,15 +107,15 @@ Note: The first k-subset is simply Range[k].";
   NextKSubset[{2, 3, 4}, 5] > {2, 3, 5}; NextKSubset[{4, 5}, 5] > {}*)
 NextKSubset[current_List, m_Integer?Positive] /; 
   OrderedQ[current] && Max[current] <= m := With[
-    {k = Length[current]},
+    {k = Length[current]}, 
     Block[
-      {i = k, subset = current},
+      {i = k, subset = current}, 
       (*Find the rightmost element that can be incremented*)
       While[i > 0 && subset[[i]] == m - k + i, i--];
-      If[i == 0,
-        (*No next subset exists*){},
+      If[i == 0, 
+        (*No next subset exists*){}, 
         subset[[i]] += 1;
-        subset = ReplacePart[subset,
+        subset = ReplacePart[subset, 
           Thread[
             Range[i + 1, k] -> Range[subset[[i]] + 1, subset[[i]] + k - i]]
         ];
@@ -126,9 +126,9 @@ NextKSubset[current_List, m_Integer?Positive] /;
 
 
 FirstKSubsetIx[set_, k_, test_] := NestWhile[
-  NextKSubset[#, Length[set]] &,
-  Range[k],
-  ! test[set[[#]]] &,
+  NextKSubset[#, Length[set]] &, 
+  Range[k], 
+  ! test[set[[#]]] &, 
   1, Binomial[Length[set], k]
 ]
 FirstKSubset[set_, k_, test_] := set[[FirstKSubsetIx[set, k, test]]]
