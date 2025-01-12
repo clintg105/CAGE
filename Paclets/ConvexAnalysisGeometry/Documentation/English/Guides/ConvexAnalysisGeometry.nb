@@ -1,0 +1,576 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 13.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     20035,        567]
+NotebookOptionsPosition[     14530,        450]
+NotebookOutlinePosition[     16198,        491]
+CellTagsIndexPosition[     16155,        488]
+WindowTitle->Convex Analysis Geometry Paclet
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[GridBox[{
+   {GridBox[{
+      {
+       ItemBox[Cell[BoxData[
+         RowBox[{
+          TemplateBox[{12},
+           "Spacer1"], Cell["CONVEX ANALYSIS GEOMETRY GUIDE", "PacletNameCell",
+           TextAlignment->Center], 
+          TemplateBox[{8},
+           "Spacer1"]}]],
+         TextAlignment->Center],
+        Background->RGBColor[0.85098, 0.396078, 0],
+        ItemSize->Full], ""}
+     },
+     GridBoxAlignment->{"Rows" -> {{Center}}},
+     GridBoxItemSize->{"Columns" -> {Full, 
+         Scaled[0.02]}, "Rows" -> {{2.5}}}], Cell[TextData[{
+     Cell[BoxData[
+      TagBox[
+       ActionMenuBox[
+        FrameBox[Cell[TextData[{
+          "Functions",
+          " ",
+          Cell[BoxData[
+           GraphicsBox[
+            {GrayLevel[0.66667], Thickness[0.13], 
+             LineBox[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]},
+            AspectRatio->1,
+            ImageSize->20,
+            PlotRange->{{-3, 4}, {-1, 1}}]]]
+         }]],
+         StripOnInput->False], {"\<\"Polar\"\>":>Documentation`HelpLookup[
+        "paclet:ConvexAnalysisGeometry/ref/Polar"]},
+        Appearance->None,
+        MenuAppearance->Automatic,
+        MenuStyle->"GuideFunction"],
+       MouseAppearanceTag["LinkHand"]]],
+      LineSpacing->{1.4, 0}],
+     "\[ThickSpace]\[ThickSpace]\[ThickSpace]\[ThickSpace]\[ThickSpace]\
+\[ThickSpace]",
+     Cell[BoxData[
+      TagBox[
+       ActionMenuBox[
+        FrameBox[Cell[TextData[{
+          "Tech Notes",
+          " ",
+          Cell[BoxData[
+           GraphicsBox[
+            {GrayLevel[0.66667], Thickness[0.13], 
+             LineBox[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]},
+            AspectRatio->1,
+            ImageSize->20,
+            PlotRange->{{-3, 4}, {-1, 1}}]]]
+         }]],
+         StripOnInput->False], {"\<\"Legacy Elvis Tools\"\>":>
+        Documentation`HelpLookup[
+        "paclet:ConvexAnalysisGeometry/tutorial/LegacyElvisTools"], \
+"\<\"Legacy FCC Tools\"\>":>Documentation`HelpLookup[
+        "paclet:ConvexAnalysisGeometry/tutorial/LegacyFCCTools"]},
+        Appearance->None,
+        MenuAppearance->Automatic,
+        MenuStyle->"GuideTutorial"],
+       MouseAppearanceTag["LinkHand"]]],
+      LineSpacing->{1.4, 0}],
+     "\[ThickSpace]\[ThickSpace]\[ThickSpace]\[ThickSpace]\[ThickSpace]\
+\[ThickSpace]",
+     Cell[BoxData[
+      TagBox[
+       ActionMenuBox[
+        FrameBox[Cell[TextData[{
+          "URL",
+          " ",
+          Cell[BoxData[
+           GraphicsBox[
+            {GrayLevel[0.66667], Thickness[0.13], 
+             LineBox[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]},
+            AspectRatio->1,
+            ImageSize->20,
+            PlotRange->{{-3, 4}, {-1, 1}}]]]
+         }]],
+         StripOnInput->
+          False], {"\<\"ConvexAnalysisGeometry/guide/ConvexAnalysisGeometry\"\
+\>":>None, "\<\"Copy Wolfram Documentation Center URL\"\>":>
+        Module[{DocumentationSearch`Private`nb$}, 
+         DocumentationSearch`Private`nb$ = NotebookPut[
+            Notebook[{
+              Cell["ConvexAnalysisGeometry/guide/ConvexAnalysisGeometry"]}, 
+             Visible -> False]]; 
+         SelectionMove[DocumentationSearch`Private`nb$, All, Notebook]; 
+         FrontEndTokenExecute[DocumentationSearch`Private`nb$, "Copy"]; 
+         NotebookClose[DocumentationSearch`Private`nb$]; Null], 
+        Delimiter, "\<\"Copy web URL\"\>":>
+        Module[{DocumentationSearch`Private`nb$}, 
+         DocumentationSearch`Private`nb$ = NotebookPut[
+            Notebook[{
+              Cell[
+               BoxData[
+                MakeBoxes[
+                 Hyperlink[
+                 "http://reference.wolfram.com/language/\
+ConvexAnalysisGeometry/guide/ConvexAnalysisGeometry.html"], StandardForm]], 
+               "Input", TextClipboardType -> "PlainText"]}, Visible -> 
+             False]]; SelectionMove[
+          DocumentationSearch`Private`nb$, All, Notebook]; 
+         FrontEndTokenExecute[DocumentationSearch`Private`nb$, "Copy"]; 
+         NotebookClose[DocumentationSearch`Private`nb$]; 
+         Null], "\<\"Go to web URL\"\>":>FrontEndExecute[{
+          NotebookLocate[{
+            URL[If[
+               TrueQ[DocumentationBuild`Make`Private`wsmlinkQ$20751], 
+               "http://reference.wolfram.com/system-modeler/", 
+               "http://reference.wolfram.com/language/"] <> 
+             "ConvexAnalysisGeometry/guide/ConvexAnalysisGeometry" <> 
+             ".html"], None}]}]},
+        Appearance->None,
+        MenuAppearance->Automatic,
+        MenuStyle->"URLMenu"],
+       MouseAppearanceTag["LinkHand"]]],
+      LineSpacing->{1.4, 0}]
+    }], "AnchorBar",
+     CacheGraphics->False]}
+  }]], "AnchorBarGrid",
+ CellID->1],
+
+Cell[CellGroupData[{
+
+Cell["Convex Analysis Geometry Paclet", "GuideTitle",
+ CellID->218246613],
+
+Cell["A collection of Mathematica functions for Convex Analysis.", \
+"GuideAbstract",
+ CellID->130582322],
+
+Cell["\t", "GuideDelimiterSubsection"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Operations on Functions", "GuideFunctionsSection",
+ CellID->73040074],
+
+Cell[TextData[{
+ "Everything in this section takes inputs of the form ",
+ StyleBox["SymbolicFunction[formula_, vars_]", "InlineCode"],
+ " with optional ..."
+}], "GuideText",
+ CellID->375938313],
+
+Cell[CellGroupData[{
+
+Cell["Deriving From other Functions", "GuideFunctionsSubsection",
+ CellID->451487285],
+
+Cell[BoxData[
+ RowBox[{Cell[BoxData[
+   TemplateBox[{
+     Cell[
+      TextData["Subgradient"]], "paclet:ref/Subgradient"},
+    "RefLink",
+    BaseStyle->{"InlineFunctionSans"}]], "InlineFunctionSans"], " ", 
+  StyleBox["\[FilledVerySmallSquare]", "InlineSeparator"], " ", Cell[BoxData[
+   TemplateBox[{
+     Cell[
+      TextData["LFConjugate"]], "paclet:ref/LFConjugate"},
+    "RefLink",
+    BaseStyle->{"InlineFunctionSans"}]], "InlineFunctionSans"], " ", 
+  StyleBox["\[FilledVerySmallSquare]", "InlineSeparator"], " ", Cell[BoxData[
+   TemplateBox[{
+     Cell[
+      TextData["InfimalConvolution"]], "paclet:ref/InfimalConvolution"},
+    "RefLink",
+    BaseStyle->{"InlineFunctionSans"}]], "InlineFunctionSans"], " ", 
+  StyleBox["\[FilledVerySmallSquare]", "InlineSeparator"], " ", Cell[BoxData[
+   TemplateBox[{
+     Cell[
+      TextData["MEnvelope"]], "paclet:ref/MEnvelope"},
+    "RefLink",
+    BaseStyle->{"InlineFunctionSans"}]], 
+   "InlineFunctionSans"]}]], "InlineGuideFunctionListing",
+ CellID->684713340]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Computing Conditional Properties", "GuideFunctionsSubsection",
+ CellID->102038918],
+
+Cell[BoxData[
+ RowBox[{Cell[BoxData[
+   TemplateBox[{
+     Cell[
+      TextData["FunctionConvexQ"]], "paclet:ref/FunctionConvexQ"},
+    "RefLink",
+    BaseStyle->{"InlineFunctionSans"}]], "InlineFunctionSans"], " ", 
+  StyleBox["\[FilledVerySmallSquare]", "InlineSeparator"], " ", Cell[BoxData[
+   TemplateBox[{
+     Cell[
+      TextData["SublinearQ"]], "paclet:ref/SublinearQ"},
+    "RefLink",
+    BaseStyle->{"InlineFunctionSans"}]], "InlineFunctionSans"], " ", 
+  StyleBox["\[FilledVerySmallSquare]", "InlineSeparator"], " ", Cell[BoxData[
+   TemplateBox[{
+     Cell[
+      TextData["MultiValuedQ"]], "paclet:ref/MultiValuedQ"},
+    "RefLink",
+    BaseStyle->{"InlineFunctionSans"}]], 
+   "InlineFunctionSans"]}]], "InlineGuideFunctionListing",
+ CellID->15001685]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Deriving Sets From Functions", "GuideFunctionsSubsection",
+ CellID->173109221],
+
+Cell[BoxData[
+ RowBox[{Cell[BoxData[
+   TemplateBox[{
+     Cell[
+      TextData["DomainSet"]], "paclet:ref/DomainSet"},
+    "RefLink",
+    BaseStyle->{"InlineFunctionSans"}]], "InlineFunctionSans"], " ", 
+  StyleBox["\[FilledVerySmallSquare]", "InlineSeparator"], " ", Cell[BoxData[
+   TemplateBox[{
+     Cell[
+      TextData["EpigraphSet"]], "paclet:ref/EpigraphSet"},
+    "RefLink",
+    BaseStyle->{"InlineFunctionSans"}]], "InlineFunctionSans"], " ", 
+  StyleBox["\[FilledVerySmallSquare]", "InlineSeparator"], " ", Cell[BoxData[
+   TemplateBox[{
+     Cell[
+      TextData["LevelSet"]], "paclet:ref/LevelSet"},
+    "RefLink",
+    BaseStyle->{"InlineFunctionSans"}]], 
+   "InlineFunctionSans"]}]], "InlineGuideFunctionListing",
+ CellID->828239616]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Operations on Implicitly Defined Sets", "GuideFunctionsSection",
+ CellID->102847122],
+
+Cell[TextData[{
+ "Everything in this section takes inputs of the form ",
+ StyleBox["ImplicitRegion[expr_, vars_]", "InlineCode"],
+ " with optional ..."
+}], "GuideText",
+ CellID->388358454],
+
+Cell[CellGroupData[{
+
+Cell["Deriving From other Sets", "GuideFunctionsSubsection",
+ CellID->197649251],
+
+Cell[TextData[{
+ ButtonBox["Polar",
+  BaseStyle->"Link",
+  ButtonData->"paclet:ConvexAnalysisGeometry/ref/Polar"],
+ "\[NonBreakingSpace]",
+ StyleBox["\[FilledVerySmallSquare]", "InlineSeparator"],
+ " ",
+ "ConicHull",
+ "\[NonBreakingSpace]",
+ StyleBox["\[FilledVerySmallSquare]", "InlineSeparator"],
+ " ",
+ "Interior"
+}], "InlineGuideFunctionListing",
+ CellID->21735734]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Computing Conditional Properties", "GuideFunctionsSubsection",
+ CellID->300055274],
+
+Cell[BoxData[
+ RowBox[{Cell[BoxData[
+   TemplateBox[{
+     Cell[
+      TextData["SetConvexQ"]], "paclet:ref/SetConvexQ"},
+    "RefLink",
+    BaseStyle->{"InlineFunctionSans"}]], "InlineFunctionSans"], " ", 
+  StyleBox["\[FilledVerySmallSquare]", "InlineSeparator"], " ", Cell[BoxData[
+   TemplateBox[{
+     Cell[
+      TextData["SetBoundedQ"]], "paclet:ref/SetBoundedQ"},
+    "RefLink",
+    BaseStyle->{"InlineFunctionSans"}]], "InlineFunctionSans"], " ", 
+  StyleBox["\[FilledVerySmallSquare]", "InlineSeparator"], " ", Cell[BoxData[
+   TemplateBox[{
+     Cell[
+      TextData["ZeroSymmetricQ"]], "paclet:ref/ZeroSymmetricQ"},
+    "RefLink",
+    BaseStyle->{"InlineFunctionSans"}]], 
+   "InlineFunctionSans"]}]], "InlineGuideFunctionListing",
+ CellID->409058209]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Deriving Functions From Sets", "GuideFunctionsSubsection",
+ CellID->438506595],
+
+Cell[BoxData[
+ RowBox[{Cell[BoxData[
+   TemplateBox[{
+     Cell[
+      TextData["IndicatorFunction"]], "paclet:ref/IndicatorFunction"},
+    "RefLink",
+    BaseStyle->{"InlineFunctionSans"}]], "InlineFunctionSans"], " ", 
+  StyleBox["\[FilledVerySmallSquare]", "InlineSeparator"], " ", Cell[BoxData[
+   TemplateBox[{
+     Cell[
+      TextData["SupportFunction"]], "paclet:ref/SupportFunction"},
+    "RefLink",
+    BaseStyle->{"InlineFunctionSans"}]], "InlineFunctionSans"], " ", 
+  StyleBox["\[FilledVerySmallSquare]", "InlineSeparator"], " ", Cell[BoxData[
+   TemplateBox[{
+     Cell[
+      TextData["GaugeFunction"]], "paclet:ref/GaugeFunction"},
+    "RefLink",
+    BaseStyle->{"InlineFunctionSans"}]], 
+   "InlineFunctionSans"]}]], "InlineGuideFunctionListing",
+ CellID->39527631]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Special Cases: Piecewise Linear Functions and Polytopes", \
+"GuideFunctionsSection",
+ CellID->159968368],
+
+Cell[CellGroupData[{
+
+Cell["Methods", "GuideFunctionsSubsection",
+ CellID->7541940],
+
+Cell[BoxData[Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     TextData["lcon2vert"]], "paclet:ref/lcon2vert"},
+   "RefLink",
+   BaseStyle->{"InlineFunctionSans"}]], 
+  "InlineFunctionSans"]], "InlineGuideFunctionListing",
+ CellID->210667040]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Reduction Methods", "GuideFunctionsSection",
+ CellID->50942786],
+
+Cell[CellGroupData[{
+
+Cell["Methods", "GuideFunctionsSubsection",
+ CellID->136497502],
+
+Cell[BoxData[
+ RowBox[{Cell[BoxData[
+   TemplateBox[{
+     Cell[
+      TextData["WLReduce"]], "paclet:ref/WLReduce"},
+    "RefLink",
+    BaseStyle->{"InlineFunctionSans"}]], "InlineFunctionSans"], " ", 
+  StyleBox["\[FilledVerySmallSquare]", "InlineSeparator"], " ", Cell[BoxData[
+   TemplateBox[{
+     Cell[
+      TextData["ConditionalResolve"]], "paclet:ref/ConditionalResolve"},
+    "RefLink",
+    BaseStyle->{"InlineFunctionSans"}]], 
+   "InlineFunctionSans"]}]], "InlineGuideFunctionListing",
+ CellID->535406858]
+}, Open  ]]
+}, Open  ]],
+
+Cell[BoxData[GridBox[{
+   {
+    DynamicBox[FEPrivate`ImportImage[
+      FrontEnd`FileName[{"Documentation", "FooterIcons"}, 
+       "RelatedTutorial.png"]],
+     ImageSizeCache->{50., {27., 33.}}], GridBox[{
+      {
+       StyleBox[
+        RowBox[{"Tech", " ", "Notes"}], "GuideTutorialsSection"]},
+      {
+       RowBox[{"\[FilledVerySmallSquare]", Cell["\<\
+The ConvexAnalysisGeometry paclet is an attempt to generalize several \
+previous projects for solving problems in convex analysis and optimal control.\
+\>", "GuideTutorial"]}]},
+      {
+       RowBox[{"\[FilledVerySmallSquare]", Cell[BoxData[{
+         TemplateBox[{
+           Cell[
+            TextData["Legacy Elvis Tools"]], 
+           "paclet:ConvexAnalysisGeometry/tutorial/LegacyElvisTools"},
+          "RefLinkPlain",
+          BaseStyle->{"GuideTutorial"}], "\n", 
+         RowBox[{" ", 
+          RowBox[{
+           RowBox[{"-", " ", "2021"}], " ", "code", " ", "for", " ", 
+           "solving", " ", "the", " ", "generalized", " ", "Elvis", " ", 
+           "problem", " ", "in"}], " "}], "\n", Cell[BoxData[
+          SuperscriptBox["\[DoubleStruckCapitalR]", "2"]], "InlineFormula",
+          FontFamily->"Source Sans Pro"]}], "GuideTutorial"]}]},
+      {
+       RowBox[{"\[FilledVerySmallSquare]", Cell[BoxData[{
+         TemplateBox[{
+           Cell[
+            TextData["Legacy FCC Tools"]], 
+           "paclet:ConvexAnalysisGeometry/tutorial/LegacyFCCTools"},
+          "RefLinkPlain",
+          BaseStyle->{"GuideTutorial"}], "\n", 
+         RowBox[{" ", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"-", " ", "2023"}], " ", "code", " ", "for", " ", 
+            "taking", " ", "symbolic", " ", "convex", " ", "conjugates", " ", 
+            "for", " ", "functions", " ", "from", " ", 
+            "\[DoubleStruckCapitalR]"}], "\[Rule]", 
+           "\[DoubleStruckCapitalR]"}]}]}], "GuideTutorial"]}]}
+     }]}
+  }]], "GuideTutorialsSection"],
+
+Cell[" ", "FooterCell"]
+},
+Saveable->False,
+ScreenStyleEnvironment->"Working",
+WindowSize->{900., 830.4},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowTitle->"Convex Analysis Geometry Paclet",
+TaggingRules->{
+ "ModificationHighlight" -> False, "ColorType" -> "", "LinkTrails" -> "", 
+  "ExampleCounter" -> 1, 
+  "Openers" -> {
+   "PrimaryExamplesSection" -> Open, "ExampleSection" -> {"0" -> Open}}, 
+  "NewStyles" -> True, "CitationPopupData" -> {$Failed, ""}, "ShowCitation" -> 
+  False, "RootCaptions" -> "", 
+  "Metadata" -> {
+   "built" -> "{2025, 1, 12, 0, 11, 15.3448103}", 
+    "history" -> {"??", "", "", ""}, "context" -> "ConvexAnalysisGeometry`", 
+    "keywords" -> {}, "specialkeywords" -> {}, 
+    "tutorialcollectionlinks" -> {}, "index" -> True, "label" -> 
+    "Convex Analysis Geometry Guide", "language" -> "en", "paclet" -> 
+    "ConvexAnalysisGeometry", "status" -> "None", "summary" -> 
+    "A collection of Mathematica functions for Convex Analysis.", 
+    "synonyms" -> {}, "tabletags" -> 
+    DocumentationBuild`Make`Private`tabletaggingrules$20720, "title" -> 
+    "Convex Analysis Geometry Paclet", "titlemodifier" -> "", 
+    "metadescription" -> "", "windowtitle" -> 
+    "Convex Analysis Geometry Paclet", "type" -> "Guide", "uri" -> 
+    "ConvexAnalysisGeometry/guide/ConvexAnalysisGeometry"}},
+CacheGraphics->False,
+FrontEndVersion->"13.0 for Microsoft Windows (64-bit) (February 4, 2022)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "Reference.nb", 
+  CharacterEncoding -> "UTF-8"]
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[603, 21, 4658, 122, 70, "AnchorBarGrid",ExpressionUUID->"b25124f1-ad9e-451a-9f1c-89b044439e4b",
+ CellID->1],
+Cell[CellGroupData[{
+Cell[5286, 147, 73, 1, 70, "GuideTitle",ExpressionUUID->"2216423b-88ae-4b08-92aa-a46208cc4238",
+ CellID->218246613],
+Cell[5362, 150, 105, 2, 70, "GuideAbstract",ExpressionUUID->"1a36391c-1602-4637-b9c6-a43b85ba2cfe",
+ CellID->130582322],
+Cell[5470, 154, 38, 0, 70, "GuideDelimiterSubsection",ExpressionUUID->"d85f8c49-ebe6-4620-90ff-71c0aea147e9"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5545, 159, 75, 1, 70, "GuideFunctionsSection",ExpressionUUID->"befa9370-2d6a-4ad9-81d0-9bed412c5bb9",
+ CellID->73040074],
+Cell[5623, 162, 193, 5, 70, "GuideText",ExpressionUUID->"79e3bac6-c454-4bb2-aa08-b7cc50137679",
+ CellID->375938313],
+Cell[CellGroupData[{
+Cell[5841, 171, 85, 1, 70, "GuideFunctionsSubsection",ExpressionUUID->"6e2280fa-0796-445c-b736-9cd463dba61a",
+ CellID->451487285],
+Cell[5929, 174, 1019, 26, 70, "InlineGuideFunctionListing",ExpressionUUID->"adf7b9ee-3741-43d6-a5e3-2a97119c751b",
+ CellID->684713340]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6985, 205, 88, 1, 70, "GuideFunctionsSubsection",ExpressionUUID->"8fe0cb09-db02-4af2-9d96-7a30665be50f",
+ CellID->102038918],
+Cell[7076, 208, 766, 20, 70, "InlineGuideFunctionListing",ExpressionUUID->"d1af9ece-4f7c-4d58-be34-5f4b549f182a",
+ CellID->15001685]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7879, 233, 84, 1, 70, "GuideFunctionsSubsection",ExpressionUUID->"cdf7a1bd-f1ae-42d7-98ea-e10afd658bcb",
+ CellID->173109221],
+Cell[7966, 236, 749, 20, 70, "InlineGuideFunctionListing",ExpressionUUID->"3c1be8ad-f895-40da-a588-82b441cbf250",
+ CellID->828239616]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8764, 262, 90, 1, 70, "GuideFunctionsSection",ExpressionUUID->"59f941c2-748e-402b-8b01-e46c7a9b6395",
+ CellID->102847122],
+Cell[8857, 265, 188, 5, 70, "GuideText",ExpressionUUID->"7b4ebe37-a594-4339-beae-097c28319b6d",
+ CellID->388358454],
+Cell[CellGroupData[{
+Cell[9070, 274, 80, 1, 70, "GuideFunctionsSubsection",ExpressionUUID->"a818d856-24ae-4893-8f16-fd9d917c537f",
+ CellID->197649251],
+Cell[9153, 277, 369, 13, 70, "InlineGuideFunctionListing",ExpressionUUID->"772c2681-0b7a-4089-88f0-4e266beb0da8",
+ CellID->21735734]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[9559, 295, 88, 1, 70, "GuideFunctionsSubsection",ExpressionUUID->"4ed59009-6183-4473-ba55-53b2a1d37d75",
+ CellID->300055274],
+Cell[9650, 298, 763, 20, 70, "InlineGuideFunctionListing",ExpressionUUID->"fac052c0-2fc3-4355-a4e6-77a9ae902ab9",
+ CellID->409058209]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[10450, 323, 84, 1, 70, "GuideFunctionsSubsection",ExpressionUUID->"ced341e8-1ba3-43de-870d-7d2dbb398ff4",
+ CellID->438506595],
+Cell[10537, 326, 782, 20, 70, "InlineGuideFunctionListing",ExpressionUUID->"abf2357e-26b1-474e-a4fe-f310f25e27b4",
+ CellID->39527631]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[11368, 352, 110, 2, 70, "GuideFunctionsSection",ExpressionUUID->"76534c2a-880e-4656-8f6c-fde2bc31ff07",
+ CellID->159968368],
+Cell[CellGroupData[{
+Cell[11503, 358, 61, 1, 70, "GuideFunctionsSubsection",ExpressionUUID->"93acb4a4-8b6c-4f74-9071-b82578799753",
+ CellID->7541940],
+Cell[11567, 361, 237, 7, 70, "InlineGuideFunctionListing",ExpressionUUID->"a84bf3de-e5e2-403f-9eb6-c6dff5f1d78f",
+ CellID->210667040]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[11853, 374, 69, 1, 70, "GuideFunctionsSection",ExpressionUUID->"806f3876-194b-4286-a52c-837a4a448176",
+ CellID->50942786],
+Cell[CellGroupData[{
+Cell[11947, 379, 63, 1, 70, "GuideFunctionsSubsection",ExpressionUUID->"3b65f26c-d21d-4874-97f9-8ea8a72c2ec6",
+ CellID->136497502],
+Cell[12013, 382, 517, 14, 70, "InlineGuideFunctionListing",ExpressionUUID->"a4a78487-4248-498c-9207-7a5fff86f3a3",
+ CellID->535406858]
+}, Open  ]]
+}, Open  ]],
+Cell[12557, 400, 1943, 46, 70, "GuideTutorialsSection",ExpressionUUID->"ff1acac3-08ac-4f6c-9c35-91ad64c52162"],
+Cell[14503, 448, 23, 0, 70, "FooterCell",ExpressionUUID->"4c3bb6d4-da3a-49a8-b8e3-0309a7d51325"]
+}
+]
+*)
+
+(* End of internal cache information *)

@@ -1,0 +1,699 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 13.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     23538,        690]
+NotebookOptionsPosition[     18371,        583]
+NotebookOutlinePosition[     20520,        637]
+CellTagsIndexPosition[     20435,        632]
+WindowTitle->Polar
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[GridBox[{
+   {GridBox[{
+      {
+       ItemBox[Cell[BoxData[
+         RowBox[{
+          TemplateBox[{12},
+           "Spacer1"], Cell[
+          "CONVEX ANALYSIS GEOMETRY SYMBOL", "PacletNameCell",
+           TextAlignment->Center], 
+          TemplateBox[{8},
+           "Spacer1"]}]],
+         TextAlignment->Center],
+        Background->RGBColor[0.490196, 0.576471, 0.690196],
+        ItemSize->Full], ""}
+     },
+     GridBoxAlignment->{"Rows" -> {{Center}}},
+     GridBoxItemSize->{"Columns" -> {Full, 
+         Scaled[0.02]}, "Rows" -> {{2.5}}}], Cell[TextData[{
+     Cell[BoxData[
+      TagBox[
+       ActionMenuBox[
+        FrameBox[Cell[TextData[{
+          "Related Guides",
+          " ",
+          Cell[BoxData[
+           GraphicsBox[
+            {GrayLevel[0.66667], Thickness[0.13], 
+             LineBox[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]},
+            AspectRatio->1,
+            ImageSize->20,
+            PlotRange->{{-3, 4}, {-1, 1}}]]]
+         }]],
+         StripOnInput->False], {"\<\"Convex Analysis Geometry Paclet\"\>":>
+        Documentation`HelpLookup[
+        "paclet:ConvexAnalysisGeometry/guide/ConvexAnalysisGeometry"]},
+        Appearance->None,
+        MenuAppearance->Automatic,
+        MenuStyle->"MoreAbout"],
+       MouseAppearanceTag["LinkHand"]]],
+      LineSpacing->{1.4, 0}],
+     "\[ThickSpace]\[ThickSpace]\[ThickSpace]\[ThickSpace]\[ThickSpace]\
+\[ThickSpace]",
+     Cell[BoxData[
+      TagBox[
+       ActionMenuBox[
+        FrameBox[Cell[TextData[{
+          "URL",
+          " ",
+          Cell[BoxData[
+           GraphicsBox[
+            {GrayLevel[0.66667], Thickness[0.13], 
+             LineBox[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]},
+            AspectRatio->1,
+            ImageSize->20,
+            PlotRange->{{-3, 4}, {-1, 1}}]]]
+         }]],
+         StripOnInput->False], {"\<\"ConvexAnalysisGeometry/ref/Polar\"\>":>
+        None, "\<\"Copy Wolfram Documentation Center URL\"\>":>
+        Module[{DocumentationSearch`Private`nb$}, 
+         DocumentationSearch`Private`nb$ = NotebookPut[
+            Notebook[{
+              Cell["ConvexAnalysisGeometry/ref/Polar"]}, Visible -> False]]; 
+         SelectionMove[DocumentationSearch`Private`nb$, All, Notebook]; 
+         FrontEndTokenExecute[DocumentationSearch`Private`nb$, "Copy"]; 
+         NotebookClose[DocumentationSearch`Private`nb$]; Null], 
+        Delimiter, "\<\"Copy web URL\"\>":>
+        Module[{DocumentationSearch`Private`nb$}, 
+         DocumentationSearch`Private`nb$ = NotebookPut[
+            Notebook[{
+              Cell[
+               BoxData[
+                MakeBoxes[
+                 Hyperlink[
+                 "http://reference.wolfram.com/language/\
+ConvexAnalysisGeometry/ref/Polar.html"], StandardForm]], "Input", 
+               TextClipboardType -> "PlainText"]}, Visible -> False]]; 
+         SelectionMove[DocumentationSearch`Private`nb$, All, Notebook]; 
+         FrontEndTokenExecute[DocumentationSearch`Private`nb$, "Copy"]; 
+         NotebookClose[DocumentationSearch`Private`nb$]; 
+         Null], "\<\"Go to web URL\"\>":>FrontEndExecute[{
+          NotebookLocate[{
+            URL[If[
+               TrueQ[DocumentationBuild`Make`Private`wsmlinkQ$21352], 
+               "http://reference.wolfram.com/system-modeler/", 
+               "http://reference.wolfram.com/language/"] <> 
+             "ConvexAnalysisGeometry/ref/Polar" <> ".html"], None}]}]},
+        Appearance->None,
+        MenuAppearance->Automatic,
+        MenuStyle->"URLMenu"],
+       MouseAppearanceTag["LinkHand"]]],
+      LineSpacing->{1.4, 0}]
+    }], "AnchorBar",
+     CacheGraphics->False]}
+  }]], "AnchorBarGrid",
+ GridBoxOptions->{GridBoxItemSize->{"Columns" -> {
+     Scaled[0.65], {
+      Scaled[0.34]}}, "ColumnsIndexed" -> {}, "Rows" -> {{1.}}, 
+   "RowsIndexed" -> {}}},
+ CellID->1],
+
+Cell["ConvexAnalysisGeometry`", "ContextNameCell"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[GridBox[{
+   {Cell[TextData[{
+     Cell["Polar", "ObjectName"],
+     Cell[BoxData[
+      TemplateBox[{8},
+       "Spacer1"]]],
+     Cell[BoxData[""], "ObjectNameTranslation"]
+    }]], "\[SpanFromLeft]"}
+  }]], "ObjectNameGrid"],
+
+Cell[BoxData[GridBox[{
+   {"", Cell[TextData[{
+     Cell[BoxData[
+      RowBox[{
+       TemplateBox[{
+         Cell[
+          TextData["Polar"]], "paclet:ConvexAnalysisGeometry/ref/Polar", 
+         "ConvexAnalysisGeometry Package Symbol"},
+        "PackageLink",
+        BaseStyle->"InlineFormula"], "[", 
+       StyleBox[
+        RowBox[{"expr", ",", 
+         RowBox[{"{", 
+          RowBox[{"x", ",", "y", ",", "..."}], "}"}]}], "TI"], "]"}]], 
+      "InlineFormula",
+      FontFamily->"Source Sans Pro"],
+     "\[LineSeparator]Computes the polar set as a region."
+    }]]}
+  }]], "Usage",
+ CellID->535666114]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[Cell[BoxData[
+ ButtonBox[Cell[TextData[{
+   Cell[BoxData[
+    DynamicBox[ToBoxes[
+      If[
+       MatchQ[
+        CurrentValue[
+         EvaluationNotebook[], {TaggingRules, "Openers", "NotesSection"}, 
+         Closed], 
+        Alternatives[Open, True]], 
+       Style[
+        Graphics[{
+          Thickness[0.18], 
+          RGBColor[0.8509803921568627, 0.396078431372549, 0], 
+          Line[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]}, AspectRatio -> 1, 
+         PlotRange -> {{-3, 4}, {-1, 1}}, ImageSize -> 20], Magnification -> 
+        0.68 Inherited], 
+       Rotate[
+        Style[
+         Graphics[{
+           Thickness[0.18], 
+           RGBColor[0.8509803921568627, 0.396078431372549, 0], 
+           Line[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]}, AspectRatio -> 1, 
+          PlotRange -> {{-3, 4}, {-1, 1}}, ImageSize -> 20], Magnification -> 
+         0.68 Inherited], Rational[1, 2] Pi, {-1.65, -1}]]],
+     ImageSizeCache->{
+      13.600000000000001`, {0.5800000000000001, 13.020000000000001`}}]]],
+   Cell[BoxData[
+    TemplateBox[{1},
+     "Spacer1"]]],
+   "Details and Options"
+  }], "NotesFrameText"],
+  Appearance->{Automatic, None, "Normal", Automatic},
+  BaseStyle->None,
+  ButtonFunction:>(FrontEndExecute[{
+     FrontEnd`SelectionMove[
+      FrontEnd`SelectedNotebook[], All, ButtonCell], 
+     FrontEndToken["OpenCloseGroup"], 
+     FrontEnd`SelectionMove[
+      FrontEnd`SelectedNotebook[], After, CellContents]}]& ),
+  Evaluator->None,
+  Method->"Preemptive"]]]], "NotesSection",
+ WholeCellGroupOpener->True,
+ CellGroupingRules->{"SectionGrouping", 50},
+ CacheGraphics->False,
+ CellID->721148561],
+
+Cell["The following options can be given: ", "Notes",
+ CellID->681616023],
+
+Cell[BoxData[GridBox[{
+   {Cell["      ", "TableRowIcon"], 
+    TemplateBox[{
+      Cell[
+       TextData["Assumptions"]], "paclet:ref/Assumptions"},
+     "RefLink",
+     BaseStyle->{"3ColumnTableMod"}], 
+    TemplateBox[{
+      Cell[
+       TextData["True"]], "paclet:ref/True"},
+     "RefLink",
+     BaseStyle->{"3ColumnTableMod"}], Cell["\<\
+Assumptions is an option for functions such as Simplify, Refine, and \
+Integrate that specifies default assumptions to be made about symbolic \
+quantities. \
+\>", "TableText"]},
+   {Cell["      ", "TableRowIcon"], 
+    TemplateBox[{
+      Cell[
+       TextData["PerformanceGoal"]], "paclet:ref/PerformanceGoal"},
+     "RefLink",
+     BaseStyle->{"3ColumnTableMod"}], "\"\<Speed\>\"", Cell["\<\
+PerformanceGoal is an option for various algorithmic and presentational \
+functions that specifies what aspect of performance to try to optimize with \
+Automatic settings for options.\
+\>", "TableText"]}
+  }]], "3ColumnTableMod",
+ GridBoxOptions->{
+ GridBoxBackground->{"Columns" -> {{None}}, "Rows" -> {None, {None}}},
+ GridBoxDividers->{"Rows" -> {{True, True, True}}}},
+ CellID->593854774]
+}, Dynamic[CurrentValue[
+ EvaluationNotebook[], {TaggingRules, "Openers", "NotesSection"}, Closed]]]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ Cell[BoxData[
+  DynamicBox[ToBoxes[
+    If[
+     MatchQ[
+      CurrentValue[
+       EvaluationNotebook[], {
+       TaggingRules, "Openers", "PrimaryExamplesSection"}, Open], 
+      Alternatives[True, Open]], 
+     Style[
+      Graphics[{
+        Thickness[0.18], 
+        RGBColor[0.8509803921568627, 0.396078431372549, 0], 
+        Line[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]}, AspectRatio -> 1, 
+       PlotRange -> {{-3, 4}, {-1, 1}}, ImageSize -> 20], Magnification -> 
+      0.68 Inherited], 
+     Rotate[
+      Style[
+       Graphics[{
+         Thickness[0.18], 
+         RGBColor[0.8509803921568627, 0.396078431372549, 0], 
+         Line[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]}, AspectRatio -> 1, 
+        PlotRange -> {{-3, 4}, {-1, 1}}, ImageSize -> 20], Magnification -> 
+       0.68 Inherited], Rational[1, 2] Pi, {-1.65, -1}]]],
+   ImageSizeCache->{13.600000000000001`, {5., 8.600000000000001}}]]],
+ Cell[BoxData[
+  TemplateBox[{1},
+   "Spacer1"]]],
+ "Examples",
+ "\[NonBreakingSpace]\[NonBreakingSpace]",
+ Cell["(2)", "ExampleCount"]
+}], "PrimaryExamplesSection",
+ WholeCellGroupOpener->True,
+ CacheGraphics->False,
+ CellTags->"PrimaryExamplesSection",
+ CellID->112186958],
+
+Cell[BoxData[
+ RowBox[{"Needs", "[", "\"\<ConvexAnalysisGeometry`\>\"", "]"}]], "Input", \
+"ExampleInitialization",
+ CellLabel->"In[1]:=",
+ CellID->249463143],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ Cell[BoxData[
+  DynamicBox[ToBoxes[
+    If[
+     MatchQ[
+      CurrentValue[
+       EvaluationNotebook[], {TaggingRules, "Openers", "ExampleSection", "0"},
+        Closed], 
+      Alternatives[Open, True]], 
+     Style[
+      Graphics[{
+        Thickness[0.18], 
+        RGBColor[0.8509803921568627, 0.396078431372549, 0], 
+        Line[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]}, AspectRatio -> 1, 
+       PlotRange -> {{-3, 4}, {-1, 1}}, ImageSize -> 20], Magnification -> 
+      0.68 Inherited], 
+     Rotate[
+      Style[
+       Graphics[{
+         Thickness[0.18], 
+         RGBColor[0.8509803921568627, 0.396078431372549, 0], 
+         Line[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]}, AspectRatio -> 1, 
+        PlotRange -> {{-3, 4}, {-1, 1}}, ImageSize -> 20], Magnification -> 
+       0.68 Inherited], Rational[1, 2] Pi, {-1.65, -1}]]],
+   ImageSizeCache->{13.600000000000001`, {5., 8.600000000000001}}]]],
+ Cell[BoxData[
+  TemplateBox[{1},
+   "Spacer1"]]],
+ "Basic Examples",
+ "\[NonBreakingSpace]\[NonBreakingSpace]",
+ Cell["(1)", "ExampleCount"]
+}], "ExampleSection", "ExampleSection",
+ WholeCellGroupOpener->True,
+ CacheGraphics->False,
+ CellID->156520477],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Polar", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"x", ",", "y"}], "}"}], ".", 
+     RowBox[{"{", 
+      RowBox[{"x", ",", "y"}], "}"}]}], "<=", "r"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"x", ",", "y"}], "}"}], ",", "\[IndentingNewLine]", 
+   RowBox[{"Assumptions", "->", 
+    RowBox[{
+     RowBox[{"r", ">", "0"}], "&&", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"x", "|", "y", "|", "r"}], ")"}], "\[Element]", "Reals"}], "&&", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"x", "|", "y"}], ")"}], "!=", "0"}]}]}]}], "]"}]], "Input",
+ CellProlog:>Needs["ConvexAnalysisGeometry`"],
+ CellLabel->"In[1]:=",
+ CellID->64556061],
+
+Cell[BoxData[
+ RowBox[{"ImplicitRegion", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"r", " ", 
+     RowBox[{"(", 
+      RowBox[{
+       SuperscriptBox["x", "2"], "+", 
+       SuperscriptBox["y", "2"]}], ")"}]}], "\[LessEqual]", "1"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"x", ",", "y"}], "}"}]}], "]"}]], "Output",
+ CellLabel->"Out[1]=",
+ CellID->410269532]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Polar", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"x", "/", "a"}], ",", 
+       RowBox[{"y", "/", "b"}]}], "}"}], ".", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"x", "/", "a"}], ",", 
+       RowBox[{"y", "/", "b"}]}], "}"}]}], "<=", "c"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"x", ",", "y"}], "}"}], ",", 
+   RowBox[{"Assumptions", "->", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"x", "|", "y", "|", "a", "|", "b", "|", "c"}], ")"}], "!=", 
+       "0"}], "&&", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"x", "|", "y", "|", "a", "|", "b", "|", "c"}], ")"}], 
+       "\[Element]", "Reals"}], "&&", 
+      RowBox[{"c", ">", "0"}]}], ")"}]}]}], "]"}]], "Input",
+ CellProlog:>Needs["ConvexAnalysisGeometry`"],
+ CellLabel->"In[2]:=",
+ CellID->495513196],
+
+Cell[BoxData[
+ RowBox[{"ImplicitRegion", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      SuperscriptBox["a", "2"], " ", "c", " ", 
+      SuperscriptBox["x", "2"]}], "+", 
+     RowBox[{
+      SuperscriptBox["b", "2"], " ", "c", " ", 
+      SuperscriptBox["y", "2"]}]}], "\[LessEqual]", "1"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"x", ",", "y"}], "}"}]}], "]"}]], "Output",
+ CellLabel->"Out[2]=",
+ CellID->16967014]
+}, Open  ]]
+}, Dynamic[CurrentValue[
+ EvaluationNotebook[], {TaggingRules, "Openers", "ExampleSection", "0"}, 
+  Closed]]]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ Cell[BoxData[
+  DynamicBox[ToBoxes[
+    If[
+     MatchQ[
+      CurrentValue[
+       EvaluationNotebook[], {TaggingRules, "Openers", "ExampleSection", "1"},
+        Closed], 
+      Alternatives[Open, True]], 
+     Style[
+      Graphics[{
+        Thickness[0.18], 
+        RGBColor[0.8509803921568627, 0.396078431372549, 0], 
+        Line[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]}, AspectRatio -> 1, 
+       PlotRange -> {{-3, 4}, {-1, 1}}, ImageSize -> 20], Magnification -> 
+      0.68 Inherited], 
+     Rotate[
+      Style[
+       Graphics[{
+         Thickness[0.18], 
+         RGBColor[0.8509803921568627, 0.396078431372549, 0], 
+         Line[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]}, AspectRatio -> 1, 
+        PlotRange -> {{-3, 4}, {-1, 1}}, ImageSize -> 20], Magnification -> 
+       0.68 Inherited], Rational[1, 2] Pi, {-1.65, -1}]]],
+   ImageSizeCache->{
+    13.600000000000001`, {0.5800000000000001, 13.020000000000001`}}]]],
+ Cell[BoxData[
+  TemplateBox[{1},
+   "Spacer1"]]],
+ "Scope",
+ "\[NonBreakingSpace]\[NonBreakingSpace]",
+ Cell["(1)", "ExampleCount"]
+}], "ExampleSection", "ExampleSection",
+ WholeCellGroupOpener->True,
+ CacheGraphics->False,
+ CellID->159517152],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ Cell[BoxData[
+  DynamicBox[ToBoxes[
+    If[
+     MatchQ[
+      CurrentValue[
+       EvaluationNotebook[], {
+       TaggingRules, "Openers", "ExampleSubsection", "0"}, Closed], 
+      Alternatives[Open, True]], 
+     Style[
+      Graphics[{
+        Thickness[0.18], 
+        RGBColor[0.8509803921568627, 0.396078431372549, 0], 
+        Line[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]}, AspectRatio -> 1, 
+       PlotRange -> {{-3, 4}, {-1, 1}}, ImageSize -> 20], Magnification -> 
+      0.68 Inherited], 
+     Rotate[
+      Style[
+       Graphics[{
+         Thickness[0.18], 
+         RGBColor[0.8509803921568627, 0.396078431372549, 0], 
+         Line[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]}, AspectRatio -> 1, 
+        PlotRange -> {{-3, 4}, {-1, 1}}, ImageSize -> 20], Magnification -> 
+       0.68 Inherited], Rational[1, 2] Pi, {-1.65, -1}]]],
+   ImageSizeCache->{
+    13.600000000000001`, {0.5800000000000001, 13.020000000000001`}}]]],
+ Cell[BoxData[
+  TemplateBox[{1},
+   "Spacer1"]]],
+ "Unbounded Sets",
+ "\[NonBreakingSpace]\[NonBreakingSpace]",
+ Cell["(1)", "ExampleCount"]
+}], "ExampleSubsection", "ExampleSubsection",
+ WholeCellGroupOpener->True,
+ CacheGraphics->False,
+ CellID->46286056],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Polar", "[", 
+  RowBox[{
+   RowBox[{"y", ">=", 
+    RowBox[{
+     RowBox[{"x", "^", "2"}], "-", "4"}]}], ",", 
+   RowBox[{"{", 
+    RowBox[{"x", ",", "y"}], "}"}], ",", "\[IndentingNewLine]", 
+   RowBox[{"Assumptions", "->", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"x", "|", "y"}], ")"}], "\[Element]", "Reals"}], "&&", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"x", "|", "y"}], ")"}], "!=", "0"}]}]}]}], "]"}]], "Input",
+ CellProlog:>Needs["ConvexAnalysisGeometry`"],
+ CellLabel->"In[1]:=",
+ CellID->166551129],
+
+Cell[BoxData[
+ RowBox[{"ImplicitRegion", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"-", 
+      FractionBox["1", "4"]}], "<", "y", "<", "0"}], "&&", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"-", "2"}], " ", 
+        SqrtBox[
+         RowBox[{
+          RowBox[{"-", "y"}], " ", 
+          RowBox[{"(", 
+           RowBox[{"1", "+", 
+            RowBox[{"4", " ", "y"}]}], ")"}]}]]}], "\[LessEqual]", "x", "<", 
+       "0"}], "||", 
+      RowBox[{"0", "<", "x", "\[LessEqual]", 
+       RowBox[{"2", " ", 
+        SqrtBox[
+         RowBox[{
+          RowBox[{"-", "y"}], " ", 
+          RowBox[{"(", 
+           RowBox[{"1", "+", 
+            RowBox[{"4", " ", "y"}]}], ")"}]}]]}]}]}], ")"}]}], ",", 
+   RowBox[{"{", 
+    RowBox[{"x", ",", "y"}], "}"}]}], "]"}]], "Output",
+ CellLabel->"Out[1]=",
+ CellID->594282894]
+}, Open  ]]
+}, Dynamic[CurrentValue[
+ EvaluationNotebook[], {TaggingRules, "Openers", "ExampleSubsection", "0"}, 
+  Closed]]]]
+}, Dynamic[CurrentValue[
+ EvaluationNotebook[], {TaggingRules, "Openers", "ExampleSection", "1"}, 
+  Closed]]]]
+}, Dynamic[CurrentValue[
+ EvaluationNotebook[], {TaggingRules, "Openers", "PrimaryExamplesSection"}, 
+  Closed]]]],
+
+Cell[BoxData[GridBox[{
+   {
+    DynamicBox[FEPrivate`ImportImage[
+      FrontEnd`FileName[{"Documentation", "FooterIcons"}, "RelatedGuide.png"]],
+     ImageSizeCache->{50., {27., 33.}}], GridBox[{
+      {
+       StyleBox[
+        RowBox[{"Related", " ", "Guides"}], "MoreAboutSection"]},
+      {
+       RowBox[{"\[FilledVerySmallSquare]", Cell[BoxData[
+         TemplateBox[{
+           Cell[
+            TextData["Convex Analysis Geometry Paclet"]], 
+           "paclet:ConvexAnalysisGeometry/guide/ConvexAnalysisGeometry"},
+          "RefLinkPlain",
+          BaseStyle->{"MoreAbout"}]], "MoreAbout"]}]}
+     }]}
+  }]], "MoreAboutSection"],
+
+Cell[" ", "FooterCell"]
+},
+Saveable->False,
+ScreenStyleEnvironment->"Working",
+WindowSize->{900., 830.4},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowTitle->"Polar",
+TaggingRules->{
+ "ModificationHighlight" -> False, "ColorType" -> "", "LinkTrails" -> "", 
+  "HasOptions" -> True, "ExampleCounter" -> 1, 
+  "Openers" -> {
+   "PrimaryExamplesSection" -> Open, 
+    "ExampleSection" -> {"0" -> Open, "1" -> Closed}, "NotesSection" -> 
+    Closed, "ExampleSubsection" -> {"0" -> Closed}}, "NewStyles" -> True, 
+  "CitationPopupData" -> $Failed, "ShowCitation" -> False, "RootCaptions" -> 
+  "", "Metadata" -> {
+   "built" -> "{2025, 1, 12, 0, 11, 15.8349023}", 
+    "history" -> {"XX", "", "", ""}, "context" -> "ConvexAnalysisGeometry`", 
+    "keywords" -> {}, "specialkeywords" -> {}, 
+    "tutorialcollectionlinks" -> {}, "index" -> True, "label" -> 
+    "Convex Analysis Geometry Symbol", "language" -> "en", "paclet" -> 
+    "ConvexAnalysisGeometry", "status" -> "None", "summary" -> 
+    "Polar[expr, {x, y, ...}] Computes the polar set as a region.", 
+    "synonyms" -> {}, "tabletags" -> {}, "title" -> "Polar", "titlemodifier" -> 
+    "", "metadescription" -> "", "windowtitle" -> "Polar", "type" -> "Symbol",
+     "uri" -> "ConvexAnalysisGeometry/ref/Polar"}},
+CellContext->"Global`",
+FrontEndVersion->"13.0 for Microsoft Windows (64-bit) (February 4, 2022)",
+StyleDefinitions->Notebook[{
+   Cell[
+    StyleData[
+    StyleDefinitions -> FrontEnd`FileName[{"Wolfram"}, "Reference.nb"]]], 
+   Cell[
+    StyleData["Input"], CellContext -> "Global`"], 
+   Cell[
+    StyleData["Output"], CellContext -> "Global`"]}, Visible -> False, 
+  FrontEndVersion -> "13.0 for Microsoft Windows (64-bit) (February 4, 2022)",
+   StyleDefinitions -> "Default.nb"]
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{
+ "PrimaryExamplesSection"->{
+  Cell[8348, 245, 1194, 35, 70, "PrimaryExamplesSection",ExpressionUUID->"533864ec-9f20-4a0e-90c6-5895041b5d73",
+   CellTags->"PrimaryExamplesSection",
+   CellID->112186958]}
+ }
+*)
+(*CellTagsIndex
+CellTagsIndex->{
+ {"PrimaryExamplesSection", 20236, 625}
+ }
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[577, 21, 3829, 98, 70, "AnchorBarGrid",ExpressionUUID->"ce9994ca-b059-4424-8e42-3d18b2b9c993",
+ CellID->1],
+Cell[4409, 121, 50, 0, 70, "ContextNameCell",ExpressionUUID->"177a3aa3-b4f2-45bf-ad9c-5d69a53f6b6f"],
+Cell[CellGroupData[{
+Cell[4484, 125, 240, 8, 70, "ObjectNameGrid",ExpressionUUID->"bf360768-e088-497c-99ed-a96d9dc53bb8"],
+Cell[4727, 135, 614, 19, 70, "Usage",ExpressionUUID->"6ef5f2f1-81be-4cd1-82e0-63510557ed8f",
+ CellID->535666114]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5378, 159, 1633, 45, 70, "NotesSection",ExpressionUUID->"d54731c1-092a-4635-81a5-3e13cd56ad2a",
+ CellGroupingRules->{"SectionGrouping", 50},
+ CellID->721148561],
+Cell[7014, 206, 73, 1, 70, "Notes",ExpressionUUID->"9ca6d0b9-b494-435e-b2cc-60d603e1f5ef",
+ CellID->681616023],
+Cell[7090, 209, 1131, 30, 70, "3ColumnTableMod",ExpressionUUID->"22354623-ed2a-4e5f-9027-c49ed91cd021",
+ CellID->593854774]
+}, Dynamic[CurrentValue[EvaluationNotebook[], {TaggingRules, "Openers", "NotesSection"}, Closed]]]],
+Cell[CellGroupData[{
+Cell[8348, 245, 1194, 35, 70, "PrimaryExamplesSection",ExpressionUUID->"533864ec-9f20-4a0e-90c6-5895041b5d73",
+ CellTags->"PrimaryExamplesSection",
+ CellID->112186958],
+Cell[9545, 282, 158, 4, 70, "Input",ExpressionUUID->"cadf40ed-8efb-4131-8ff0-34fd1a4ecf9d",
+ CellID->249463143],
+Cell[CellGroupData[{
+Cell[9728, 290, 1172, 34, 70, "ExampleSection",ExpressionUUID->"50981698-25bb-4032-a302-ca02f982b09f",
+ CellID->156520477],
+Cell[CellGroupData[{
+Cell[10925, 328, 692, 22, 70, "Input",ExpressionUUID->"ef4ca028-e63b-468f-8d42-470ad723447c",
+ CellID->64556061],
+Cell[11620, 352, 354, 12, 70, "Output",ExpressionUUID->"638e87f5-b3d1-469f-b5f7-05f4eca5ba1d",
+ CellID->410269532]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[12011, 369, 881, 29, 70, "Input",ExpressionUUID->"ca01efe6-c226-44a1-bde5-34ace3ebe50a",
+ CellID->495513196],
+Cell[12895, 400, 426, 14, 70, "Output",ExpressionUUID->"6800bc8a-72b0-4b8a-8644-83fe2029cd3d",
+ CellID->16967014]
+}, Open  ]]
+}, Dynamic[CurrentValue[EvaluationNotebook[], {TaggingRules, "Openers", "ExampleSection", "0"}, Closed]]]],
+Cell[CellGroupData[{
+Cell[13470, 422, 1186, 35, 70, "ExampleSection",ExpressionUUID->"850fdba8-a5da-4ecb-b3c2-39ffc0b22d12",
+ CellID->159517152],
+Cell[CellGroupData[{
+Cell[14681, 461, 1203, 35, 70, "ExampleSubsection",ExpressionUUID->"a98cf097-88a4-4844-b167-f8ae5499c5f0",
+ CellID->46286056],
+Cell[CellGroupData[{
+Cell[15909, 500, 566, 18, 70, "Input",ExpressionUUID->"b097405e-eb50-4dce-b549-e50d4d9e5a6d",
+ CellID->166551129],
+Cell[16478, 520, 865, 30, 70, "Output",ExpressionUUID->"1a6503a0-52ff-48c2-96bd-40c0c82cf83f",
+ CellID->594282894]
+}, Open  ]]
+}, Dynamic[CurrentValue[EvaluationNotebook[], {TaggingRules, "Openers", "ExampleSubsection", "0"}, Closed]]]]
+}, Dynamic[CurrentValue[EvaluationNotebook[], {TaggingRules, "Openers", "ExampleSection", "1"}, Closed]]]]
+}, Dynamic[CurrentValue[EvaluationNotebook[], {TaggingRules, "Openers", "PrimaryExamplesSection"}, Closed]]]],
+Cell[17700, 562, 641, 17, 70, "MoreAboutSection",ExpressionUUID->"e9cfa2b5-8643-46a8-be72-34c6c7952399"],
+Cell[18344, 581, 23, 0, 70, "FooterCell",ExpressionUUID->"a248bd48-9f91-4185-8a91-4020303bd913"]
+}
+]
+*)
+
+(* End of internal cache information *)
