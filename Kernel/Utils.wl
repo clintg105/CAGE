@@ -1,6 +1,9 @@
 (* ::Package:: *)
 
+(* ::Input::Initialization:: *)
 Package["ConvexAnalysisGeometry`Utils`"]
+
+
 
 (* ::Section:: *)
 (*Geometry*)
@@ -125,6 +128,7 @@ NextKSubset[current_List, m_Integer?Positive] /;
   ]
 
 
+(* ::Input::Initialization:: *)
 FirstKSubsetIx[set_, k_, test_] := NestWhile[
   NextKSubset[#, Length[set]] &, 
   Range[k], 

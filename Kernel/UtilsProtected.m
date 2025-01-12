@@ -85,20 +85,23 @@ CAGHelper[]:=CreatePalette[Block[{sep},DynamicModule[
                 Rule[k_,sep[v_,False]]:>Button[k,
                   With[{devNB=StringReplace[v, RegularExpression["\\.(wl|m)$"] -> "_dev-nb.nb"]},
                     Export[v,StringTrim[#,Whitespace]&/@Import[v,"Lines"],"Lines"];
-                    nbOld=NotebookOpen[v];
+                    nbOld=NotebookOpen[v, Visible -> False];
                     FrontEndTokenExecute[nbOld,"SaveRename",{devNB,"Notebook"}];
                     NotebookClose[nbOld];
                     Export[v,SpaceOperators@IndentStringByBraces[Import[v,"Text"]],"Text"];
                     Export[devNB,StringReplace[Import[devNB,"Text"],"\"\\n\", "->"\"\\[IndentingNewLine]\", "],"Text"];
-                    nbNew=NotebookOpen[devNB];
+
+                    nbNew=NotebookOpen[devNB, Visible -> True];
                     SetOptions[nbNew,
                       NotebookEventActions->{
                         {"MenuCommand","Save"}:>With[{pkgName=StringReplace[NotebookFileName[],"_dev-nb.nb"->"."<>FileExtension[v]]},
                           FrontEndTokenExecute[FrontEnd`InputNotebook[],"SaveRename",{pkgName,"Package"}];
                           Export[pkgName,SpaceOperators@IndentStringByBraces[Import[pkgName,"Text"]],"Text"];
                         ],
-                        PassEventsDown->True}];
-                    FrontEndExecute[NotebookWrite[#,Replace[NotebookRead[#],"Code"->Sequence["Input","InitializationCell"->True],All]]&/@Cells[nbNew,CellStyle->"Code"]]
+                        PassEventsDown->True},
+                      PrivateNotebookOptions -> {"FileOutlineCache" -> None}];
+                    FrontEndExecute[NotebookWrite[#,Replace[NotebookRead[#],"Code"->Sequence["Input","InitializationCell"->True],All]]&/@Cells[nbNew,CellStyle->"Code"]];
+                    NotebookSave[nbNew];
                   ],Alignment->Left,Background->Lighter[Gray, 0.9]],
                 Rule[k_,sep[v_,True]]:>Button[k,
                   With[{devNB=StringReplace[v, RegularExpression["\\.(wl|m)$"] -> "_dev-nb.nb"]},
@@ -112,7 +115,17 @@ CAGHelper[]:=CreatePalette[Block[{sep},DynamicModule[
                   FileNameJoin[{$ConvexAnalysisGeometryDir,"Kernel"}],
                   Infinity,
                   FileNameForms->"*_dev-nb.nb"
-                ]
-          ]}],
+                ]],
+              Button["Quit & Close",
+                nbOld={};
+                (*FrontEndExecute[
+                  Quit[];
+                  PacletDirectoryLoad[$ConvexAnalysisGeometryDir];
+                  Needs["ConvexAnalysisGeometry`"]
+                ]*)
+                NotebookClose[Cases[If[Options[#, WindowTitle] == {WindowTitle -> "CAG Dev Helper"}, #, Null] & /@ Notebooks[], _NotebookObject][[1]]];
+                Quit[];
+              ]
+          }],
           TrackedSymbols:>{nbOld},UpdateInterval->1]]
-  ]],WindowTitle->"CAG Dev Helper"]
+  ]],WindowTitle->"CAG Dev Helper",Saveable -> False]
