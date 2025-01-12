@@ -5,7 +5,66 @@ Package["ConvexAnalysisGeometry`"]
 PackageImport["ConvexAnalysisGeometry`Utils`"]
 
 
-(* ::Section::Closed:: *)
+(* ::Chapter:: *)
+(*Refactor*)
+
+
+(* ::Section:: *)
+(*Sets*)
+PackageExport["SimplifyAssuming"]
+PackageExport["Polar"]
+
+
+(* ::Input::Initialization:: *)
+Options[SimplifyAssuming] = {
+  PerformanceGoal -> "Speed"
+};
+(*SetSystemOptions["SimplificationOptions" -> {"AssumptionsMaxNonlinearVariables" -> 5}]*)
+Options[SimplifyAssuming] = {
+   PerformanceGoal -> "Speed"
+   };
+SimplifyAssuming[statement_, assum_, OptionsPattern[]] := 
+ If[assum === True,
+  statement,
+  With[{
+    simplifyFn = 
+     Switch[OptionValue[PerformanceGoal], "Speed", Simplify, 
+      "Quality", FullSimplify],
+    assumFlat = 
+     assum /. 
+      f_[c_Alternatives, v_] :> Fold[And, f[#, v] & /@ List @@ c]
+    },
+   simplifyFn[Reduce[assumFlat && statement], assumFlat]
+   ]
+  ]
+
+
+(* ::Subsection:: *)
+(*Polar*)
+
+
+Options[Polar] = {
+  Assumptions -> True, 
+  PerformanceGoal -> "Speed"
+};
+Polar[ImplicitRegion[expr_, vars_], OptionsPattern[]] := Polar[expr, vars, 
+  Sequence @@ (# -> OptionValue[#] & @@@ Options[Polar])];
+Polar[expr_, vars_, OptionsPattern[]] := Module[{newVars = formalCovector[vars], cnd}, 
+  ImplicitRegion[SimplifyAssuming[
+      Resolve[
+        ForAll[Evaluate[newVars], ConvexAnalysisGeometry`Utils`trep[expr, vars, newVars], 
+          vars . newVars <= 1], 
+        Reals], 
+      OptionValue[Assumptions], PerformanceGoal -> OptionValue[PerformanceGoal]], 
+     vars]
+]
+
+
+(* ::Chapter:: *)
+(*Elvis v2*)
+
+
+(* ::Section:: *)
 (*Geometry*)
 
 
@@ -90,10 +149,6 @@ cvxResolveOverReals[Min[a_, b_], vars_, cnd_] := Which[
 
 
 (* ::Section:: *)
-(*Functions*)
-
-
-(* ::Section::Closed:: *)
 (*Unsorted1124*)
 
 
@@ -102,10 +157,10 @@ cvxResolveOverReals[Min[a_, b_], vars_, cnd_] := Which[
 
 
 (* ::Input::Initialization:: *)
-Package["ConvexAnalysisGeometry`"]
-PackageImport["ConvexAnalysisGeometry`Utils`"]
-
+PackageExport["formalScalar"]
 PackageExport["formalVector"]
+PackageExport["formalVectors"]
+PackageExport["formalCovector"]
 PackageExport["formalParameter"]
 PackageExport["zeroSymmetric"]
 PackageExport["bounded"]
@@ -1420,6 +1475,7 @@ optISet[ix_]["init", "normalizedNormalCone"] :=
 (*ir (Implicit Region) Functions*)
 
 
+(* ::Input::Initialization:: *)
 PackageExport["irSame"]
 PackageExport["irDeleteDuplicates"]
 PackageExport["irPos"]
@@ -1429,6 +1485,8 @@ PackageExport["irBuildSubsetGraph"]
 PackageExport["irsgEnumGaugeList"]
 PackageExport["irsgEnumProblems"]
 
+
+(* ::Input::Initialization:: *)
 irSame[ir1_, ir2_] := Reduce[Equivalent[ir1[[1]], ir2[[1]]], Evaluate[uJoin[ir1[[2]], ir2[[2]]]], Reals] === True
 irSame[ir1_EmptyRegion, ir2_ImplicitRegion] := False
 irSame[ir1_ImplicitRegion, ir2_EmptyRegion] := False
@@ -1438,6 +1496,7 @@ irPos[irList_, ir0_] := Position[(irSame[#1, ir0] & ) /@ irList, True]
 irPosContains[irList_, x_] := Position[(RegionMember[#1, x] & ) /@ irList, True]
 
 
+(* ::Input::Initialization:: *)
 irListIntersetDMinus1[irList_] := irDeleteDuplicates[
   Flatten[Table[
       RegionIntersection[irList[[i]], irList[[j]]], 
@@ -1460,6 +1519,7 @@ irBuildSubsetGraph[irList_] := Module[{
 ]
 
 
+(* ::Input::Initialization:: *)
 irsgEnumGaugeList[gaugesHighDim_, irListHighDim_, irsgDir_] := Module[{
     nRegHD, nReg, gIxs, gFuns, gDims
   }, 
@@ -1508,6 +1568,8 @@ irsgEnumProblems[p0_, p1_, gaugesAll_, irListAll_, irsgDir_] := Module[{
 (* ::Section:: *)
 (*pwl Functions*)
 
+
+(* ::Input::Initialization:: *)
 PackageExport["pwlMaxSurf2lcon"]
 PackageExport["pwlSurf2vertR3"]
 PackageExport["lcon2vert"]
@@ -1650,6 +1712,7 @@ infConv3D[s1_Max, s2_Max, cutZ_] := Module[{
 ]
 
 
+(* ::Input::Initialization:: *)
 meshFacesInRegion[poly_BoundaryMeshRegion, reg_ImplicitRegion] := With[{
     faces = meshFaces[poly], rDim = RegionEmbeddingDimension[reg]
   }, 
@@ -1663,6 +1726,8 @@ meshFaces[(poly_BoundaryMeshRegion) | (poly_MeshRegion)] := With[{verts = MeshCo
 (* ::Section:: *)
 (*ELVIS propagation*)
 
+
+(* ::Input::Initialization:: *)
 PackageExport["elvisPropv1"]
 
 elvisPropv1[gLcon1_List, gLcon2_List, yBdry_?NumericQ, Tmax_:100?NumericQ] := Module[{
