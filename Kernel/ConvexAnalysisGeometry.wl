@@ -4,7 +4,7 @@
 Package["ConvexAnalysisGeometry`"]
 PackageImport["ConvexAnalysisGeometry`Utils`"]
 
-
+  
 (* ::Chapter:: *)
 (*Refactor*)
 
@@ -17,14 +17,14 @@ PackageExport["InfimalConvolution"]
 PackageExport["IndicatorFunction"]
 
 Clear[InfimalConvolution]
-WLReduce[InfimalConvolution[f_, g_, x_]] := 
+InfimalConvolution[f_, g_, x_] := 
   Module[{y = formalVector[x], out}, 
     out = ConvexAnalysisGeometry`Utils`trep[f, x, y] +
     ConvexAnalysisGeometry`Utils`trep[g, x, x - y];
     out = Minimize[out, y];
     If[Head @ out =!= Minimize, 
       out[[1]], 
-      InfimalConvolution[f, g, x]
+      Inactive[InfimalConvolution[f, g, x]]
     ]
   ]
 
