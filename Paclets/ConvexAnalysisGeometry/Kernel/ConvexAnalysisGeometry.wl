@@ -10,27 +10,84 @@ PackageImport["ConvexAnalysisGeometry`Utils`"]
 
 
 (* ::Section:: *)
+(*Symbol Utils*)
+
+
+(* ::Input::Initialization:: *)
+PackageExport["GetParameters"]
+
+GetParameters[expr_, vars_] := Block[{xc}, 
+  xc /: {xc[a__]} := {a};
+  Integrate`getAllVariables[expr, xc @@ vars]
+] 
+GetParameters[expr_] := Integrate`getAllVariables[expr, {}]
+
+
+(* ::Subsection:: *)
+(*Piecewise*)
+
+
+(* ::Input::Initialization:: *)
+PackageExport["PiecewiseNestedQ"]
+PackageExport["PiecewiseValueWrapper"]
+PackageExport["PiecewiseMapValues"]
+
+PiecewiseNestedQ[expr_] := Length[Position[expr, Piecewise]]>1
+PiecewiseValueWrapper[expr_Piecewise] := Piecewise[
+  {PiecewiseValueWrapper[#1], #2}& @@@ #1, PiecewiseValueWrapper[#2]
+]& @@ expr
+PiecewiseMapValues[fun_, expr_] := 
+  PiecewiseValueWrapper[expr] /. PiecewiseValueWrapper -> fun
+
+
+(* ::Input::Initialization:: *)
+PackageExport["PiecewiseFromConditions"]
+
+PiecewiseFromConditions[expr_, pVars_] := Block[
+  {exprPairedCndVal}, 
+  (*Assumes expr is "Tree-Like" with pVars at the lowest level.
+    Example:
+    nestedPiecewiseFromHierarchicalLogic[
+      (x >= 0 && ((y >= 0 && (z == x)) || (y<0 && (z == y)))) || (x<0 && (x<z<y)), z
+    ]
+    *)
+  (*pVars are parametric vars, these are the variables that are NOT part of the Piecewise conditions *)
+  exprPairedCndVal = expr //. And[
+    cnd_?(FreeQ[#, Alternatives @@ pVars]&), val_
+  ] :> {val, cnd};
+  (*there is some porperty of the operator Or that makes it have to be spoofed (or else it stays persistent as Head)*)
+  exprPairedCndVal /. 
+  Or -> \[FormalL] //. 
+    \[FormalL][x___List] :> Piecewise[{x}] /. 
+   \[FormalL] -> Or
+]
+
+
+(* ::Section:: *)
 (*InfimalConvolution*)
 
+
+(* ::Input::Initialization:: *)
 PackageExport["WLReduce"]
 PackageExport["InfimalConvolution"]
 PackageExport["IndicatorFunction"]
 
 Clear[InfimalConvolution]
-WLReduce[InfimalConvolution[f_, g_, x_]] := 
+InfimalConvolution[f_, g_, x_] := 
   Module[{y = formalVector[x], out}, 
     out = ConvexAnalysisGeometry`Utils`trep[f, x, y] +
     ConvexAnalysisGeometry`Utils`trep[g, x, x - y];
     out = Minimize[out, y];
     If[Head @ out =!= Minimize, 
       out[[1]], 
-      InfimalConvolution[f, g, x]
+      Inactive[InfimalConvolution[f, g, x]]
     ]
   ]
 
 InfimalConvolution[a_, b_, x_Symbol] := InfimalConvolution[a, b, {x}]
 
 
+(* ::Input::Initialization:: *)
 Clear[IndicatorFunction]
 (* Reduced Definition *)
 WLReduce[IndicatorFunction[ImplicitRegion[expr_, vars_], vars_]] := 
@@ -63,6 +120,7 @@ IndicatorFunction[ImplicitRegion[
   IndicatorFunction[Interval[{a, b}], {x}]
 
 
+(* ::Input::Initialization:: *)
 InfimalConvolution[fx_, 
   IndicatorFunction[Interval[indBnds_], {x_}], {x_}] /; 
   ! FreeQ[fx, x] && 
@@ -90,10 +148,292 @@ InfimalConvolution[IndicatorFunction[Interval[indBnds_], {x_}],
   ! FreeQ[fx, x] := 
     InfimalConvolution[fx, IndicatorFunction[Interval[indBnds], x], x]
 
+
+
+(* ::Section:: *)
+(*Functions*)
+
+
+(* ::Subsection:: *)
+(*Subgradient*)
+
+
+(* ::Input::Initialization:: *)
+PackageExport["SubgradientConditions"]
+SubgradientConditions[expr_, vars_] := Module[
+  {x = vars, y = formalVector[vars], z = formalCovector[vars]}, 
+  Reduce[ForAll[y, 
+      (y-x) . z <= trep[expr, vars, y]-trep[expr, vars, x]
+    ], z, Reals]
+]
+
+
+(* ::Input::Initialization:: *)
+PackageExport["Subgradient"]
+Subgradient[expr_, vars_] := With[
+  {pVars = formalCovector[vars], sg = SubgradientConditions[expr, vars]}, 
+  mapPiecewiseValues[Switch[#, 
+      _Integer, #, (*catches Piecewise default zero case*)
+      _Equal, With[{f = Flatten[pVars /. {ToRules[#]}]}, 
+        If[Length[f] == 1, 
+          f[[1]], 
+          ImplicitRegion[#, Evaluate[pVars]]
+        ]
+      ], 
+      _, 
+      ImplicitRegion[#, Evaluate[pVars]]
+    ]&, 
+    PiecewiseFromConditions[sg, pVars]
+  ]
+]
+
+
+(* ::Input:: *)
+(*Subgradient[Max[(x-1/2)^2, (x+1/2)^2], {x}]*)
+
+
+(* ::Input:: *)
+(*Subgradient[Abs[x]+Abs[y], {x, y}]*)
+
+
 (* ::Section:: *)
 (*Sets*)
-PackageExport["SimplifyAssuming"]
+
+
+(* ::Subsection:: *)
+(*RecessionCone*)
+
+
+(* ::Input::Initialization:: *)
+PackageExport["RecessionCone"]
+
+
+(* ::Input::Initialization:: *)
+Options[RecessionCone] = {
+  Assumptions -> True, 
+  PerformanceGoal -> "Speed"
+};
+RecessionCone[ImplicitRegion[expr_, vars_], OptionsPattern[]] := Polar[expr, vars, 
+  Sequence @@ (# -> OptionValue[#] & @@@ Options[Polar])];
+RecessionCone[expr_, vars_, OptionsPattern[]] := Module[{newVars = formalCovector[vars], cnd}, 
+  cnd = Resolve[
+    ForAll[Evaluate[newVars], trep[expr, vars, newVars], trep[expr, vars, newVars+vars]], 
+    vars, Reals];
+  cnd = If[OptionValue[PerformanceGoal] === "Quality", 
+    Recompose[cnd, OptionValue[Assumptions]], 
+    cnd];
+  ImplicitRegion[cnd, vars]
+]
+
+
+(* ::Input:: *)
+(*RecessionCone[Abs[x] <= y, {x, y}, PerformanceGoal -> "Quality"]*)
+
+
+(* ::Input:: *)
+(*RecessionCone[x^2 <= y, {x, y}]*)
+
+
+(* ::Input:: *)
+(*RecessionCone[x^2+y^2 <= 1, {x, y}]*)
+
+
+(* ::Subsection:: *)
+(*Polar*)
+
+
+(* ::Input::Initialization:: *)
 PackageExport["Polar"]
+
+
+(* ::Input::Initialization:: *)
+Options[Polar] = {
+  Assumptions -> True, 
+  PerformanceGoal -> "Speed"
+};
+Polar[ImplicitRegion[expr_, vars_], OptionsPattern[]] := Polar[expr, vars, 
+  Sequence @@ (# -> OptionValue[#] & @@@ Options[Polar])];
+Polar[expr_, vars_, OptionsPattern[]] := Module[{newVars = formalCovector[vars], cnd}, 
+  cnd = SimplifyAssuming[
+    Resolve[
+      ForAll[Evaluate[newVars], trep[expr, vars, newVars], 
+        vars . newVars <= 1], 
+      Reals], 
+    OptionValue[Assumptions], PerformanceGoal -> OptionValue[PerformanceGoal]];
+  cnd = If[OptionValue[PerformanceGoal] === "Quality", 
+    Recompose[cnd, OptionValue[Assumptions]], 
+    cnd];
+  ImplicitRegion[cnd, vars]
+]
+
+
+
+(* ::Section:: *)
+(*Canonicalization*)
+
+
+(* ::Subsection:: *)
+(*Canonicalization*)
+
+
+(* ::Input::Initialization:: *)
+PackageExport["ToDNF"]
+
+ToDNF[e_Or] := ToDNF /@ e;
+ToDNF[And[a___, b_Or, c___]] := ToDNF[And[a, #, c]] & /@ b;
+ToDNF[e_] := e;
+
+
+(* ::Input::Initialization:: *)
+PackageExport["$RuleGreaterInnequalities"]
+PackageExport["$RuleReduceRationals"]
+PackageExport["RecomposeDNFRoots"]
+
+$RuleGreaterInnequalities = {
+  x_<y_ :> y>x, x_ <= y_ :> y >= x
+};
+$RuleReduceRationals = {
+  (* moving implicit assumptions out of roots helps reduce *)
+  (* NOTE: makes all RHS zero *)
+  LessEqual[a_, c_]
+ /; c =!= 0
+ :> LessEqual[Expand[Numerator[a]Denominator[c]-Numerator[c]Denominator[a]], 0] && Denominator[c] != 0 && Denominator[a] != 0, 
+  Less[a_, c_]
+ /; c =!= 0
+ :> Less[Expand[Numerator[a]Denominator[c]-Numerator[c]Denominator[a]], 0] && Denominator[c] != 0 && Denominator[a] != 0, 
+  GreaterEqual[a_, c_]
+ /; c =!= 0
+ :> GreaterEqual[Expand[Numerator[a]Denominator[c]-Numerator[c]Denominator[a]], 0] && Denominator[c] != 0 && Denominator[a] != 0, 
+  Greater[a_, c_]
+ /; c =!= 0
+ :> Greater[Expand[Numerator[a]Denominator[c]-Numerator[c]Denominator[a]], 0] && Denominator[c] != 0 && Denominator[a] != 0, 
+  Equal[a_, c_]
+ /; c =!= 0
+ :> Equal[Expand[Numerator[a]Denominator[c]-Numerator[c]Denominator[a]], 0] && Denominator[c] != 0 && Denominator[a] != 0
+};
+
+RecomposeDNFRoots[expr_] := Module[{f, g, h}, Block[{Plus}, 
+    SetAttributes[Plus, Orderless];
+    (*SetAttributes[h[0], Orderless]; - doesn't work *)
+    SetAttributes[f, Orderless];
+    SetAttributes[g, Orderless];
+    ((LogicalExpand /@ BooleanMinimize[expr, "DNF"]) /. 
+       $RuleGreaterInnequalities /. 
+       {
+        Or -> f, And -> g, 
+        a_ == b_ :> h[0][a, b], a_ >= b_ :> h[1][a, b], a_>b_ :> h[2][a, b]
+      } //. {
+        (* De-Reduce innequalities *)
+        f[u___, 
+          g[h[2][b_, a_], t___], 
+          g[h[2][a_, b_], y___]
+        ] 
+ /; g[t] === g[y]
+ :> f[g[a != b, t], u], 
+        
+        (* De-Reduce quadratics *)
+        h[0][d_+b_. Sqrt[c_], a_] :> h[0][b Sqrt[c], a-d], 
+        h[0][a_, d_+b_. Sqrt[c_]] :> h[0][a-d, b Sqrt[c]], 
+        h[i_][a_, d_+b_. Sqrt[c_]] :> h[i][a-d, b Sqrt[c]], 
+        h[i_][d_+b_. Sqrt[c_], a_] :> h[i][b Sqrt[c], a-d], 
+        
+        f[u___, 
+          g[h[i_][a_, b_. Sqrt[c_]], t___], 
+          g[h[i_][d_. Sqrt[c_], a_], y___]
+        ]
+ /; b == -d && g[t] === g[y]
+ :> f[g[h[i][b^2 c, a^2], t], u], 
+        f[u___, 
+          g[h[0][a_, b_. Sqrt[c_]], t___], 
+          g[h[0][a_, d_. Sqrt[c_]], y___]
+        ]
+ /; b == -d && g[t] === g[y]
+ :> f[g[h[0][b^2 c, a^2], t], u], 
+        
+        g[y___, 
+          h[i_][a_, b_. Sqrt[c_]], 
+          h[i_][d_. Sqrt[c_], a_]
+        ]
+ /; b == -d
+ :> g[h[i][b^2 c, a^2], y], 
+        
+        (* TODO: verify next block *)
+        f[u___, 
+          g[h[i_?Positive][a_, b_. Sqrt[c_]], h[2][0, a], t___], 
+          g[h[i_?Positive][d_. Sqrt[c_], a_], h[2][a, 0], y___]]
+ /; b == -d && g[t] === g[y]
+ :> f[g[h[i][a^2, b^2 c], t], u], 
+        (*g[y___, 
+            h[a_, b_. Sqrt[c_], i_?Positive], 
+            h[d_. Sqrt[c_], a_, i_?Positive], 
+            (h[0, a, 2], h[a, 0, 2]|a != 0)]
+ /; b == -d
+ :> g[h[b^2 c, a^2, i], y], *)
+        
+        f[u___, 
+          g[h[0][b_. Sqrt[c_], a_], t___], 
+          g[h[0][d_. Sqrt[c_], a_], y___]]
+ /; b == -d && g[t] === g[y]
+ :> f[g[h[0][a^2, b^2 c], t], u]
+        
+        (*, f[u___, 
+            g[p_, t___], 
+            g[q_, y___]
+          ]
+ /; q == !p && g[t] === g[y]
+ :> f[g[t, y], u]*)
+      }
+      ) 
+ /. {h[i_][b_. Sqrt[c_], a_] :> h[i][c, (-a/b)^2]}
+ /. {f -> Or, g -> And, h[0][a_, b_] :> a == b, h[1][a_, b_] :> a >= b, h[2][a_, b_] :> a>b} 
+ //. $RuleReduceRationals
+]]
+
+
+(* ::Input::Initialization:: *)
+PackageExport["RecomposeSingleCandidateSearch"]
+RecomposeSingleCandidateSearch[expr_, varsAndParams_, assum_:True] := Module[
+  {exprNoFrac, allSubExpr, candidateScores, feasibleCandidatePos, candidateScoreOrder, feasibleCandidates, bestCandidate}, 
+  (*Look inside all And's & Or's in a logical expression and see if a single sub expression is equivalent to the whole thing under assum*)
+  exprNoFrac = If[
+    FreeQ[expr, Power[__, Rational[1, 2]]], 
+    expr, 
+    RecomposeDNFRoots[expr]
+  ] //. $RuleReduceRationals;
+  (*Echo[exprNoFrac];*)
+  allSubExpr = DeleteDuplicates @ Flatten[exprNoFrac /. {Or -> List, And -> List}];
+  candidateScores = CountDistinct[Cases[#, Alternatives @@ varsAndParams, Infinity]]& /@ allSubExpr;
+  feasibleCandidatePos = Flatten @ Position[candidateScores, x_ /; x == Length @ varsAndParams, 1];
+  (*TODO:something with leaftcount and maybe OrderingBy*);
+  candidateScoreOrder = Ordering[-candidateScores[[feasibleCandidatePos]]];
+  feasibleCandidates = allSubExpr[[feasibleCandidatePos[[candidateScoreOrder]]]];
+  bestCandidate = SelectFirst[
+    feasibleCandidates, 
+    With[
+      {
+        (*this Reduce typically requires fractions to be removed:`exprNoFrac`*)
+        red = Reduce[
+          Equivalent[#, exprNoFrac], 
+          Reals]
+      }, 
+      (*Echo[{red, #}];*)
+      If[TrueQ @ red, True, TrueQ @ SimplifyAssuming[red, assum]]
+    ]&
+  ];
+  If[bestCandidate === Missing["NotFound"], expr, bestCandidate]
+]
+
+
+(* ::Subsection:: *)
+(*Recompose*)
+
+
+(* ::Input::Initialization:: *)
+PackageExport["SimplifyAssuming"]
+PackageExport["RecomposeClosure"]
+PackageExport["AllSubExpr"]
+PackageExport["AllSubExprQ"]
+PackageExport["Recompose"]
 
 
 (* ::Input::Initialization:: *)
@@ -120,15 +460,17 @@ SimplifyAssuming[statement_, assum_, OptionsPattern[]] :=
   ]
 
 
-ReduceClosureReals[expr_] := Block[
+(* ::Input::Initialization:: *)
+RecomposeClosure[expr_] := Block[
   {splitExpr, regExpr, pseudoClosure}, 
-  splitExpr = List @@ BooleanConvert[expr, "DNF"];
+  (* attempts to remove all non-region ( = or != ) components of expression *)
+  splitExpr = List @@ BooleanMinimize[expr, "DNF"];
   regExpr = 
   Or @@ Select[
     splitExpr, !
     FreeQ[#, (Greater | Less | LessEqual | GreaterEqual)] &];
-  pseudoClosure = 
-  regExpr /. {Less -> LessEqual, Greater -> GreaterEqual};
+  pseudoClosure = DeleteDuplicates[
+    regExpr /. {Less -> LessEqual, Greater -> GreaterEqual}];
   If[LeafCount[pseudoClosure] < LeafCount[expr] && Reduce[
       Equivalent[pseudoClosure, expr], 
       Reals] === True, 
@@ -137,27 +479,60 @@ ReduceClosureReals[expr_] := Block[
   ]
 ]
 
-(* ::Subsection:: *)
-(*Polar*)
 
 
-Options[Polar] = {
-  Assumptions -> True, 
-  PerformanceGoal -> "Speed"
-};
-Polar[ImplicitRegion[expr_, vars_], OptionsPattern[]] := Polar[expr, vars, 
-  Sequence @@ (# -> OptionValue[#] & @@@ Options[Polar])];
-Polar[expr_, vars_, OptionsPattern[]] := Module[{newVars = formalCovector[vars], cnd}, 
-  cnd = SimplifyAssuming[
-    Resolve[
-      ForAll[Evaluate[newVars], trep[expr, vars, newVars], 
-        vars . newVars <= 1], 
-      Reals], 
-    OptionValue[Assumptions], PerformanceGoal -> OptionValue[PerformanceGoal]];
-  cnd = If[OptionValue[PerformanceGoal] === "Quality", 
-    ReduceClosureReals[cnd], 
-    cnd];
-  ImplicitRegion[cnd, vars]
+(* ::Input::Initialization:: *)
+Clear[Recompose]
+AllSubExpr[expr_] := Flatten[{expr /. {(And|Or) -> List}}]
+AllSubExprQ[expr_, cnd_] := AllTrue[AllSubExpr[expr], cnd]
+
+Recompose[expr_, assum_:True, recur_:True] := Module[{exprOld = expr, leafcount = LeafCount[expr], exprNew, leafcountNew}, 
+  (* Attempt Immediate Re-Reduce *)
+  TimeConstrained[
+    exprNew = Reduce[exprOld, Reals];
+    leafcountNew = LeafCount[exprNew];
+    (*Echo[{exprOld, exprNew, leafcount, leafcountNew}];*)
+    If[leafcountNew<leafcount, 
+      exprOld = exprNew;leafcount = leafcountNew];
+    , 2];
+  
+  (* Note: Always a step towards recomposition: do not check LeafCount *)
+  TimeConstrained[
+    exprOld = If[FreeQ[exprOld, Power[ __, Rational[1, 2]], Infinity], exprOld, RecomposeDNFRoots[exprOld]], 
+    1];
+  exprOld = exprOld //. $RuleReduceRationals;
+  (* Note: RecomposeClosure only decreases LeafCount *)
+  exprOld = RecomposeClosure[exprOld];
+  
+  (* Attempt 2nd RecomposeClosure *)
+  TimeConstrained[
+    exprNew = RecomposeClosure[Reduce[exprOld, Reals]];
+    leafcountNew = LeafCount[exprNew];
+    (*Echo[{exprOld, exprNew, leafcount, leafcountNew}];*)
+    If[leafcountNew<leafcount, 
+      exprOld = exprNew;leafcount = leafcountNew];
+    , 1];
+  
+  (* Attempt quick SingleCandidateSearch *)
+  TimeConstrained[
+    exprNew = RecomposeSingleCandidateSearch[exprOld, GetParameters[exprOld], assum];
+    (*Echo[{exprNew, GetParameters[exprOld]}];*)
+    leafcountNew = LeafCount[exprNew];
+    If[exprNew =!= $Aborted && leafcountNew<leafcount, 
+      exprOld = exprNew;leafcount = leafcountNew];
+    , 1];
+  
+  (* Attempt to remove parts *)
+  If[recur && assum =!= True, 
+    TimeConstrained[
+      exprNew = Recompose[SimplifyAssuming[exprOld, assum], assum, False];
+      leafcountNew = LeafCount[exprNew];
+      If[exprNew =!= $Aborted && leafcountNew<leafcount, 
+        exprOld = exprNew;leafcount = leafcountNew];
+      , 1];
+  ];
+  If[Length @ AllSubExpr @ expr<Length @ AllSubExpr @ exprOld, 
+    expr, exprOld]
 ]
 
 
@@ -181,7 +556,7 @@ dimension of the affine hull spanned by `pts`"
 AffineHullDim[pts_List] := MatrixRank[addRow[pts[[2 ;;]], -pts[[1]]]]
 
 
-(* ::Section::Closed:: *)
+(* ::Section:: *)
 (*Reduction*)
 
 
@@ -626,7 +1001,7 @@ nestedPiecewiseFromHierarchicalLogic[expr_, pVars_] :=
       conditions *)
     exprPairedCndVal = 
     expr //. 
-    And[cnd_?(FreeQ[#, Alternatives @@ pVars] &), val_] :> {val, cnd};
+      And[cnd_?(FreeQ[#, Alternatives @@ pVars] &), val_] :> {val, cnd};
     (* there is some porperty of the operator Or that makes it have to \
       be spoofed (or else it stays persistent as Head) *)
     exprPairedCndVal /. Or -> \[FormalL] //. \[FormalL][x___List] :> 

@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     18721,        553]
-NotebookOptionsPosition[     12855,        430]
-NotebookOutlinePosition[     14523,        471]
-CellTagsIndexPosition[     14480,        468]
+NotebookDataLength[     19739,        581]
+NotebookOptionsPosition[     13868,        458]
+NotebookOutlinePosition[     15539,        499]
+CellTagsIndexPosition[     15496,        496]
 WindowTitle->Convex Analysis Geometry Paclet
 WindowFrame->Normal*)
 
@@ -56,7 +56,15 @@ Cell[BoxData[GridBox[{
 "\<\"InfimalConvolution\"\>":>Documentation`HelpLookup[
         "paclet:ConvexAnalysisGeometry/ref/InfimalConvolution"], "\<\"Polar\"\
 \>":>Documentation`HelpLookup[
-        "paclet:ConvexAnalysisGeometry/ref/Polar"], "\<\"WLReduce\"\>":>
+        "paclet:ConvexAnalysisGeometry/ref/Polar"], "\<\"RecessionCone\"\>":>
+        Documentation`HelpLookup[
+        "paclet:ConvexAnalysisGeometry/ref/RecessionCone"], \
+"\<\"Recompose\"\>":>Documentation`HelpLookup[
+        "paclet:ConvexAnalysisGeometry/ref/Recompose"], "\<\"RecomposeClosure\
+\"\>":>Documentation`HelpLookup[
+        "paclet:ConvexAnalysisGeometry/ref/RecomposeClosure"], \
+"\<\"Subgradient\"\>":>Documentation`HelpLookup[
+        "paclet:ConvexAnalysisGeometry/ref/Subgradient"], "\<\"WLReduce\"\>":>
         Documentation`HelpLookup[
         "paclet:ConvexAnalysisGeometry/ref/WLReduce"]},
         Appearance->None,
@@ -126,14 +134,14 @@ Cell[BoxData[GridBox[{
                  "http://reference.wolfram.com/language/\
 ConvexAnalysisGeometry/guide/ConvexAnalysisGeometry.html"], StandardForm]], 
                "Input", TextClipboardType -> "PlainText"]}, Visible -> 
-             False]]; 
-         SelectionMove[DocumentationSearch`Private`nb$, All, Notebook]; 
+             False]]; SelectionMove[
+          DocumentationSearch`Private`nb$, All, Notebook]; 
          FrontEndTokenExecute[DocumentationSearch`Private`nb$, "Copy"]; 
          NotebookClose[DocumentationSearch`Private`nb$]; 
          Null], "\<\"Go to web URL\"\>":>FrontEndExecute[{
           NotebookLocate[{
             URL[If[
-               TrueQ[DocumentationBuild`Make`Private`wsmlinkQ$17563], 
+               TrueQ[DocumentationBuild`Make`Private`wsmlinkQ$1134402], 
                "http://reference.wolfram.com/system-modeler/", 
                "http://reference.wolfram.com/language/"] <> 
              "ConvexAnalysisGeometry/guide/ConvexAnalysisGeometry" <> 
@@ -207,23 +215,26 @@ Cell["Deriving From other Functions", "GuideFunctionsSubsection",
  CellID->451487285],
 
 Cell[TextData[{
- StyleBox["Subgradient",
-  FontWeight->"Plain"],
+ StyleBox[ButtonBox["Subgradient",
+  BaseStyle->"Link",
+  ButtonData->"paclet:ConvexAnalysisGeometry/ref/Subgradient"],
+  FontWeight->"Bold",
+  FontVariations->{"Underline"->True}],
  "\[NonBreakingSpace]",
  StyleBox["\[FilledVerySmallSquare]", "InlineSeparator"],
  " ",
  StyleBox["LFConjugate",
   FontWeight->"Plain"],
- "\[NonBreakingSpace]",
- StyleBox["\[FilledVerySmallSquare]", "InlineSeparator"],
- " ",
+ " .",
+ StyleBox[" ",
+  FontWeight->"Plain"],
  StyleBox[ButtonBox["InfimalConvolution",
   BaseStyle->"Link",
   ButtonData->"paclet:ConvexAnalysisGeometry/ref/InfimalConvolution"],
-  FontVariations->{"Underline"->True}],
- "\[NonBreakingSpace]",
- StyleBox["\[FilledVerySmallSquare]", "InlineSeparator"],
- " ",
+  FontWeight->"Bold"],
+ StyleBox[" ",
+  FontWeight->"Bold"],
+ ". ",
  StyleBox["MEnvelope",
   FontWeight->"Plain"]
 }], "InlineGuideFunctionListing",
@@ -291,10 +302,9 @@ Cell["Deriving From other Sets", "GuideFunctionsSubsection",
  CellID->197649251],
 
 Cell[TextData[{
- StyleBox[ButtonBox["Polar",
+ ButtonBox["Polar",
   BaseStyle->"Link",
   ButtonData->"paclet:ConvexAnalysisGeometry/ref/Polar"],
-  FontVariations->{"Underline"->True}],
  "\[NonBreakingSpace]",
  StyleBox["\[FilledVerySmallSquare]", "InlineSeparator"],
  " ",
@@ -303,8 +313,15 @@ Cell[TextData[{
  "\[NonBreakingSpace]",
  StyleBox["\[FilledVerySmallSquare]", "InlineSeparator"],
  " ",
- StyleBox["Interior",
-  FontWeight->"Plain"]
+ StyleBox["Interior .",
+  FontWeight->"Plain"],
+ StyleBox[" ",
+  FontWeight->"Plain"],
+ StyleBox[ButtonBox["RecessionCone",
+  BaseStyle->"Link",
+  ButtonData->"paclet:ConvexAnalysisGeometry/ref/RecessionCone"],
+  FontWeight->"Bold",
+  FontVariations->{"Underline"->True}]
 }], "InlineGuideFunctionListing",
  CellID->21735734]
 }, Open  ]],
@@ -337,10 +354,9 @@ Cell["Deriving Functions From Sets", "GuideFunctionsSubsection",
  CellID->438506595],
 
 Cell[TextData[{
- StyleBox[ButtonBox["IndicatorFunction",
+ ButtonBox["IndicatorFunction",
   BaseStyle->"Link",
   ButtonData->"paclet:ConvexAnalysisGeometry/ref/IndicatorFunction"],
-  FontVariations->{"Underline"->True}],
  "\[NonBreakingSpace]",
  StyleBox["\[FilledVerySmallSquare]", "InlineSeparator"],
  " ",
@@ -387,12 +403,24 @@ Cell[TextData[{
  StyleBox[ButtonBox["WLReduce",
   BaseStyle->"Link",
   ButtonData->"paclet:ConvexAnalysisGeometry/ref/WLReduce"],
-  FontVariations->{"Underline"->True}],
+  FontWeight->"Bold"],
  "\[NonBreakingSpace]",
  StyleBox["\[FilledVerySmallSquare]", "InlineSeparator"],
  " ",
- StyleBox["ConditionalResolve",
-  FontWeight->"Plain"]
+ StyleBox["ConditionalResolve . ",
+  FontWeight->"Plain"],
+ StyleBox[ButtonBox["RecomposeClosure",
+  BaseStyle->"Link",
+  ButtonData->"paclet:ConvexAnalysisGeometry/ref/RecomposeClosure"],
+  FontWeight->"Bold",
+  FontVariations->{"Underline"->True}],
+ StyleBox[" . ",
+  FontWeight->"Plain"],
+ StyleBox[ButtonBox["Recompose",
+  BaseStyle->"Link",
+  ButtonData->"paclet:ConvexAnalysisGeometry/ref/Recompose"],
+  FontWeight->"Bold",
+  FontVariations->{"Underline"->True}]
 }], "InlineGuideFunctionListing",
  CellID->535406858]
 }, Open  ]]
@@ -441,7 +469,7 @@ TaggingRules->{
   "NewStyles" -> True, "CitationPopupData" -> {$Failed, ""}, "ShowCitation" -> 
   False, "RootCaptions" -> "", 
   "Metadata" -> {
-   "built" -> "{2025, 1, 12, 12, 2, 23.9544777}", 
+   "built" -> "{2025, 1, 19, 11, 45, 11.3480396}", 
     "history" -> {"??", "", "", ""}, "context" -> "ConvexAnalysisGeometry`", 
     "keywords" -> {}, "specialkeywords" -> {}, 
     "tutorialcollectionlinks" -> {}, "index" -> True, "label" -> 
@@ -449,7 +477,7 @@ TaggingRules->{
     "ConvexAnalysisGeometry", "status" -> "None", "summary" -> 
     "A collection of Mathematica functions for Convex Analysis.", 
     "synonyms" -> {}, "tabletags" -> 
-    DocumentationBuild`Make`Private`tabletaggingrules$17523, "title" -> 
+    DocumentationBuild`Make`Private`tabletaggingrules$1134359, "title" -> 
     "Convex Analysis Geometry Paclet", "titlemodifier" -> "", 
     "metadescription" -> "", "windowtitle" -> 
     "Convex Analysis Geometry Paclet", "type" -> "Guide", "uri" -> 
@@ -470,91 +498,91 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[603, 21, 4914, 127, 70, "AnchorBarGrid",ExpressionUUID->"cf3fec40-6bf1-4e66-9c3a-45a6e3076777",
+Cell[603, 21, 5370, 135, 70, "AnchorBarGrid",ExpressionUUID->"7b551503-6fd2-4029-92f9-c9b2f487690a",
  CellID->1],
 Cell[CellGroupData[{
-Cell[5542, 152, 73, 1, 70, "GuideTitle",ExpressionUUID->"7201c652-137e-4aa1-b9fe-c11c913f2d9b",
+Cell[5998, 160, 73, 1, 70, "GuideTitle",ExpressionUUID->"49400376-50c0-4a6a-9277-75502ecf512d",
  CellID->218246613],
-Cell[5618, 155, 105, 2, 70, "GuideAbstract",ExpressionUUID->"af843596-f894-4ef2-8bbb-6db16f660408",
+Cell[6074, 163, 105, 2, 70, "GuideAbstract",ExpressionUUID->"c755e8b0-74bc-4a2a-8c2e-e4dd3ca587e3",
  CellID->130582322],
-Cell[5726, 159, 202, 4, 70, "GuideAbstract",ExpressionUUID->"35c17eeb-06f6-4ec3-9bfc-4c7b8d0d0e48",
+Cell[6182, 167, 202, 4, 70, "GuideAbstract",ExpressionUUID->"dbbe064e-f650-43fb-86aa-9885b76c6f06",
  CellID->58576013],
-Cell[5931, 165, 363, 9, 70, "GuideAbstract",ExpressionUUID->"102d435a-ec3c-4646-830c-b605859ea05e",
+Cell[6387, 173, 363, 9, 70, "GuideAbstract",ExpressionUUID->"90a34039-18ea-4ec4-9aed-9e0646c3d58e",
  CellID->115131176],
-Cell[6297, 176, 445, 10, 70, "GuideAbstract",ExpressionUUID->"cb096412-8e3e-45b5-b22f-6fb478740473",
+Cell[6753, 184, 445, 10, 70, "GuideAbstract",ExpressionUUID->"e16d436b-13ba-4373-a1cd-2a89212faf39",
  CellID->123003532],
-Cell[6745, 188, 38, 0, 70, "GuideDelimiterSubsection",ExpressionUUID->"a20e5e46-149e-4769-becf-9b55d6773984"]
+Cell[7201, 196, 38, 0, 70, "GuideDelimiterSubsection",ExpressionUUID->"bb78d661-a168-4e0e-b22d-63c6b3cf3a24"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[6820, 193, 75, 1, 70, "GuideFunctionsSection",ExpressionUUID->"60ee6a4d-a8c4-44cb-9c4a-b2c94ca7893d",
+Cell[7276, 201, 75, 1, 70, "GuideFunctionsSection",ExpressionUUID->"df77832e-b752-42a5-8f69-8e0d9acf2121",
  CellID->73040074],
-Cell[6898, 196, 211, 5, 70, "GuideText",ExpressionUUID->"48137c96-f60a-4e61-93ef-b36688ab3cd0",
+Cell[7354, 204, 211, 5, 70, "GuideText",ExpressionUUID->"b45d886d-bd6b-438f-9724-f41b78bd5209",
  CellID->375938313],
 Cell[CellGroupData[{
-Cell[7134, 205, 85, 1, 70, "GuideFunctionsSubsection",ExpressionUUID->"2a4350e1-2cef-4859-8b53-d742bbc7e51a",
+Cell[7590, 213, 85, 1, 70, "GuideFunctionsSubsection",ExpressionUUID->"6573ae28-d320-4941-9598-1c237d9d795c",
  CellID->451487285],
-Cell[7222, 208, 651, 21, 70, "InlineGuideFunctionListing",ExpressionUUID->"69ad3cd2-96b5-45e6-a859-da0a8e895282",
+Cell[7678, 216, 682, 24, 70, "InlineGuideFunctionListing",ExpressionUUID->"444e4009-e2db-4b96-8625-3ea1ec0a5321",
  CellID->684713340]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[7910, 234, 88, 1, 70, "GuideFunctionsSubsection",ExpressionUUID->"48ed6e1d-cba7-4752-8c6b-f50c14f10c89",
+Cell[8397, 245, 88, 1, 70, "GuideFunctionsSubsection",ExpressionUUID->"997a9eb5-8b3f-49ab-9582-e0bd0b554b29",
  CellID->102038918],
-Cell[8001, 237, 298, 12, 70, "InlineGuideFunctionListing",ExpressionUUID->"5ec2c908-19bf-48d4-8922-bce362c6c53e",
+Cell[8488, 248, 298, 12, 70, "InlineGuideFunctionListing",ExpressionUUID->"8543066a-d513-450e-9f4e-67fa6bd00316",
  CellID->15001685]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[8336, 254, 84, 1, 70, "GuideFunctionsSubsection",ExpressionUUID->"885bba25-2f3e-4f85-8678-b2f0811790e5",
+Cell[8823, 265, 84, 1, 70, "GuideFunctionsSubsection",ExpressionUUID->"f9cc9995-5dd8-4766-b3d9-2b96961951b4",
  CellID->173109221],
-Cell[8423, 257, 386, 14, 70, "InlineGuideFunctionListing",ExpressionUUID->"baeba95f-4583-44f7-8486-34b02865a559",
+Cell[8910, 268, 386, 14, 70, "InlineGuideFunctionListing",ExpressionUUID->"a23379c1-d9da-4cc2-920d-df4bdacd5976",
  CellID->828239616]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[8858, 277, 90, 1, 70, "GuideFunctionsSection",ExpressionUUID->"5bbedd31-5830-438b-ba98-b26b2c0e75ea",
+Cell[9345, 288, 90, 1, 70, "GuideFunctionsSection",ExpressionUUID->"b90daaf4-8b46-4455-8a97-639605ff4f78",
  CellID->102847122],
-Cell[8951, 280, 206, 5, 70, "GuideText",ExpressionUUID->"a7f5b75a-e25f-4402-8c5c-cc04aae18305",
+Cell[9438, 291, 206, 5, 70, "GuideText",ExpressionUUID->"f14f80a1-bdad-4af6-abe2-99bc01cf3dfa",
  CellID->388358454],
 Cell[CellGroupData[{
-Cell[9182, 289, 80, 1, 70, "GuideFunctionsSubsection",ExpressionUUID->"814ea2a7-3cf5-49a0-84b4-859db6ab482b",
+Cell[9669, 300, 80, 1, 70, "GuideFunctionsSubsection",ExpressionUUID->"8ebfb01d-fd3e-4b32-8d60-d5a20f247c72",
  CellID->197649251],
-Cell[9265, 292, 484, 16, 70, "InlineGuideFunctionListing",ExpressionUUID->"9c14aa27-dbbb-4ca3-8a3a-7517908436f0",
+Cell[9752, 303, 662, 22, 70, "InlineGuideFunctionListing",ExpressionUUID->"5f77b30c-dfd2-4eb7-995f-baa4c5437cd9",
  CellID->21735734]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[9786, 313, 88, 1, 70, "GuideFunctionsSubsection",ExpressionUUID->"431481f4-fcda-4938-bb71-2472974f3f6f",
+Cell[10451, 330, 88, 1, 70, "GuideFunctionsSubsection",ExpressionUUID->"de4432d5-4d97-4248-8c1e-2b8f20f6b006",
  CellID->300055274],
-Cell[9877, 316, 393, 14, 70, "InlineGuideFunctionListing",ExpressionUUID->"31f33887-92b2-4a59-8822-76a98cb6f7aa",
+Cell[10542, 333, 393, 14, 70, "InlineGuideFunctionListing",ExpressionUUID->"37be2e4c-5fd3-48be-9082-93dc1331e5d7",
  CellID->409058209]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[10307, 335, 84, 1, 70, "GuideFunctionsSubsection",ExpressionUUID->"59256b80-99b7-42dc-abef-cc5c04860bbc",
+Cell[10972, 352, 84, 1, 70, "GuideFunctionsSubsection",ExpressionUUID->"8ab4fca6-1712-4a77-a2df-6e8f81ec8871",
  CellID->438506595],
-Cell[10394, 338, 519, 16, 70, "InlineGuideFunctionListing",ExpressionUUID->"1fc980d1-2e6b-419c-b726-f1a556281ce4",
+Cell[11059, 355, 470, 15, 70, "InlineGuideFunctionListing",ExpressionUUID->"1aaaa174-e116-4862-b775-4495d0eb17e0",
  CellID->39527631]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[10962, 360, 110, 2, 70, "GuideFunctionsSection",ExpressionUUID->"568331cf-dcbb-43c9-b103-7696a10ca12e",
+Cell[11578, 376, 110, 2, 70, "GuideFunctionsSection",ExpressionUUID->"b0d437c3-78ed-4a67-be35-3d0536d61c23",
  CellID->159968368],
 Cell[CellGroupData[{
-Cell[11097, 366, 61, 1, 70, "GuideFunctionsSubsection",ExpressionUUID->"5e5001cf-8a27-40ad-b98e-cadaf3340818",
+Cell[11713, 382, 61, 1, 70, "GuideFunctionsSubsection",ExpressionUUID->"6f4313a3-2036-4de9-8ac4-31e4a272029e",
  CellID->7541940],
-Cell[11161, 369, 109, 2, 70, "InlineGuideFunctionListing",ExpressionUUID->"490ec068-252d-4a2c-b782-5e63ed54d72e",
+Cell[11777, 385, 109, 2, 70, "InlineGuideFunctionListing",ExpressionUUID->"d9b648bd-e670-4687-96c2-92ac528795e7",
  CellID->210667040]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[11319, 377, 69, 1, 70, "GuideFunctionsSection",ExpressionUUID->"5c1f4112-888f-4e26-bce1-17cd73bcf9a8",
+Cell[11935, 393, 69, 1, 70, "GuideFunctionsSection",ExpressionUUID->"b8ae6894-2522-4866-a80c-d578e83a499b",
  CellID->50942786],
 Cell[CellGroupData[{
-Cell[11413, 382, 63, 1, 70, "GuideFunctionsSubsection",ExpressionUUID->"0712e68c-d55e-4e98-aa2d-617435dd3ebb",
+Cell[12029, 398, 63, 1, 70, "GuideFunctionsSubsection",ExpressionUUID->"5e720a2b-e11a-42d6-968b-02043659ed89",
  CellID->136497502],
-Cell[11479, 385, 366, 11, 70, "InlineGuideFunctionListing",ExpressionUUID->"5f4437b4-161e-42f4-bdcc-f7c2fbdfc497",
+Cell[12095, 401, 763, 23, 70, "InlineGuideFunctionListing",ExpressionUUID->"dbb6db9a-eff2-42ba-a418-0e8d281743ff",
  CellID->535406858]
 }, Open  ]]
 }, Open  ]],
-Cell[11872, 400, 953, 26, 70, "GuideTutorialsSection",ExpressionUUID->"1fe315c3-b53f-4abf-91c0-010e4d3aaf0b"],
-Cell[12828, 428, 23, 0, 70, "FooterCell",ExpressionUUID->"7e8505ea-5873-426f-82c9-1bf4ec43f51a"]
+Cell[12885, 428, 953, 26, 70, "GuideTutorialsSection",ExpressionUUID->"921e9c40-4597-4992-9997-dc9e8d7be1ab"],
+Cell[13841, 456, 23, 0, 70, "FooterCell",ExpressionUUID->"87ef7307-20a9-4848-8289-22cc5228ca48"]
 }
 ]
 *)

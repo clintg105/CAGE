@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     13170,        374]
-NotebookOptionsPosition[      8752,        281]
-NotebookOutlinePosition[     11293,        342]
-CellTagsIndexPosition[     11250,        339]
+NotebookDataLength[     13175,        374]
+NotebookOptionsPosition[      8754,        281]
+NotebookOutlinePosition[     11298,        342]
+CellTagsIndexPosition[     11255,        339]
 WindowTitle->Legacy FCC Tools
 WindowFrame->Normal*)
 
@@ -79,7 +79,7 @@ tutorial/LegacyFCCTools.html"], StandardForm]], "Input", TextClipboardType ->
         Null], "\<\"Go to web URL\"\>":>FrontEndExecute[{
          NotebookLocate[{
            URL[If[
-              TrueQ[DocumentationBuild`Make`Private`wsmlinkQ$20709], 
+              TrueQ[DocumentationBuild`Make`Private`wsmlinkQ$1138842], 
               "http://reference.wolfram.com/system-modeler/", 
               "http://reference.wolfram.com/language/"] <> 
             "ConvexAnalysisGeometry/tutorial/LegacyFCCTools" <> ".html"], 
@@ -292,7 +292,7 @@ TaggingRules->{
   "NewStyles" -> True, "CitationPopupData" -> {$Failed, ""}, "ShowCitation" -> 
   False, "RootCaptions" -> "", 
   "Metadata" -> {
-   "built" -> "{2025, 1, 12, 12, 2, 28.5559042}", 
+   "built" -> "{2025, 1, 19, 11, 45, 18.6498192}", 
     "history" -> {"??", "", "", ""}, "context" -> "ConvexAnalysisGeometry`", 
     "keywords" -> {}, "specialkeywords" -> {}, 
     "tutorialcollectionlinks" -> {}, "index" -> True, "label" -> 
@@ -305,7 +305,7 @@ be \\[Infinity] outside its domain. If f is convex its extended-value \
 extension is \
 f:\\[DoubleStruckCapitalR]^n\\[RightArrow]\\[DoubleStruckCapitalR]\\[Union]{\\\
 [Infinity]}", "synonyms" -> {}, "tabletags" -> 
-    DocumentationBuild`Make`Private`tabletaggingrules$20676, "title" -> 
+    DocumentationBuild`Make`Private`tabletaggingrules$1138809, "title" -> 
     "Legacy FCC Tools", "titlemodifier" -> "", "metadescription" -> "", 
     "windowtitle" -> "Legacy FCC Tools", "type" -> "Tech Note", "uri" -> 
     "ConvexAnalysisGeometry/tutorial/LegacyFCCTools"}},
@@ -341,41 +341,41 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[588, 21, 3066, 76, 70, "AnchorBarGrid",ExpressionUUID->"c16cb847-d3fc-4719-9aa6-1f53e7d2b7c6",
+Cell[588, 21, 3068, 76, 70, "AnchorBarGrid",ExpressionUUID->"3b940726-a2fd-4393-92a6-068357a747d1",
  CellID->1],
 Cell[CellGroupData[{
-Cell[3679, 101, 931, 30, 70, "ObjectNameGrid",ExpressionUUID->"59cb4439-4374-40c0-a182-8fba4faa578a"],
-Cell[4613, 133, 264, 7, 70, "TechNoteText",ExpressionUUID->"8556f627-d752-47c1-a119-37bf8e369d60",
+Cell[3681, 101, 931, 30, 70, "ObjectNameGrid",ExpressionUUID->"11ab5ab7-042a-4100-a249-bec46331df03"],
+Cell[4615, 133, 264, 7, 70, "TechNoteText",ExpressionUUID->"f585ff56-7890-4148-ba8a-6f1c0c73f924",
  CellID->440261135],
-Cell[4880, 142, 44, 1, 70, "TechNoteText",ExpressionUUID->"0f23b320-dcb7-483a-b5fd-f0606ba3e915",
+Cell[4882, 142, 44, 1, 70, "TechNoteText",ExpressionUUID->"635eef83-b5f9-9444-acf1-6c693c5cf7ad",
  CellID->434086850]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[4961, 148, 51, 1, 70, "Subsection",ExpressionUUID->"f60d1e27-c07f-47dd-ae51-80b4a458a13f",
+Cell[4963, 148, 51, 1, 70, "Subsection",ExpressionUUID->"cf5df2ce-ecc0-8249-93d8-160b6f15bdb3",
  CellID->414312256],
-Cell[5015, 151, 620, 15, 70, "TechNoteText",ExpressionUUID->"9e78dd75-2eab-4555-aafa-506f2e97ea27",
+Cell[5017, 151, 620, 15, 70, "TechNoteText",ExpressionUUID->"4557df4f-6a91-0b42-8d29-32392fe003fc",
  CellID->188063229],
-Cell[5638, 168, 1629, 48, 70, "TechNoteText",ExpressionUUID->"f604e25e-3c75-46d4-ac1d-db4bcaed90d2",
+Cell[5640, 168, 1629, 48, 70, "TechNoteText",ExpressionUUID->"9fdfbcb9-fc7d-2649-b4cb-0121e027642c",
  CellID->55948950],
-Cell[7270, 218, 67, 1, 70, "TechNoteText",ExpressionUUID->"b99de608-5737-4e5e-b086-11a983da5168",
+Cell[7272, 218, 67, 1, 70, "TechNoteText",ExpressionUUID->"3d28939b-49dd-f245-8560-a00bf449d944",
  CellID->468358703],
-Cell[7340, 221, 176, 6, 70, "TechNoteText",ExpressionUUID->"aeca6496-f9e9-4ab4-999c-725b7272bd4a",
+Cell[7342, 221, 176, 6, 70, "TechNoteText",ExpressionUUID->"bf7da3ed-2e12-d84b-b817-20c0fde14cf8",
  CellID->347635128],
-Cell[7519, 229, 44, 1, 70, "TechNoteText",ExpressionUUID->"d2368323-f117-4011-afd7-927b55e1a091",
+Cell[7521, 229, 44, 1, 70, "TechNoteText",ExpressionUUID->"5db66147-2a19-0b43-be14-b7eb073531f8",
  CellID->216805435],
-Cell[7566, 232, 549, 16, 70, "DefinitionBox",ExpressionUUID->"734dce09-84f1-4c6d-b680-4f5978ca4626",
+Cell[7568, 232, 549, 16, 70, "DefinitionBox",ExpressionUUID->"01b00fda-025b-4163-af59-3a038cf5130c",
  CellID->826330],
-Cell[8118, 250, 46, 1, 70, "TechNoteCaption",ExpressionUUID->"21cd3b6a-671b-4381-b042-c215e050b104",
+Cell[8120, 250, 46, 1, 70, "TechNoteCaption",ExpressionUUID->"75a37dc7-0564-4a6f-99ab-f5799f638b6f",
  CellID->17008904],
-Cell[8167, 253, 59, 1, 70, "TechNoteMathCaption",ExpressionUUID->"8bda9ffc-bc20-46ce-921f-af46a15966de",
+Cell[8169, 253, 59, 1, 70, "TechNoteMathCaption",ExpressionUUID->"9a392913-e1cb-4cd2-a9cd-a705629883fe",
  CellID->25047019],
-Cell[8229, 256, 226, 8, 70, "Input",ExpressionUUID->"4b612c5b-a574-4d4e-a163-8b18df77a82d",
+Cell[8231, 256, 226, 8, 70, "Input",ExpressionUUID->"f960d4f9-8c26-4f65-b10c-7f3b1bf03ec7",
  CellID->473838779],
-Cell[8458, 266, 223, 8, 70, "Input",ExpressionUUID->"1b9f1157-f842-42e7-a58f-a861041fe9a7",
+Cell[8460, 266, 223, 8, 70, "Input",ExpressionUUID->"f4944a8c-32df-49a0-8181-873efcdc2f42",
  CellID->312615722],
-Cell[8684, 276, 26, 0, 70, "Input",ExpressionUUID->"6a78838c-3e28-4e66-882d-cdfbbbe34595"]
+Cell[8686, 276, 26, 0, 70, "Input",ExpressionUUID->"08a0c3a5-d969-42d7-adff-79670371d405"]
 }, Open  ]],
-Cell[8725, 279, 23, 0, 70, "FooterCell",ExpressionUUID->"f7b06eb6-7bae-4425-825c-e6b20db4761c"]
+Cell[8727, 279, 23, 0, 70, "FooterCell",ExpressionUUID->"50f5754b-a1e7-4846-9cad-ca35dbd48913"]
 }
 ]
 *)

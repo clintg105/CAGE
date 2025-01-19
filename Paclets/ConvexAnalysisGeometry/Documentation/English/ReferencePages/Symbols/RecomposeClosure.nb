@@ -10,11 +10,11 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     22215,        643]
-NotebookOptionsPosition[     17221,        539]
-NotebookOutlinePosition[     19461,        595]
-CellTagsIndexPosition[     19376,        590]
-WindowTitle->IndicatorFunction
+NotebookDataLength[     19283,        581]
+NotebookOptionsPosition[     14242,        474]
+NotebookOutlinePosition[     16328,        527]
+CellTagsIndexPosition[     16243,        522]
+WindowTitle->RecomposeClosure
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -76,12 +76,12 @@ Cell[BoxData[GridBox[{
             PlotRange->{{-3, 4}, {-1, 1}}]]]
          }]],
          StripOnInput->
-          False], {"\<\"ConvexAnalysisGeometry/ref/IndicatorFunction\"\>":>
+          False], {"\<\"ConvexAnalysisGeometry/ref/RecomposeClosure\"\>":>
         None, "\<\"Copy Wolfram Documentation Center URL\"\>":>
         Module[{DocumentationSearch`Private`nb$}, 
          DocumentationSearch`Private`nb$ = NotebookPut[
             Notebook[{
-              Cell["ConvexAnalysisGeometry/ref/IndicatorFunction"]}, Visible -> 
+              Cell["ConvexAnalysisGeometry/ref/RecomposeClosure"]}, Visible -> 
              False]]; SelectionMove[
           DocumentationSearch`Private`nb$, All, Notebook]; 
          FrontEndTokenExecute[DocumentationSearch`Private`nb$, "Copy"]; 
@@ -95,7 +95,7 @@ Cell[BoxData[GridBox[{
                 MakeBoxes[
                  Hyperlink[
                  "http://reference.wolfram.com/language/\
-ConvexAnalysisGeometry/ref/IndicatorFunction.html"], StandardForm]], "Input", 
+ConvexAnalysisGeometry/ref/RecomposeClosure.html"], StandardForm]], "Input", 
                TextClipboardType -> "PlainText"]}, Visible -> False]]; 
          SelectionMove[DocumentationSearch`Private`nb$, All, Notebook]; 
          FrontEndTokenExecute[DocumentationSearch`Private`nb$, "Copy"]; 
@@ -103,10 +103,10 @@ ConvexAnalysisGeometry/ref/IndicatorFunction.html"], StandardForm]], "Input",
          Null], "\<\"Go to web URL\"\>":>FrontEndExecute[{
           NotebookLocate[{
             URL[If[
-               TrueQ[DocumentationBuild`Make`Private`wsmlinkQ$1134827], 
+               TrueQ[DocumentationBuild`Make`Private`wsmlinkQ$1136636], 
                "http://reference.wolfram.com/system-modeler/", 
                "http://reference.wolfram.com/language/"] <> 
-             "ConvexAnalysisGeometry/ref/IndicatorFunction" <> ".html"], 
+             "ConvexAnalysisGeometry/ref/RecomposeClosure" <> ".html"], 
             None}]}]},
         Appearance->None,
         MenuAppearance->Automatic,
@@ -128,7 +128,7 @@ Cell[CellGroupData[{
 
 Cell[BoxData[GridBox[{
    {Cell[TextData[{
-     Cell["IndicatorFunction", "ObjectName"],
+     Cell["RecomposeClosure", "ObjectName"],
      Cell[BoxData[
       TemplateBox[{8},
        "Spacer1"]]],
@@ -142,17 +142,16 @@ Cell[BoxData[GridBox[{
       RowBox[{
        TemplateBox[{
          Cell[
-          TextData["IndicatorFunction"]], 
-         "paclet:ConvexAnalysisGeometry/ref/IndicatorFunction", 
+          TextData["RecomposeClosure"]], 
+         "paclet:ConvexAnalysisGeometry/ref/RecomposeClosure", 
          "ConvexAnalysisGeometry Package Symbol"},
         "PackageLink",
-        BaseStyle->"InlineFormula"], "[", 
-       RowBox[{"reg_", ",", "vars_"}], "]"}]], "InlineFormula",
+        BaseStyle->"InlineFormula"], "[", "]"}]], "InlineFormula",
       FontFamily->"Source Sans Pro"],
-     "\[LineSeparator]Derives the Indicator Function for reg in vars. "
+     "\[LineSeparator]XXXX"
     }]]}
   }]], "Usage",
- CellID->737582229]
+ CellID->14598110]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -192,13 +191,13 @@ Cell[TextData[{
  WholeCellGroupOpener->True,
  CacheGraphics->False,
  CellTags->"PrimaryExamplesSection",
- CellID->14794863],
+ CellID->270701451],
 
 Cell[BoxData[
  RowBox[{"Needs", "[", "\"\<ConvexAnalysisGeometry`\>\"", "]"}]], "Input", \
 "ExampleInitialization",
  CellLabel->"In[1]:=",
- CellID->68016920],
+ CellID->376860950],
 
 Cell[CellGroupData[{
 
@@ -236,128 +235,84 @@ Cell[TextData[{
 }], "ExampleSection", "ExampleSection",
  WholeCellGroupOpener->True,
  CacheGraphics->False,
- CellID->221000361],
+ CellID->285713142],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
- RowBox[{"WLReduce", "@", 
-  RowBox[{"IndicatorFunction", "[", 
-   RowBox[{
-    RowBox[{"ImplicitRegion", "[", 
-     RowBox[{
-      RowBox[{"2", "\[LessEqual]", "y", "\[LessEqual]", "3"}], ",", 
-      RowBox[{"{", "y", "}"}]}], "]"}], ",", 
-    RowBox[{"{", "y", "}"}]}], "]"}]}]], "Input",
+ RowBox[{"RecomposeClosure", "[", 
+  RowBox[{
+   RowBox[{"x", "<", "a"}], "||", 
+   RowBox[{"x", "==", "a"}]}], "]"}]], "Input",
  CellProlog:>Needs["ConvexAnalysisGeometry`"],
  CellLabel->"In[1]:=",
- CellID->163364188],
+ CellID->127569358],
 
 Cell[BoxData[
- RowBox[{"Function", "[", 
-  RowBox[{
-   RowBox[{"{", "y", "}"}], ",", 
-   TagBox[GridBox[{
-      {"\[Piecewise]", GridBox[{
-         {"0", 
-          RowBox[{"2", "\[LessEqual]", "y", "\[LessEqual]", "3"}]},
-         {"\[Infinity]", 
-          TagBox["True",
-           "PiecewiseDefault",
-           AutoDelete->True]}
-        },
-        AllowedDimensions->{2, Automatic},
-        Editable->True,
-        GridBoxAlignment->{"Columns" -> {{Left}}, "Rows" -> {{Baseline}}},
-        GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{1.}}},
-        GridBoxSpacings->{"Columns" -> {
-            Offset[0.27999999999999997`], {
-             Offset[0.84]}, 
-            Offset[0.27999999999999997`]}, "Rows" -> {
-            Offset[0.2], {
-             Offset[0.4]}, 
-            Offset[0.2]}},
-        Selectable->True]}
-     },
-     GridBoxAlignment->{"Columns" -> {{Left}}, "Rows" -> {{Baseline}}},
-     GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{1.}}},
-     GridBoxSpacings->{"Columns" -> {
-         Offset[0.27999999999999997`], {
-          Offset[0.35]}, 
-         Offset[0.27999999999999997`]}, "Rows" -> {
-         Offset[0.2], {
-          Offset[0.4]}, 
-         Offset[0.2]}}],
-    "Piecewise",
-    DeleteWithContents->True,
-    Editable->False,
-    SelectWithContents->True,
-    Selectable->False,
-    StripWrapperBoxes->True]}], "]"}]], "Output",
+ RowBox[{"x", "\[LessEqual]", "a"}]], "Output",
  CellLabel->"Out[1]=",
- CellID->124585788]
+ CellID->239486447]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
- RowBox[{"WLReduce", "@", 
-  RowBox[{"IndicatorFunction", "[", 
-   RowBox[{
-    RowBox[{"Disk", "[", "]"}], ",", 
-    RowBox[{"{", 
-     RowBox[{"x", ",", "y"}], "}"}]}], "]"}]}]], "Input",
+ RowBox[{"RecomposeClosure", "[", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"x", "\[Equal]", "0"}], "&&", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"y", "\[Equal]", 
+        RowBox[{"-", "1"}]}], "||", 
+       RowBox[{"y", "\[Equal]", "0"}]}], ")"}]}], ")"}], 
+   "\[IndentingNewLine]", "||", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"-", "1"}], "<", "y", "<", "0"}], "&&", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", "2"}], " ", 
+       SqrtBox[
+        RowBox[{
+         RowBox[{"-", "y"}], " ", 
+         RowBox[{"(", 
+          RowBox[{"1", "+", "y"}], ")"}]}]]}], "\[LessEqual]", "x", 
+      "\[LessEqual]", 
+      RowBox[{"2", " ", 
+       SqrtBox[
+        RowBox[{
+         RowBox[{"-", "y"}], " ", 
+         RowBox[{"(", 
+          RowBox[{"1", "+", "y"}], ")"}]}]]}]}]}], ")"}]}], 
+  "\[IndentingNewLine]", "]"}]], "Input",
  CellProlog:>Needs["ConvexAnalysisGeometry`"],
  CellLabel->"In[2]:=",
- CellID->254262597],
+ CellID->251052121],
 
 Cell[BoxData[
- RowBox[{"Function", "[", 
+ RowBox[{
   RowBox[{
-   RowBox[{"{", 
-    RowBox[{"x", ",", "y"}], "}"}], ",", 
-   TagBox[GridBox[{
-      {"\[Piecewise]", GridBox[{
-         {"0", 
-          RowBox[{
-           RowBox[{
-            SuperscriptBox["x", "2"], "+", 
-            SuperscriptBox["y", "2"]}], "\[LessEqual]", "1"}]},
-         {"\[Infinity]", 
-          TagBox["True",
-           "PiecewiseDefault",
-           AutoDelete->True]}
-        },
-        AllowedDimensions->{2, Automatic},
-        Editable->True,
-        GridBoxAlignment->{"Columns" -> {{Left}}, "Rows" -> {{Baseline}}},
-        GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{1.}}},
-        GridBoxSpacings->{"Columns" -> {
-            Offset[0.27999999999999997`], {
-             Offset[0.84]}, 
-            Offset[0.27999999999999997`]}, "Rows" -> {
-            Offset[0.2], {
-             Offset[0.4]}, 
-            Offset[0.2]}},
-        Selectable->True]}
-     },
-     GridBoxAlignment->{"Columns" -> {{Left}}, "Rows" -> {{Baseline}}},
-     GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{1.}}},
-     GridBoxSpacings->{"Columns" -> {
-         Offset[0.27999999999999997`], {
-          Offset[0.35]}, 
-         Offset[0.27999999999999997`]}, "Rows" -> {
-         Offset[0.2], {
-          Offset[0.4]}, 
-         Offset[0.2]}}],
-    "Piecewise",
-    DeleteWithContents->True,
-    Editable->False,
-    SelectWithContents->True,
-    Selectable->False,
-    StripWrapperBoxes->True]}], "]"}]], "Output",
+   RowBox[{"-", "1"}], "\[LessEqual]", "y", "\[LessEqual]", "0"}], "&&", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"-", "2"}], " ", 
+    SqrtBox[
+     RowBox[{
+      RowBox[{"-", "y"}], " ", 
+      RowBox[{"(", 
+       RowBox[{"1", "+", "y"}], ")"}]}]]}], "\[LessEqual]", "x", 
+   "\[LessEqual]", 
+   RowBox[{"2", " ", 
+    SqrtBox[
+     RowBox[{
+      RowBox[{"-", "y"}], " ", 
+      RowBox[{"(", 
+       RowBox[{"1", "+", "y"}], ")"}]}]]}]}]}]], "Output",
  CellLabel->"Out[2]=",
- CellID->317997125]
+ CellID->522428778]
 }, Open  ]]
 }, Dynamic[CurrentValue[
  EvaluationNotebook[], {TaggingRules, "Openers", "ExampleSection", "0"}, 
@@ -371,7 +326,7 @@ Cell[TextData[{
     If[
      MatchQ[
       CurrentValue[
-       EvaluationNotebook[], {TaggingRules, "Openers", "ExampleSection", "1"},
+       EvaluationNotebook[], {TaggingRules, "Openers", "ExampleSection", "2"},
         Closed], 
       Alternatives[Open, True]], 
      Style[
@@ -394,123 +349,103 @@ Cell[TextData[{
  Cell[BoxData[
   TemplateBox[{1},
    "Spacer1"]]],
- "Scope",
+ "Possible Issues",
  "\[NonBreakingSpace]\[NonBreakingSpace]",
  Cell["(1)", "ExampleCount"]
 }], "ExampleSection", "ExampleSection",
  WholeCellGroupOpener->True,
  CacheGraphics->False,
- CellID->256125300],
+ CellID->332600430],
+
+Cell["Sometimes it can be better to call Reduce a second time.", "ExampleText",
+ CellID->19560718],
 
 Cell[CellGroupData[{
 
-Cell[TextData[{
- Cell[BoxData[
-  DynamicBox[ToBoxes[
-    If[
-     MatchQ[
-      CurrentValue[
-       EvaluationNotebook[], {
-       TaggingRules, "Openers", "ExampleSubsection", "0"}, Closed], 
-      Alternatives[Open, True]], 
-     Style[
-      Graphics[{
-        Thickness[0.18], 
-        RGBColor[0.8509803921568627, 0.396078431372549, 0], 
-        Line[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]}, AspectRatio -> 1, 
-       PlotRange -> {{-3, 4}, {-1, 1}}, ImageSize -> 20], Magnification -> 
-      0.68 Inherited], 
-     Rotate[
-      Style[
-       Graphics[{
-         Thickness[0.18], 
-         RGBColor[0.8509803921568627, 0.396078431372549, 0], 
-         Line[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]}, AspectRatio -> 1, 
-        PlotRange -> {{-3, 4}, {-1, 1}}, ImageSize -> 20], Magnification -> 
-       0.68 Inherited], Rational[1, 2] Pi, {-1.65, -1}]]],
-   ImageSizeCache->{
-    13.600000000000001`, {0.5800000000000001, 13.020000000000001`}}]]],
- Cell[BoxData[
-  TemplateBox[{1},
-   "Spacer1"]]],
- "Special Forms",
- "\[NonBreakingSpace]\[NonBreakingSpace]",
- Cell["(1)", "ExampleCount"]
-}], "ExampleSubsection", "ExampleSubsection",
- WholeCellGroupOpener->True,
- CacheGraphics->False,
- CellID->208882292],
-
-Cell[CellGroupData[{
-
-Cell[TextData[{
- Cell[BoxData[
-  DynamicBox[ToBoxes[
-    If[
-     MatchQ[
-      CurrentValue[
-       EvaluationNotebook[], {
-       TaggingRules, "Openers", "ExampleSubsubsection", "0"}, Closed], 
-      Alternatives[Open, True]], 
-     Style[
-      Graphics[{
-        Thickness[0.18], 
-        RGBColor[0.8509803921568627, 0.396078431372549, 0], 
-        Line[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]}, AspectRatio -> 1, 
-       PlotRange -> {{-3, 4}, {-1, 1}}, ImageSize -> 20], Magnification -> 
-      0.68 Inherited], 
-     Rotate[
-      Style[
-       Graphics[{
-         Thickness[0.18], 
-         RGBColor[0.8509803921568627, 0.396078431372549, 0], 
-         Line[{{-1.8, 0.5}, {0, 0}, {1.8, 0.5}}]}, AspectRatio -> 1, 
-        PlotRange -> {{-3, 4}, {-1, 1}}, ImageSize -> 20], Magnification -> 
-       0.68 Inherited], Rational[1, 2] Pi, {-1.65, -1}]]],
-   ImageSizeCache->{
-    13.600000000000001`, {0.5800000000000001, 13.020000000000001`}}]]],
- Cell[BoxData[
-  TemplateBox[{1},
-   "Spacer1"]]],
- "Interval",
- "\[NonBreakingSpace]\[NonBreakingSpace]",
- Cell["(1)", "ExampleCount"]
-}], "ExampleSubsubsection",
- WholeCellGroupOpener->True,
- CacheGraphics->False,
- CellID->79577806],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{"IndicatorFunction", "[", 
-  RowBox[{"ImplicitRegion", "[", 
-   RowBox[{
-    RowBox[{"y", "\[LessEqual]", "3"}], ",", 
-    RowBox[{"{", "y", "}"}]}], "]"}], "]"}]], "Input",
- CellProlog:>Needs["ConvexAnalysisGeometry`"],
- CellLabel->"In[8]:=",
- CellID->218906035],
-
-Cell[BoxData[
- RowBox[{"IndicatorFunction", "[", 
+Cell[BoxData[{
+ RowBox[{"Reduce", "[", 
   RowBox[{
-   RowBox[{"Interval", "[", 
-    RowBox[{"{", 
-     RowBox[{
-      RowBox[{"-", "\[Infinity]"}], ",", "3"}], "}"}], "]"}], ",", 
-   RowBox[{"{", "y", "}"}]}], "]"}]], "Output",
- CellLabel->"Out[8]=",
- CellID->27280857]
+   RowBox[{
+    RowBox[{"x", "^", "2"}], "<=", "y"}], ",", "Reals"}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"RecomposeClosure", "[", "%", "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Reduce", "[", 
+  RowBox[{"%", ",", "Reals"}], "]"}]}], "Input",
+ CellProlog:>Needs["ConvexAnalysisGeometry`"],
+ CellLabel->"In[1]:=",
+ CellID->461620796],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(", 
+   RowBox[{
+    RowBox[{"y", "\[Equal]", "0"}], "&&", 
+    RowBox[{"x", "\[Equal]", "0"}]}], ")"}], "||", 
+  RowBox[{"(", 
+   RowBox[{
+    RowBox[{"y", ">", "0"}], "&&", 
+    RowBox[{
+     RowBox[{"-", 
+      SqrtBox["y"]}], "\[LessEqual]", "x", "\[LessEqual]", 
+     SqrtBox["y"]}]}], ")"}]}]], "Output",
+ CellLabel->"Out[1]=",
+ CellID->252059164],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"-", 
+    SqrtBox["y"]}], "\[LessEqual]", "x", "\[LessEqual]", 
+   SqrtBox["y"]}], "&&", 
+  RowBox[{"y", "\[GreaterEqual]", "0"}]}]], "Output",
+ CellLabel->"Out[1]=",
+ CellID->229878550],
+
+Cell[BoxData[
+ RowBox[{"y", "\[GreaterEqual]", 
+  SuperscriptBox["x", "2"]}]], "Output",
+ CellLabel->"Out[1]=",
+ CellID->11591220]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"Reduce", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"x", "^", "2"}], "<=", "y"}], ",", "Reals"}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Reduce", "[", 
+  RowBox[{"%", ",", "Reals"}], "]"}]}], "Input",
+ CellProlog:>Needs["ConvexAnalysisGeometry`"],
+ CellLabel->"In[2]:=",
+ CellID->331742506],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(", 
+   RowBox[{
+    RowBox[{"y", "\[Equal]", "0"}], "&&", 
+    RowBox[{"x", "\[Equal]", "0"}]}], ")"}], "||", 
+  RowBox[{"(", 
+   RowBox[{
+    RowBox[{"y", ">", "0"}], "&&", 
+    RowBox[{
+     RowBox[{"-", 
+      SqrtBox["y"]}], "\[LessEqual]", "x", "\[LessEqual]", 
+     SqrtBox["y"]}]}], ")"}]}]], "Output",
+ CellLabel->"Out[2]=",
+ CellID->140381499],
+
+Cell[BoxData[
+ RowBox[{"y", "\[GreaterEqual]", 
+  SuperscriptBox["x", "2"]}]], "Output",
+ CellLabel->"Out[2]=",
+ CellID->5785416]
 }, Open  ]]
 }, Dynamic[CurrentValue[
- EvaluationNotebook[], {TaggingRules, "Openers", "ExampleSubsubsection", "0"},
-   Closed]]]]
-}, Dynamic[CurrentValue[
- EvaluationNotebook[], {TaggingRules, "Openers", "ExampleSubsection", "0"}, 
-  Closed]]]]
-}, Dynamic[CurrentValue[
- EvaluationNotebook[], {TaggingRules, "Openers", "ExampleSection", "1"}, 
+ EvaluationNotebook[], {TaggingRules, "Openers", "ExampleSection", "2"}, 
   Closed]]]]
 }, Dynamic[CurrentValue[
  EvaluationNotebook[], {TaggingRules, "Openers", "PrimaryExamplesSection"}, 
@@ -541,28 +476,25 @@ Saveable->False,
 ScreenStyleEnvironment->"Working",
 WindowSize->{900., 830.4},
 WindowMargins->{{0, Automatic}, {Automatic, 0}},
-WindowTitle->"IndicatorFunction",
+WindowTitle->"RecomposeClosure",
 TaggingRules->{
  "ModificationHighlight" -> False, "ColorType" -> "", "LinkTrails" -> "", 
   "HasOptions" -> True, "ExampleCounter" -> 1, 
   "Openers" -> {
    "PrimaryExamplesSection" -> Open, 
-    "ExampleSection" -> {"0" -> Open, "1" -> Closed}, 
-    "ExampleSubsection" -> {"0" -> Closed}, 
-    "ExampleSubsubsection" -> {"0" -> Closed}}, "NewStyles" -> True, 
+    "ExampleSection" -> {"0" -> Open, "2" -> Closed}}, "NewStyles" -> True, 
   "CitationPopupData" -> $Failed, "ShowCitation" -> False, "RootCaptions" -> 
   "", "Metadata" -> {
-   "built" -> "{2025, 1, 19, 11, 45, 12.0787689}", 
+   "built" -> "{2025, 1, 19, 11, 45, 15.0121664}", 
     "history" -> {"XX", "", "", ""}, "context" -> "ConvexAnalysisGeometry`", 
     "keywords" -> {}, "specialkeywords" -> {}, 
     "tutorialcollectionlinks" -> {}, "index" -> True, "label" -> 
     "Convex Analysis Geometry Symbol", "language" -> "en", "paclet" -> 
     "ConvexAnalysisGeometry", "status" -> "None", "summary" -> 
-    "IndicatorFunction[reg_, vars_] Derives the Indicator Function for reg in \
-vars. ", "synonyms" -> {}, "tabletags" -> {}, "title" -> "IndicatorFunction", 
-    "titlemodifier" -> "", "metadescription" -> "", "windowtitle" -> 
-    "IndicatorFunction", "type" -> "Symbol", "uri" -> 
-    "ConvexAnalysisGeometry/ref/IndicatorFunction"}},
+    "RecomposeClosure[] XXXX", "synonyms" -> {}, "tabletags" -> {}, "title" -> 
+    "RecomposeClosure", "titlemodifier" -> "", "metadescription" -> "", 
+    "windowtitle" -> "RecomposeClosure", "type" -> "Symbol", "uri" -> 
+    "ConvexAnalysisGeometry/ref/RecomposeClosure"}},
 CellContext->"Global`",
 FrontEndVersion->"13.0 for Microsoft Windows (64-bit) (February 4, 2022)",
 StyleDefinitions->Notebook[{
@@ -582,69 +514,75 @@ StyleDefinitions->Notebook[{
 (*CellTagsOutline
 CellTagsIndex->{
  "PrimaryExamplesSection"->{
-  Cell[5437, 159, 1193, 35, 70, "PrimaryExamplesSection",ExpressionUUID->"bf7430e2-eba9-4eda-9123-e27c41a813ff",
+  Cell[5344, 158, 1194, 35, 70, "PrimaryExamplesSection",ExpressionUUID->"922afeb8-cd12-44d1-b14b-2f7b76e55ca9",
    CellTags->"PrimaryExamplesSection",
-   CellID->14794863]}
+   CellID->270701451]}
  }
 *)
 (*CellTagsIndex
 CellTagsIndex->{
- {"PrimaryExamplesSection", 19178, 583}
+ {"PrimaryExamplesSection", 16044, 515}
  }
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[589, 21, 3918, 101, 70, "AnchorBarGrid",ExpressionUUID->"1166e5cd-ee9b-48a3-9e19-65d85a2657a4",
+Cell[588, 21, 3914, 101, 70, "AnchorBarGrid",ExpressionUUID->"65b9cb5a-3fd7-4546-bae2-d69391e05b4d",
  CellID->1],
-Cell[4510, 124, 50, 0, 70, "ContextNameCell",ExpressionUUID->"2eb6f28e-ae0f-48b7-8124-ca8f40b0a519"],
+Cell[4505, 124, 50, 0, 70, "ContextNameCell",ExpressionUUID->"f75708f6-a260-4689-a622-8ed85b16643c"],
 Cell[CellGroupData[{
-Cell[4585, 128, 252, 8, 70, "ObjectNameGrid",ExpressionUUID->"f8ed7d86-15da-48ea-887c-88a3cd6b2115"],
-Cell[4840, 138, 560, 16, 70, "Usage",ExpressionUUID->"ae750e2d-1e9f-4278-af2f-e9ed81e35c0e",
- CellID->737582229]
+Cell[4580, 128, 251, 8, 70, "ObjectNameGrid",ExpressionUUID->"01445da3-0c20-4a18-b3d6-6faaca778a6c"],
+Cell[4834, 138, 473, 15, 70, "Usage",ExpressionUUID->"ba3df955-6230-472e-9ca4-477ef24d84a3",
+ CellID->14598110]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[5437, 159, 1193, 35, 70, "PrimaryExamplesSection",ExpressionUUID->"bf7430e2-eba9-4eda-9123-e27c41a813ff",
+Cell[5344, 158, 1194, 35, 70, "PrimaryExamplesSection",ExpressionUUID->"922afeb8-cd12-44d1-b14b-2f7b76e55ca9",
  CellTags->"PrimaryExamplesSection",
- CellID->14794863],
-Cell[6633, 196, 157, 4, 70, "Input",ExpressionUUID->"38160ff9-d12e-4e6f-afbc-b50372b708e0",
- CellID->68016920],
+ CellID->270701451],
+Cell[6541, 195, 158, 4, 70, "Input",ExpressionUUID->"da2fe61f-b16e-4b7c-907a-e897176a8157",
+ CellID->376860950],
 Cell[CellGroupData[{
-Cell[6815, 204, 1172, 34, 70, "ExampleSection",ExpressionUUID->"f8478677-fdfd-41f7-b761-483d5339ade7",
- CellID->221000361],
+Cell[6724, 203, 1172, 34, 70, "ExampleSection",ExpressionUUID->"79821d2c-4f84-4a14-96e5-8c489155195f",
+ CellID->285713142],
 Cell[CellGroupData[{
-Cell[8012, 242, 394, 11, 70, "Input",ExpressionUUID->"526e6b39-b392-41d9-8da4-2437b89dce5b",
- CellID->163364188],
-Cell[8409, 255, 1433, 42, 70, "Output",ExpressionUUID->"f7ad9dc0-7137-4449-9657-00387659925c",
- CellID->124585788]
+Cell[7921, 241, 232, 7, 70, "Input",ExpressionUUID->"3aa7d169-9696-44f0-915b-1bb4f84bec9f",
+ CellID->127569358],
+Cell[8156, 250, 104, 3, 70, "Output",ExpressionUUID->"d16e3b8c-3ed9-42df-8406-dcebb1d004f4",
+ CellID->239486447]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[9879, 302, 293, 9, 70, "Input",ExpressionUUID->"ee345123-ed90-4f7e-9761-d523c0e3e020",
- CellID->254262597],
-Cell[10175, 313, 1537, 46, 70, "Output",ExpressionUUID->"0c7179b4-10fd-4835-9c95-a4aaaa514a5b",
- CellID->317997125]
+Cell[8297, 258, 1004, 34, 70, "Input",ExpressionUUID->"0a0c1cd6-c897-4e85-80fb-5d5463351f22",
+ CellID->251052121],
+Cell[9304, 294, 529, 20, 70, "Output",ExpressionUUID->"7b8d11a5-f6af-4ea2-ad6d-0436903d0e3d",
+ CellID->522428778]
 }, Open  ]]
 }, Dynamic[CurrentValue[EvaluationNotebook[], {TaggingRules, "Openers", "ExampleSection", "0"}, Closed]]]],
 Cell[CellGroupData[{
-Cell[11861, 367, 1186, 35, 70, "ExampleSection",ExpressionUUID->"0c252caa-b97b-4ec9-b88e-009f1781986e",
- CellID->256125300],
+Cell[9982, 322, 1196, 35, 70, "ExampleSection",ExpressionUUID->"60914df6-b837-49cb-b8b6-d178d70a71dd",
+ CellID->332600430],
+Cell[11181, 359, 98, 1, 70, "ExampleText",ExpressionUUID->"0b34bedd-4f38-47d1-ae15-e6738d284cc2",
+ CellID->19560718],
 Cell[CellGroupData[{
-Cell[13072, 406, 1203, 35, 70, "ExampleSubsection",ExpressionUUID->"4776636b-07af-4207-b009-8b7a96f8a7d8",
- CellID->208882292],
+Cell[11304, 364, 388, 11, 70, "Input",ExpressionUUID->"6451e000-733f-458e-8433-748b71a7463e",
+ CellID->461620796],
+Cell[11695, 377, 388, 14, 70, "Output",ExpressionUUID->"05f972d1-e986-4f2b-99cb-80afb95c894a",
+ CellID->252059164],
+Cell[12086, 393, 232, 8, 70, "Output",ExpressionUUID->"e261028a-d251-4f9a-b3de-2bd35395ca46",
+ CellID->229878550],
+Cell[12321, 403, 130, 4, 70, "Output",ExpressionUUID->"0cb7a212-0565-4009-ac9e-3f6aaad192aa",
+ CellID->11591220]
+}, Open  ]],
 Cell[CellGroupData[{
-Cell[14300, 445, 1182, 35, 70, "ExampleSubsubsection",ExpressionUUID->"0119b392-fc50-4ac1-aa04-44be7a9cce7d",
- CellID->79577806],
-Cell[CellGroupData[{
-Cell[15507, 484, 286, 8, 70, "Input",ExpressionUUID->"8a85bb50-3690-46c7-8fb5-4928dd1e7138",
- CellID->218906035],
-Cell[15796, 494, 279, 9, 70, "Output",ExpressionUUID->"a2b62dba-a7c1-4833-a4f2-4a2536f29642",
- CellID->27280857]
+Cell[12488, 412, 318, 10, 70, "Input",ExpressionUUID->"0e163aba-5819-4093-bdb6-de76d8c3002f",
+ CellID->331742506],
+Cell[12809, 424, 388, 14, 70, "Output",ExpressionUUID->"1f065848-a118-4edd-8d09-cfef10d5da32",
+ CellID->140381499],
+Cell[13200, 440, 129, 4, 70, "Output",ExpressionUUID->"e5022356-f171-47a5-b7b2-63de63f81f23",
+ CellID->5785416]
 }, Open  ]]
-}, Dynamic[CurrentValue[EvaluationNotebook[], {TaggingRules, "Openers", "ExampleSubsubsection", "0"}, Closed]]]]
-}, Dynamic[CurrentValue[EvaluationNotebook[], {TaggingRules, "Openers", "ExampleSubsection", "0"}, Closed]]]]
-}, Dynamic[CurrentValue[EvaluationNotebook[], {TaggingRules, "Openers", "ExampleSection", "1"}, Closed]]]]
+}, Dynamic[CurrentValue[EvaluationNotebook[], {TaggingRules, "Openers", "ExampleSection", "2"}, Closed]]]]
 }, Dynamic[CurrentValue[EvaluationNotebook[], {TaggingRules, "Openers", "PrimaryExamplesSection"}, Closed]]]],
-Cell[16550, 518, 641, 17, 70, "MoreAboutSection",ExpressionUUID->"1e985f70-f9c3-4a7d-a1c8-717c1d60e018"],
-Cell[17194, 537, 23, 0, 70, "FooterCell",ExpressionUUID->"690023f7-d0ca-4a6a-b842-297cc4d96795"]
+Cell[13571, 453, 641, 17, 70, "MoreAboutSection",ExpressionUUID->"d3458740-5148-4913-b1ae-3e13a3bf1aca"],
+Cell[14215, 472, 23, 0, 70, "FooterCell",ExpressionUUID->"26de31da-cd3f-417b-912b-1a8fa75f4773"]
 }
 ]
 *)
