@@ -26,7 +26,7 @@ IndentStringByBraces[str_String] := Module[
           StringCases[line, RegularExpression["^ *(\)|\]|\})*"]],
           WhitespaceCharacter -> ""][[1]];
         hangingOperators = StringReplace[
-          StringCases[line, (":>"|":="|"/;"|"&&"|"||")~~Whitespace...~~EndOfLine],
+          StringCases[line, (":>"|":="|"/;"|"&&"|"||"|"//.")~~Whitespace...~~EndOfLine],
           WhitespaceCharacter -> ""];
         newLine = StringRepeat["  ", Max[0, cumulativeBalance-leadingCloseCount+Length @ hangingOperatorMat]]<>line<>"\n";
         (* Note: only works on single-line comments and strings *)
