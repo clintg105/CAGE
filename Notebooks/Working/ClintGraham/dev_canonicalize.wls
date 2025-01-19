@@ -5,10 +5,6 @@
 (*RuleCanonicalDNFExpansion*)
 
 
-(* ::Input:: *)
-(*{-5,5}/.i_?Positive:>9*)
-
-
 (* ::Input::Initialization:: *)
 Clear[
 $RuleGreaterInnequalities,$RuleReduceRationals,

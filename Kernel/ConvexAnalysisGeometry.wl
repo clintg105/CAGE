@@ -10,8 +10,24 @@ PackageImport["ConvexAnalysisGeometry`Utils`"]
 
 
 (* ::Section:: *)
+(*Symbol Utils*)
+
+
+(* ::Input::Initialization:: *)
+PackageExport["GetParameters"];
+
+GetParameters[expr_, vars_] := Block[{xc}, 
+  xc /: {xc[a__]} := {a};
+  Integrate`getAllVariables[expr, xc @@ vars]
+] 
+GetParameters[expr_] := Integrate`getAllVariables[expr, {}]
+
+
+(* ::Section:: *)
 (*InfimalConvolution*)
 
+
+(* ::Input::Initialization:: *)
 PackageExport["WLReduce"]
 PackageExport["InfimalConvolution"]
 PackageExport["IndicatorFunction"]
@@ -31,6 +47,7 @@ InfimalConvolution[f_, g_, x_] :=
 InfimalConvolution[a_, b_, x_Symbol] := InfimalConvolution[a, b, {x}]
 
 
+(* ::Input::Initialization:: *)
 Clear[IndicatorFunction]
 (* Reduced Definition *)
 WLReduce[IndicatorFunction[ImplicitRegion[expr_, vars_], vars_]] := 
@@ -63,6 +80,7 @@ IndicatorFunction[ImplicitRegion[
   IndicatorFunction[Interval[{a, b}], {x}]
 
 
+(* ::Input::Initialization:: *)
 InfimalConvolution[fx_, 
   IndicatorFunction[Interval[indBnds_], {x_}], {x_}] /; 
   ! FreeQ[fx, x] && 
@@ -90,10 +108,188 @@ InfimalConvolution[IndicatorFunction[Interval[indBnds_], {x_}],
   ! FreeQ[fx, x] := 
     InfimalConvolution[fx, IndicatorFunction[Interval[indBnds], x], x]
 
+
+
 (* ::Section:: *)
 (*Sets*)
-PackageExport["SimplifyAssuming"]
+
+
+(* ::Subsection:: *)
+(*Polar*)
+
+
+(* ::Input::Initialization:: *)
 PackageExport["Polar"]
+
+
+(* ::Input::Initialization:: *)
+Options[Polar] = {
+  Assumptions -> True, 
+  PerformanceGoal -> "Speed"
+};
+Polar[ImplicitRegion[expr_, vars_], OptionsPattern[]] := Polar[expr, vars, 
+  Sequence @@ (# -> OptionValue[#] & @@@ Options[Polar])];
+Polar[expr_, vars_, OptionsPattern[]] := Module[{newVars = formalCovector[vars], cnd}, 
+  cnd = SimplifyAssuming[
+    Resolve[
+      ForAll[Evaluate[newVars], trep[expr, vars, newVars], 
+        vars . newVars <= 1], 
+      Reals], 
+    OptionValue[Assumptions], PerformanceGoal -> OptionValue[PerformanceGoal]];
+  cnd = If[OptionValue[PerformanceGoal] === "Quality", 
+    Recompose[cnd], 
+    cnd];
+  ImplicitRegion[cnd, vars]
+]
+
+
+
+(* ::Section:: *)
+(*Canonicalization*)
+
+
+(* ::Subsection:: *)
+(*Canonicalization*)
+
+
+(* ::Input::Initialization:: *)
+PackageExport["ToDNF"];
+
+ToDNF[e_Or] := ToDNF /@ e;
+ToDNF[And[a___, b_Or, c___]] := ToDNF[And[a, #, c]] & /@ b;
+ToDNF[e_] := e;
+
+
+(* ::Input::Initialization:: *)
+PackageExport["$RuleGreaterInnequalities"];
+PackageExport["$RuleReduceRationals"];
+PackageExport["CanonicalizeDNFRoots"];
+PackageExport["CanonicalizeSingleCandidateSearch"];
+
+$RuleGreaterInnequalities = {
+  x_<y_ :> y>x, x_ <= y_ :> y >= x
+};
+$RuleReduceRationals = {
+  (* moving implicit assumptions out of roots helps reduce *)
+  (* NOTE: makes all RHS zero *)
+  GreaterEqual[a_, c_]
+ /; c =!= 0
+ :> GreaterEqual[Expand[Numerator[a]Denominator[c]-Numerator[c]Denominator[a]], 0] && Denominator[c] != 0 && Denominator[a] != 0, 
+  Greater[a_, c_]
+ /; c =!= 0
+ :> Greater[Expand[Numerator[a]Denominator[c]-Numerator[c]Denominator[a]], 0] && Denominator[c] != 0 && Denominator[a] != 0, 
+  Equal[a_, c_]
+ /; c =!= 0
+ :> Equal[Expand[Numerator[a]Denominator[c]-Numerator[c]Denominator[a]], 0] && Denominator[c] != 0 && Denominator[a] != 0
+};
+
+CanonicalizeDNFRoots[expr_Or] := Module[{f, g, h}, Block[{Plus}, 
+    SetAttributes[Plus, Orderless];
+    (*SetAttributes[h[0], Orderless]; - doesn't work *)
+    SetAttributes[f, Orderless];
+    SetAttributes[g, Orderless];
+    ((LogicalExpand /@ BooleanMinimize[expr, "DNF"]) /. 
+       $RuleGreaterInnequalities /. 
+       {
+        Or -> f, And -> g, 
+        a_ == b_ :> h[0][a, b], a_ >= b_ :> h[1][a, b], a_>b_ :> h[2][a, b]
+      } //. {
+        (* De-Reduce innequalities *)
+        f[u___, 
+          g[h[2][b_, a_], t___], 
+          g[h[2][a_, b_], y___]
+        ] 
+ /; g[t] === g[y]
+ :> f[g[a != b, t], u], 
+        
+        (* De-Reduce quadratics *)
+        h[0][d_+b_. Sqrt[c_], a_] :> h[0][b Sqrt[c], a-d], 
+        h[0][a_, d_+b_. Sqrt[c_]] :> h[0][a-d, b Sqrt[c]], 
+        h[i_][a_, d_+b_. Sqrt[c_]] :> h[i][a-d, b Sqrt[c]], 
+        h[i_][d_+b_. Sqrt[c_], a_] :> h[i][b Sqrt[c], a-d], 
+        
+        f[u___, 
+          g[h[i_][a_, b_. Sqrt[c_]], t___], 
+          g[h[i_][d_. Sqrt[c_], a_], y___]
+        ]
+ /; b == -d && g[t] === g[y]
+ :> f[g[h[i][b^2 c, a^2], t], u], 
+        f[u___, 
+          g[h[0][a_, b_. Sqrt[c_]], t___], 
+          g[h[0][a_, d_. Sqrt[c_]], y___]
+        ]
+ /; b == -d && g[t] === g[y]
+ :> f[g[h[0][b^2 c, a^2], t], u], 
+        
+        g[y___, 
+          h[i_][a_, b_. Sqrt[c_]], 
+          h[i_][d_. Sqrt[c_], a_]
+        ]
+ /; b == -d
+ :> g[h[i][b^2 c, a^2], y], 
+        
+        (* TODO: verify next block *)
+        f[u___, 
+          g[h[i_?Positive][a_, b_. Sqrt[c_]], h[2][0, a], t___], 
+          g[h[i_?Positive][d_. Sqrt[c_], a_], h[2][a, 0], y___]]
+ /; b == -d && g[t] === g[y]
+ :> f[g[h[i][a^2, b^2 c], t], u], 
+        (*g[y___, 
+            h[a_, b_. Sqrt[c_], i_?Positive], 
+            h[d_. Sqrt[c_], a_, i_?Positive], 
+            (h[0, a, 2], h[a, 0, 2]|a != 0)]
+ /; b == -d
+ :> g[h[b^2 c, a^2, i], y], *)
+        
+        f[u___, 
+          g[h[0][b_. Sqrt[c_], a_], t___], 
+          g[h[0][d_. Sqrt[c_], a_], y___]]
+ /; b == -d && g[t] === g[y]
+ :> f[g[h[0][a^2, b^2 c], t], u]
+        
+        (*, f[u___, 
+            g[p_, t___], 
+            g[q_, y___]
+          ]
+ /; q == !p && g[t] === g[y]
+ :> f[g[t, y], u]*)
+      }
+      ) /. {f -> Or, g -> And, h[0][a_, b_] :> a == b, h[1][a_, b_] :> a >= b, h[2][a_, b_] :> a>b} //. $RuleReduceRationals
+]]
+
+CanonicalizeSingleCandidateSearch[expr_, varsAndParams_, assum_:True] := Module[{
+    exprNoFrac, allSubExpr, candidateScores, feasibleCandidatePos, candidateScoreOrder, feasibleCandidates, bestCandidate
+  }, 
+  (* Look inside all And's & Or's in a logical expression and see if a single sub expression is equivalent to the whole thing under assum *)
+  exprNoFrac = If[FreeQ[expr, Power[ __, Rational[1, 2]]], expr, CanonicalizeDNFRoots[expr]] //. $RuleReduceRationals;
+  allSubExpr = DeleteDuplicates @ Flatten[exprNoFrac /. {Or -> List, And -> List}];
+  candidateScores = CountDistinct[Cases[#, Alternatives @@ varsAndParams, Infinity]]& /@ allSubExpr;
+  feasibleCandidatePos = Flatten @ Position[candidateScores, x_ /; x == Length @ varsAndParams, 1];
+  (* TODO: something with leaftcount and maybe OrderingBy *);
+  candidateScoreOrder = Ordering[-candidateScores[[feasibleCandidatePos]]];
+  feasibleCandidates = allSubExpr[[feasibleCandidatePos[[candidateScoreOrder]]]];
+  bestCandidate = SelectFirst[
+    feasibleCandidates, 
+    With[{
+        (* this Reduce typically requires fractions to be removed: `exprNoFrac` *)
+        red = Reduce[
+          Equivalent[#, exprNoFrac], 
+          Reals]
+      }, 
+      If[TrueQ @ red, True, TrueQ @ SimplifyAssuming[red, assum]]]& 
+  ];
+  If[bestCandidate === Missing["NotFound"], expr, bestCandidate]
+]
+
+
+(* ::Subsection:: *)
+(*Recompose*)
+
+
+(* ::Input::Initialization:: *)
+PackageExport["SimplifyAssuming"];
+PackageExport["RecomposeClosure"];
+PackageExport["Recompose"];
 
 
 (* ::Input::Initialization:: *)
@@ -120,15 +316,17 @@ SimplifyAssuming[statement_, assum_, OptionsPattern[]] :=
   ]
 
 
-ReduceClosureReals[expr_] := Block[
+(* ::Input::Initialization:: *)
+RecomposeClosure[expr_] := Block[
   {splitExpr, regExpr, pseudoClosure}, 
-  splitExpr = List @@ BooleanConvert[expr, "DNF"];
+  (* attempts to remove all non-region ( = or != ) components of expression *)
+  splitExpr = List @@ BooleanMinimize[expr, "DNF"];
   regExpr = 
   Or @@ Select[
     splitExpr, !
     FreeQ[#, (Greater | Less | LessEqual | GreaterEqual)] &];
-  pseudoClosure = 
-  regExpr /. {Less -> LessEqual, Greater -> GreaterEqual};
+  pseudoClosure = DeleteDuplicates[
+    regExpr /. {Less -> LessEqual, Greater -> GreaterEqual}];
   If[LeafCount[pseudoClosure] < LeafCount[expr] && Reduce[
       Equivalent[pseudoClosure, expr], 
       Reals] === True, 
@@ -137,149 +335,50 @@ ReduceClosureReals[expr_] := Block[
   ]
 ]
 
-(* ::Subsection:: *)
-(*Polar*)
 
 
-Options[Polar] = {
-  Assumptions -> True, 
-  PerformanceGoal -> "Speed"
-};
-Polar[ImplicitRegion[expr_, vars_], OptionsPattern[]] := Polar[expr, vars, 
-  Sequence @@ (# -> OptionValue[#] & @@@ Options[Polar])];
-Polar[expr_, vars_, OptionsPattern[]] := Module[{newVars = formalCovector[vars], cnd}, 
-  cnd = SimplifyAssuming[
-    Resolve[
-      ForAll[Evaluate[newVars], trep[expr, vars, newVars], 
-        vars . newVars <= 1], 
-      Reals], 
-    OptionValue[Assumptions], PerformanceGoal -> OptionValue[PerformanceGoal]];
-  cnd = If[OptionValue[PerformanceGoal] === "Quality", 
-    ReduceClosureReals[cnd], 
-    cnd];
-  ImplicitRegion[cnd, vars]
-]
+(* ::Input::Initialization:: *)
+Clear[Recompose]
+AllSubExpr[expr_] := Flatten[{expr /. {(And|Or) -> List}}]
+AllSubExprQ[expr_, cnd_] := AllTrue[AllSubExpr[expr], cnd]
 
-(* ::Section:: *)
-(*Canonicalization*)
-Clear[
-  $RuleGreaterInnequalities, $RuleReduceRationals, 
-  RuleCanonicalDNFExpansion
-]
-
-$RuleGreaterInnequalities = {
-  x_<y_ :> y>x, x_ <= y_ :> y >= x
-};
-$RuleReduceRationals = {
-  (* moving implicit assumptions out of roots helps reduce *)
-  (* NOTE: makes all RHS zero *)
-  GreaterEqual[a_, c_]
- /; c =!= 0
- :> GreaterEqual[Expand[Numerator[a]Denominator[c]-Numerator[c]Denominator[a]], 0] && Denominator[c] != 0 && Denominator[a] != 0, 
-  Greater[a_, c_]
- /; c =!= 0
- :> Greater[Expand[Numerator[a]Denominator[c]-Numerator[c]Denominator[a]], 0] && Denominator[c] != 0 && Denominator[a] != 0, 
-  Equal[a_, c_]
- /; c =!= 0
- :> Equal[Expand[Numerator[a]Denominator[c]-Numerator[c]Denominator[a]], 0] && Denominator[c] != 0 && Denominator[a] != 0
-};
-
-RuleCanonicalDNFExpansion[expr_] := Module[{f, g}, Block[{Plus}, 
-    SetAttributes[Plus, Orderless];
-    SetAttributes[f, Orderless];
-    SetAttributes[g, Orderless];
-    ((LogicalExpand /@ BooleanMinimize[exprLarge, "DNF"])
- //. $RuleGreaterInnequalities
- //. {
-        Or -> f, And -> g, 
-        a_ == b_ :> h[a, b, 0], a_ >= b_ :> h[a, b, 1], a_>b_ :> h[a, b, 2]
-      }
- //. {
-        (* De-Reduce innequalities *)
-        f[u___, 
-          g[b_>a_, t___], 
-          g[a_>b_, y___]
-        ]
- /; g[t] === g[y]
- :> f[g[a != b, t], u], 
-        
-        (* De-Reduce quadratics *)
-        a_ >= d_+b_ Sqrt[c_] :> a-d >= b Sqrt[c], 
-        d_+b_ Sqrt[c_] >= a_ :> b Sqrt[c] >= a-d, 
-        a_>d_+b_ Sqrt[c_] :> a-d>b Sqrt[c], 
-        d_+b_ Sqrt[c_]>a_ :> b Sqrt[c]>a-d, 
-        a_ == d_+b_ Sqrt[c_] :> a-d == b Sqrt[c], 
-        d_+b_ Sqrt[c_] == a_ :> b Sqrt[c] == a-d, 
-        
-        f[u___, 
-          g[a_ >= b_. Sqrt[c_], t___], 
-          g[d_. Sqrt[c_] >= a_, y___]
-        ]
- /; b == -d && g[t] === g[y]
- :> f[g[b^2 c >= a^2, t], u], 
-        f[u___, 
-          g[a_>b_. Sqrt[c_], t___], 
-          g[d_. Sqrt[c_]>a_, y___]
-        ]
- /; b == -d && g[t] === g[y]
- :> f[g[b^2 c>a^2, t], u]
-        (*^ Need to figure out how to succinctly write strictly greater here too *), 
-        
-        g[a_ >= b_. Sqrt[c_], d_. Sqrt[c_] >= a_, y___]
- /; b == -d
- :> g[b^2 c >= a^2, y], 
-        g[a_>b_. Sqrt[c_], d_. Sqrt[c_]>a_, y___]
- /; b == -d
- :> g[b^2 c>a^2, y], 
-        
-        f[u___, 
-          g[a_ >= b_. Sqrt[c_], 0>a, t___], 
-          g[d_. Sqrt[c_] >= a_, a>0, y___]
-        ]
- /; b == -d && g[t] === g[y]
- :> f[g[a^2 >= b^2 c, t], u], 
-        f[u___, 
-          g[b_. Sqrt[c_] == a_, t___], 
-          g[d_. Sqrt[c_] == a_, y___]
-        ]
- /; b == -d && g[t] === g[y]
- :> f[g[a^2 == b^2 c, t], u]
-        
-        (*f[u___, 
-            g[p_, t___], 
-            g[q_, y___]
-          ]
- /; q == !p && g[t] === g[y]
- :> f[g[t, y], u]*)
-      }
-      ) //. {f -> Or, g -> And}
-]]
-
-Clear[CanonicalizeSingleCandidateSearch]
-
-CanonicalizeSingleCandidateSearch[expr_, varsAndParams_, assum_:True] := Module[{
-    exprNoFrac = RuleCanonicalDNFExpansion[exprLarge]
- //. $RuleReduceRationals, 
-    allSubExpr, candidateScores, feasibleCandidatePos, candidateScoreOrder, feasibleCandidates, bestCandidate
-  }, 
-  (* Look inside all And's & Or's in a logical expression and see if a single sub expression is equivalent to the whole thing under assum *)
-  allSubExpr = DeleteDuplicates @ Flatten[exprNoFrac /. {Or -> List, And -> List}];
-  candidateScores = CountDistinct[Cases[#, Alternatives @@ varsAndParams, Infinity]]& /@ allSubExpr;
-  feasibleCandidatePos = Flatten @ Position[candidateScores, x_ /; x == Length @ varsAndParams, 1];
-  (* TODO: something with leaftcount and maybe OrderingBy *);
-  candidateScoreOrder = Ordering[-candidateScores[[feasibleCandidatePos]]];
-  feasibleCandidates = allSubExpr[[feasibleCandidatePos[[candidateScoreOrder]]]];
-  bestCandidate = SelectFirst[
-    feasibleCandidates, 
-    SimplifyAssuming[
-      (* this Reduce typically requires fractions to be removed: `exprNoFrac` *)
-      Reduce[
-        Equivalent[#, exprNoFrac], 
-        Reals], 
-      assum]&
+Recompose[expr_, assum_:True, recur_:True] := Module[{exprOld = expr, leafcount = LeafCount[expr], exprNew, leafcountNew}, 
+  (* Note: Always a step towards recomposition: do not check LeafCount *)
+  exprOld = If[FreeQ[exprOld, Power[ __, Rational[1, 2]], Infinity], exprOld, CanonicalizeDNFRoots[exprOld]] //. $RuleReduceRationals;
+  
+  (* Note: RecomposeClosure only decreases LeafCount *)
+  exprOld = RecomposeClosure[exprOld];
+  
+  (* Attempt 2nd RecomposeClosure *)
+  TimeConstrained[
+    exprNew = RecomposeClosure[Reduce[exprOld, Reals]];
+    leafcountNew = LeafCount[exprNew];
+    (*Echo[{exprOld, exprNew, leafcount, leafcountNew}];*)
+    If[leafcountNew<leafcount, 
+      exprOld = exprNew;leafcount = leafcountNew];
+    , 2];
+  
+  (* Attempt quick SingleCandidateSearch *)
+  TimeConstrained[
+    exprNew = CanonicalizeSingleCandidateSearch[exprOld, GetParameters[exprOld], assum];
+    leafcountNew = LeafCount[exprNew];
+    If[exprNew =!= $Aborted && leafcountNew<leafcount, 
+      exprOld = exprNew;leafcount = leafcountNew];
+    , 2];
+  
+  (* Attempt to remove parts *)
+  If[recur && assum =!= True, 
+    TimeConstrained[
+      exprNew = Recompose[SimplifyAssuming[exprOld, assum], assum, False];
+      leafcountNew = LeafCount[exprNew];
+      If[exprNew =!= $Aborted && leafcountNew<leafcount, 
+        exprOld = exprNew;leafcount = leafcountNew];
+      , 1];
   ];
-  If[bestCandidate === Missing["NotFound"], expr, bestCandidate]
+  If[Length @ AllSubExpr @ expr<Length @ AllSubExpr @ exprOld, 
+    expr, exprOld]
 ]
+
 
 (* ::Chapter:: *)
 (*Elvis v2*)
@@ -301,7 +400,7 @@ dimension of the affine hull spanned by `pts`"
 AffineHullDim[pts_List] := MatrixRank[addRow[pts[[2 ;;]], -pts[[1]]]]
 
 
-(* ::Section::Closed:: *)
+(* ::Section:: *)
 (*Reduction*)
 
 
@@ -746,7 +845,7 @@ nestedPiecewiseFromHierarchicalLogic[expr_, pVars_] :=
       conditions *)
     exprPairedCndVal = 
     expr //. 
-    And[cnd_?(FreeQ[#, Alternatives @@ pVars] &), val_] :> {val, cnd};
+      And[cnd_?(FreeQ[#, Alternatives @@ pVars] &), val_] :> {val, cnd};
     (* there is some porperty of the operator Or that makes it have to \
       be spoofed (or else it stays persistent as Head) *)
     exprPairedCndVal /. Or -> \[FormalL] //. \[FormalL][x___List] :> 
