@@ -14,13 +14,53 @@ PackageImport["ConvexAnalysisGeometry`Utils`"]
 
 
 (* ::Input::Initialization:: *)
-PackageExport["GetParameters"];
+PackageExport["GetParameters"]
 
 GetParameters[expr_, vars_] := Block[{xc}, 
   xc /: {xc[a__]} := {a};
   Integrate`getAllVariables[expr, xc @@ vars]
 ] 
 GetParameters[expr_] := Integrate`getAllVariables[expr, {}]
+
+
+(* ::Subsection:: *)
+(*Piecewise*)
+
+
+(* ::Input::Initialization:: *)
+PackageExport["PiecewiseNestedQ"]
+PackageExport["PiecewiseValueWrapper"]
+PackageExport["PiecewiseMapValues"]
+
+PiecewiseNestedQ[expr_] := Length[Position[expr, Piecewise]]>1
+PiecewiseValueWrapper[expr_Piecewise] := Piecewise[
+  {PiecewiseValueWrapper[#1], #2}& @@@ #1, PiecewiseValueWrapper[#2]
+]& @@ expr
+PiecewiseMapValues[fun_, expr_] := 
+  PiecewiseValueWrapper[expr] /. PiecewiseValueWrapper -> fun
+
+
+(* ::Input::Initialization:: *)
+PackageExport["PiecewiseFromConditions"]
+
+PiecewiseFromConditions[expr_, pVars_] := Block[
+  {exprPairedCndVal}, 
+  (*Assumes expr is "Tree-Like" with pVars at the lowest level.
+    Example:
+    nestedPiecewiseFromHierarchicalLogic[
+      (x >= 0 && ((y >= 0 && (z == x)) || (y<0 && (z == y)))) || (x<0 && (x<z<y)), z
+    ]
+    *)
+  (*pVars are parametric vars, these are the variables that are NOT part of the Piecewise conditions *)
+  exprPairedCndVal = expr //. And[
+    cnd_?(FreeQ[#, Alternatives @@ pVars]&), val_
+  ] :> {val, cnd};
+  (*there is some porperty of the operator Or that makes it have to be spoofed (or else it stays persistent as Head)*)
+  exprPairedCndVal /. 
+  Or -> \[FormalL] //. 
+    \[FormalL][x___List] :> Piecewise[{x}] /. 
+   \[FormalL] -> Or
+]
 
 
 (* ::Section:: *)
@@ -108,6 +148,52 @@ InfimalConvolution[IndicatorFunction[Interval[indBnds_], {x_}],
   ! FreeQ[fx, x] := 
     InfimalConvolution[fx, IndicatorFunction[Interval[indBnds], x], x]
 
+
+
+(* ::Section:: *)
+(*Functions*)
+
+
+(* ::Subsection:: *)
+(*Subgradient*)
+
+
+(* ::Input::Initialization:: *)
+PackageExport["SubgradientConditions"]
+SubgradientConditions[expr_, vars_] := Module[
+  {x = vars, y = formalVector[vars], z = formalCovector[vars]}, 
+  Reduce[ForAll[y, 
+      (y-x) . z <= trep[expr, vars, y]-trep[expr, vars, x]
+    ], z, Reals]
+]
+
+
+(* ::Input::Initialization:: *)
+PackageExport["Subgradient"]
+Subgradient[expr_, vars_] := With[
+  {pVars = formalCovector[vars], sg = SubgradientConditions[expr, vars]}, 
+  mapPiecewiseValues[Switch[#, 
+      _Integer, #, (*catches Piecewise default zero case*)
+      _Equal, With[{f = Flatten[pVars /. {ToRules[#]}]}, 
+        If[Length[f] == 1, 
+          f[[1]], 
+          ImplicitRegion[#, Evaluate[pVars]]
+        ]
+      ], 
+      _, 
+      ImplicitRegion[#, Evaluate[pVars]]
+    ]&, 
+    PiecewiseFromConditions[sg, pVars]
+  ]
+]
+
+
+(* ::Input:: *)
+(*Subgradient[Max[(x-1/2)^2, (x+1/2)^2], {x}]*)
+
+
+(* ::Input:: *)
+(*Subgradient[Abs[x]+Abs[y], {x, y}]*)
 
 
 (* ::Section:: *)
