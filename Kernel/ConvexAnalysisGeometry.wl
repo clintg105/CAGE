@@ -295,6 +295,12 @@ $RuleGreaterInnequalities = {
 $RuleReduceRationals = {
   (* moving implicit assumptions out of roots helps reduce *)
   (* NOTE: makes all RHS zero *)
+  LessEqual[a_, c_]
+ /; c =!= 0
+ :> LessEqual[Expand[Numerator[a]Denominator[c]-Numerator[c]Denominator[a]], 0] && Denominator[c] != 0 && Denominator[a] != 0, 
+  Less[a_, c_]
+ /; c =!= 0
+ :> Less[Expand[Numerator[a]Denominator[c]-Numerator[c]Denominator[a]], 0] && Denominator[c] != 0 && Denominator[a] != 0, 
   GreaterEqual[a_, c_]
  /; c =!= 0
  :> GreaterEqual[Expand[Numerator[a]Denominator[c]-Numerator[c]Denominator[a]], 0] && Denominator[c] != 0 && Denominator[a] != 0, 
@@ -306,7 +312,7 @@ $RuleReduceRationals = {
  :> Equal[Expand[Numerator[a]Denominator[c]-Numerator[c]Denominator[a]], 0] && Denominator[c] != 0 && Denominator[a] != 0
 };
 
-RecomposeDNFRoots[expr_Or] := Module[{f, g, h}, Block[{Plus}, 
+RecomposeDNFRoots[expr_] := Module[{f, g, h}, Block[{Plus}, 
     SetAttributes[Plus, Orderless];
     (*SetAttributes[h[0], Orderless]; - doesn't work *)
     SetAttributes[f, Orderless];
@@ -386,15 +392,36 @@ RecomposeDNFRoots[expr_Or] := Module[{f, g, h}, Block[{Plus},
 
 (* ::Input::Initialization:: *)
 PackageExport["RecomposeSingleCandidateSearch"]
-RecomposeSingleCandidateSearch[expr_, varsAndParams_, assum_:True] := Module[{exprNoFrac, allSubExpr, candidateScores, feasibleCandidatePos, candidateScoreOrder, feasibleCandidates, bestCandidate}, (*Look inside all And's& Or's in a logical expression and see if a single sub expression is equivalent to the whole thing under assum*)exprNoFrac = If[FreeQ[expr, Power[__, Rational[1, 2]]], expr, RecomposeDNFRoots[expr]] //. $RuleReduceRationals;
+RecomposeSingleCandidateSearch[expr_, varsAndParams_, assum_:True] := Module[
+  {exprNoFrac, allSubExpr, candidateScores, feasibleCandidatePos, candidateScoreOrder, feasibleCandidates, bestCandidate}, 
+  (*Look inside all And's & Or's in a logical expression and see if a single sub expression is equivalent to the whole thing under assum*)
+  exprNoFrac = If[
+    FreeQ[expr, Power[__, Rational[1, 2]]], 
+    expr, 
+    RecomposeDNFRoots[expr]
+  ] //. $RuleReduceRationals;
+  (*Echo[exprNoFrac];*)
   allSubExpr = DeleteDuplicates @ Flatten[exprNoFrac /. {Or -> List, And -> List}];
   candidateScores = CountDistinct[Cases[#, Alternatives @@ varsAndParams, Infinity]]& /@ allSubExpr;
   feasibleCandidatePos = Flatten @ Position[candidateScores, x_ /; x == Length @ varsAndParams, 1];
   (*TODO:something with leaftcount and maybe OrderingBy*);
   candidateScoreOrder = Ordering[-candidateScores[[feasibleCandidatePos]]];
   feasibleCandidates = allSubExpr[[feasibleCandidatePos[[candidateScoreOrder]]]];
-  bestCandidate = SelectFirst[feasibleCandidates, With[{(*this Reduce typically requires fractions to be removed:`exprNoFrac`*)red = Reduce[Equivalent[#, exprNoFrac], Reals]}, If[TrueQ @ red, True, TrueQ @ SimplifyAssuming[red, assum]]]&];
-  If[bestCandidate === Missing["NotFound"], expr, bestCandidate]]
+  bestCandidate = SelectFirst[
+    feasibleCandidates, 
+    With[
+      {
+        (*this Reduce typically requires fractions to be removed:`exprNoFrac`*)
+        red = Reduce[
+          Equivalent[#, exprNoFrac], 
+          Reals]
+      }, 
+      (*Echo[{red, #}];*)
+      If[TrueQ @ red, True, TrueQ @ SimplifyAssuming[red, assum]]
+    ]&
+  ];
+  If[bestCandidate === Missing["NotFound"], expr, bestCandidate]
+]
 
 
 (* ::Subsection:: *)
@@ -404,6 +431,8 @@ RecomposeSingleCandidateSearch[expr_, varsAndParams_, assum_:True] := Module[{ex
 (* ::Input::Initialization:: *)
 PackageExport["SimplifyAssuming"]
 PackageExport["RecomposeClosure"]
+PackageExport["AllSubExpr"]
+PackageExport["AllSubExprQ"]
 PackageExport["Recompose"]
 
 
@@ -458,9 +487,20 @@ AllSubExpr[expr_] := Flatten[{expr /. {(And|Or) -> List}}]
 AllSubExprQ[expr_, cnd_] := AllTrue[AllSubExpr[expr], cnd]
 
 Recompose[expr_, assum_:True, recur_:True] := Module[{exprOld = expr, leafcount = LeafCount[expr], exprNew, leafcountNew}, 
-  (* Note: Always a step towards recomposition: do not check LeafCount *)
-  exprOld = If[FreeQ[exprOld, Power[ __, Rational[1, 2]], Infinity], exprOld, RecomposeDNFRoots[exprOld]] //. $RuleReduceRationals;
+  (* Attempt Immediate Re-Reduce *)
+  TimeConstrained[
+    exprNew = Reduce[exprOld, Reals];
+    leafcountNew = LeafCount[exprNew];
+    (*Echo[{exprOld, exprNew, leafcount, leafcountNew}];*)
+    If[leafcountNew<leafcount, 
+      exprOld = exprNew;leafcount = leafcountNew];
+    , 2];
   
+  (* Note: Always a step towards recomposition: do not check LeafCount *)
+  TimeConstrained[
+    exprOld = If[FreeQ[exprOld, Power[ __, Rational[1, 2]], Infinity], exprOld, RecomposeDNFRoots[exprOld]], 
+    1];
+  exprOld = exprOld //. $RuleReduceRationals;
   (* Note: RecomposeClosure only decreases LeafCount *)
   exprOld = RecomposeClosure[exprOld];
   
@@ -471,15 +511,16 @@ Recompose[expr_, assum_:True, recur_:True] := Module[{exprOld = expr, leafcount 
     (*Echo[{exprOld, exprNew, leafcount, leafcountNew}];*)
     If[leafcountNew<leafcount, 
       exprOld = exprNew;leafcount = leafcountNew];
-    , 2];
+    , 1];
   
   (* Attempt quick SingleCandidateSearch *)
   TimeConstrained[
     exprNew = RecomposeSingleCandidateSearch[exprOld, GetParameters[exprOld], assum];
+    (*Echo[{exprNew, GetParameters[exprOld]}];*)
     leafcountNew = LeafCount[exprNew];
     If[exprNew =!= $Aborted && leafcountNew<leafcount, 
       exprOld = exprNew;leafcount = leafcountNew];
-    , 2];
+    , 1];
   
   (* Attempt to remove parts *)
   If[recur && assum =!= True, 
